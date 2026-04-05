@@ -14,6 +14,7 @@
     "./style.css": "./dist/index.css"
   },
   "scripts": {
+    "prepare": "vite build",
     "build": "vue-tsc --noEmit && vite build",
     "build:nocheck": "vite build",
     "dev": "vite --config playground/vite.config.ts",
