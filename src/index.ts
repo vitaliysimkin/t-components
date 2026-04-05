@@ -1,4 +1,5 @@
 import type { App, Plugin } from 'vue'
+import './styles/index.css'
 
 // Composables
 export { useTheme, currentTheme, applyTheme } from './composables/useTheme'
