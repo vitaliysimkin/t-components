@@ -1,0 +1,50 @@
+/**
+ * Design Tokens (Non-Color)
+ * All tokens prefixed with --t-
+ * Theme-agnostic values
+ */
+
+:root {
+  /* Spacing scale (4px base) */
+  --t-space-1: 0.25rem; /* 4px */
+  --t-space-2: 0.5rem;  /* 8px */
+  --t-space-3: 0.75rem; /* 12px */
+  --t-space-4: 1rem;    /* 16px */
+  --t-space-5: 1.5rem;  /* 24px */
+  --t-space-6: 2rem;    /* 32px */
+  --t-space-7: 3rem;    /* 48px */
+  --t-space-8: 4rem;    /* 64px */
+
+  /* Border radius */
+  --t-radius-mini: 0.1875rem;  /* 3px */
+  --t-radius-small: 0.21875rem; /* 3.5px */
+  --t-radius-default: 0.25rem; /* 4px */
+  --t-radius-medium: 0.375rem; /* 6px */
+  --t-radius-large: 0.5rem;    /* 8px */
+
+  /* Typography */
+  --t-font-ui: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --t-font-size-mini: 0.75rem;     /* 12px */
+  --t-font-size-small: 0.8125rem;   /* 13px */
+  --t-font-size-default: 0.875rem; /* 14px */
+  --t-font-size-medium: 0.9375rem; /* 15px */
+  --t-font-size-large: 1rem;       /* 16px */
+  --t-font-size-xlarge: 1.125rem;    /* 18px */
+  --t-line-height: 1.5;
+
+  /* Control sizes */
+  --t-control-h-mini: 1.5rem;    /* 24px */
+  --t-control-h-small: 1.75rem;   /* 28px */
+  --t-control-h-default: 2rem;   /* 32px */
+  --t-control-h-medium: 2.25rem; /* 36px */
+  --t-control-h-large: 2.5rem;   /* 40px */
+
+  /* Focus ring */
+  --t-focus-ring: 2px;
+  --t-focus-offset: 2px;
+
+  /* Shadows */
+  --t-shadow-1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  --t-shadow-2: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  --t-shadow-3:0px 0px 20px color-mix(in srgb, var(--t-color-text) 40%, transparent);
+}

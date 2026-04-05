@@ -1,0 +1,9 @@
+/**
+ * Global Styles Entry Point
+ * Import order is critical: tokens → colors → theme → base
+ */
+
+@import './tokens.css';
+@import './colors.css';
+@import './theme.css';
+@import './base.css';

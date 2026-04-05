@@ -1,0 +1,176 @@
+/**
+ * Theme Configuration
+ * Role-based color variables that map to Open Color palette
+ *
+ * Default theme: dark
+ * Switch by toggling html.dark / html.light classes
+ *
+ * Usage example:
+ * ```js
+ * // Switch to dark theme
+ * document.documentElement.classList.remove("dark", "light");
+ * document.documentElement.classList.add("dark");
+ *
+ * // Switch to light theme
+ * document.documentElement.classList.remove("dark", "light");
+ * document.documentElement.classList.add("light");
+ * ```
+ */
+
+/* Dark Theme (Default) */
+html.dark {
+  color-scheme: dark;
+
+  /* Background and surfaces */
+  --t-color-bg: var(--t-oc-gray-9);
+  --t-color-surface: var(--t-oc-gray-8);
+  --t-color-surface-2: var(--t-oc-gray-7);
+
+  /* Borders (softer than using gray-7 everywhere) */
+  --t-color-border: color-mix(in srgb, var(--t-color-text) 14%, transparent);
+  --t-color-border-strong: color-mix(in srgb, var(--t-color-text) 22%, transparent);
+
+  /* Text */
+  --t-color-text: var(--t-oc-gray-1);
+  --t-color-text-muted: var(--t-oc-gray-5);
+
+  /* Accent (muted blue) */
+  --t-color-accent: var(--t-oc-blue-4);
+  --t-color-accent-hover: var(--t-oc-blue-3);
+  --t-color-accent-active: var(--t-oc-blue-2);
+  --t-color-accent-contrast: var(--t-oc-gray-9);
+  --t-color-accent-plain-bg: color-mix(in srgb, var(--t-oc-blue-4) 12%, transparent);
+
+  /* Semantic - Danger (less saturated) */
+  --t-color-danger: var(--t-oc-red-4);
+  --t-color-danger-hover: var(--t-oc-red-3);
+  --t-color-danger-active: var(--t-oc-red-2);
+  --t-color-danger-contrast: var(--t-oc-gray-9);
+  --t-color-danger-plain-bg: color-mix(in srgb, var(--t-oc-red-4) 12%, transparent);
+
+  /* Semantic - Success (swap lime -> teal to avoid neon) */
+  --t-color-success: var(--t-oc-teal-4);
+  --t-color-success-hover: var(--t-oc-teal-3);
+  --t-color-success-active: var(--t-oc-teal-2);
+  --t-color-success-contrast: var(--t-oc-gray-9);
+  --t-color-success-plain-bg: color-mix(in srgb, var(--t-oc-teal-4) 12%, transparent);
+
+  /* Semantic - Warning (optional) */
+  --t-color-warning: var(--t-oc-yellow-4);
+  --t-color-warning-hover: var(--t-oc-yellow-3);
+  --t-color-warning-active: var(--t-oc-yellow-2);
+  --t-color-warning-contrast: var(--t-oc-gray-9);
+  --t-color-warning-plain-bg: color-mix(in srgb, var(--t-oc-yellow-4) 12%, transparent);
+
+  /* Button - Default (subtle neutrals) */
+  --t-color-neutral: var(--t-oc-gray-9);
+  --t-color-neutral-hover: var(--t-oc-gray-7);
+  --t-color-neutral-active: var(--t-oc-gray-6);
+  --t-color-neutral-contrast: var(--t-oc-gray-4);
+  --t-color-neutral-plain-bg: color-mix(in srgb, var(--t-color-text) 10%, transparent);
+
+  /* Button - Info (subtle neutrals) */
+  --t-color-info: var(--t-oc-gray-5);
+  --t-color-info-hover: var(--t-oc-gray-6);
+  --t-color-info-active: var(--t-oc-gray-7);
+  --t-color-info-contrast: var(--t-oc-gray-9);
+  --t-color-info-plain-bg: color-mix(in srgb, var(--t-color-info) 8%, transparent);
+
+  /* Focus ring / selection */
+  --t-color-focus-ring: color-mix(in srgb, var(--t-color-accent) 45%, transparent);
+
+  /* Tag Colors */
+  --t-color-tag-gray: var(--t-oc-gray-3);
+  --t-color-tag-gray-bg: color-mix(in srgb, var(--t-oc-gray-6) 20%, transparent);
+  --t-color-tag-blue: var(--t-oc-blue-2);
+  --t-color-tag-blue-bg: color-mix(in srgb, var(--t-oc-blue-4) 20%, transparent);
+  --t-color-tag-red: var(--t-oc-red-2);
+  --t-color-tag-red-bg: color-mix(in srgb, var(--t-oc-red-4) 20%, transparent);
+  --t-color-tag-green: var(--t-oc-green-2);
+  --t-color-tag-green-bg: color-mix(in srgb, var(--t-oc-green-4) 20%, transparent);
+  --t-color-tag-teal: var(--t-oc-teal-2);
+  --t-color-tag-teal-bg: color-mix(in srgb, var(--t-oc-teal-4) 20%, transparent);
+  --t-color-tag-yellow: var(--t-oc-yellow-2);
+  --t-color-tag-yellow-bg: color-mix(in srgb, var(--t-oc-yellow-4) 20%, transparent);
+  --t-color-tag-orange: var(--t-oc-orange-2);
+  --t-color-tag-orange-bg: color-mix(in srgb, var(--t-oc-orange-4) 20%, transparent);
+}
+
+/* Light Theme */
+html.light {
+  color-scheme: light;
+
+  /* Background and surfaces */
+  --t-color-bg: var(--t-oc-gray-0);
+  --t-color-surface: #ffffff;
+  --t-color-surface-2: var(--t-oc-gray-1);
+
+  /* Borders (softer) */
+  --t-color-border: color-mix(in srgb, var(--t-color-text) 12%, transparent);
+  --t-color-border-strong: color-mix(in srgb, var(--t-color-text) 18%, transparent);
+
+  /* Text */
+  --t-color-text: var(--t-oc-gray-9);
+  --t-color-text-muted: var(--t-oc-gray-6);
+
+  /* Accent (slightly muted) */
+  --t-color-accent: var(--t-oc-blue-5);
+  --t-color-accent-hover: var(--t-oc-blue-6);
+  --t-color-accent-active: var(--t-oc-blue-7);
+  --t-color-accent-contrast: #ffffff;
+  --t-color-accent-plain-bg: color-mix(in srgb, var(--t-oc-blue-5) 10%, transparent);
+
+  /* Semantic - Danger (less saturated) */
+  --t-color-danger: var(--t-oc-red-5);
+  --t-color-danger-hover: var(--t-oc-red-6);
+  --t-color-danger-active: var(--t-oc-red-7);
+  --t-color-danger-contrast: #ffffff;
+  --t-color-danger-plain-bg: color-mix(in srgb, var(--t-oc-red-5) 10%, transparent);
+
+  /* Semantic - Success (teal) */
+  --t-color-success: var(--t-oc-teal-6);
+  --t-color-success-hover: var(--t-oc-teal-7);
+  --t-color-success-active: var(--t-oc-teal-8);
+  --t-color-success-contrast: #ffffff;
+  --t-color-success-plain-bg: color-mix(in srgb, var(--t-oc-teal-6) 10%, transparent);
+
+  /* Semantic - Warning (optional) */
+  --t-color-warning: var(--t-oc-yellow-6);
+  --t-color-warning-hover: var(--t-oc-yellow-7);
+  --t-color-warning-active: var(--t-oc-yellow-8);
+  --t-color-warning-contrast: #ffffff;
+  --t-color-warning-plain-bg: color-mix(in srgb, var(--t-oc-yellow-6) 10%, transparent);
+
+  /* Button - Default (subtle neutrals) */
+  --t-color-neutral: var(--t-oc-gray-0);
+  --t-color-neutral-hover: var(--t-oc-gray-2);
+  --t-color-neutral-active: var(--t-oc-gray-3);
+  --t-color-neutral-contrast: var(--t-oc-gray-6);
+  --t-color-neutral-plain-bg: color-mix(in srgb, var(--t-color-text) 3%, transparent);
+
+  /* Button - Info (subtle neutrals) */
+  --t-color-info: var(--t-oc-gray-6);
+  --t-color-info-hover: var(--t-oc-gray-7);
+  --t-color-info-active: var(--t-oc-gray-8);
+  --t-color-info-contrast: var(--t-oc-gray-0);
+  --t-color-info-plain-bg: color-mix(in srgb, var(--t-color-info) 8%, transparent);
+
+  /* Focus ring / selection */
+  --t-color-focus-ring: color-mix(in srgb, var(--t-color-accent) 35%, transparent);
+
+  /* Tag Colors */
+  --t-color-tag-gray: var(--t-oc-gray-8);
+  --t-color-tag-gray-bg: color-mix(in srgb, var(--t-oc-gray-6) 15%, transparent);
+  --t-color-tag-blue: var(--t-oc-blue-8);
+  --t-color-tag-blue-bg: color-mix(in srgb, var(--t-oc-blue-5) 15%, transparent);
+  --t-color-tag-red: var(--t-oc-red-8);
+  --t-color-tag-red-bg: color-mix(in srgb, var(--t-oc-red-5) 15%, transparent);
+  --t-color-tag-green: var(--t-oc-green-8);
+  --t-color-tag-green-bg: color-mix(in srgb, var(--t-oc-green-5) 15%, transparent);
+  --t-color-tag-teal: var(--t-oc-teal-8);
+  --t-color-tag-teal-bg: color-mix(in srgb, var(--t-oc-teal-5) 15%, transparent);
+  --t-color-tag-yellow: var(--t-oc-yellow-8);
+  --t-color-tag-yellow-bg: color-mix(in srgb, var(--t-oc-yellow-5) 15%, transparent);
+  --t-color-tag-orange: var(--t-oc-orange-8);
+  --t-color-tag-orange-bg: color-mix(in srgb, var(--t-oc-orange-5) 15%, transparent);
+}

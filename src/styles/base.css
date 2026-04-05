@@ -1,0 +1,40 @@
+/**
+ * Base Styles
+ * Minimal global resets and element defaults
+ */
+
+/* Box sizing reset */
+* {
+  box-sizing: border-box;
+}
+
+/* Full height layout */
+html,
+body {
+  height: 100%;
+}
+
+/* Body defaults */
+body {
+  margin: 0;
+  font-family: var(--t-font-ui);
+  font-size: var(--t-font-size-default);
+  line-height: var(--t-line-height);
+  background: var(--t-color-bg);
+  color: var(--t-color-text);
+}
+
+/* Form element font inheritance */
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Focus styles using role tokens */
+:focus-visible {
+  outline: var(--t-focus-ring) solid var(--t-color-accent);
+  outline-offset: var(--t-focus-offset);
+}

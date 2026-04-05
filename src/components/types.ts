@@ -1,0 +1,1 @@
+export type TElementSize = 'mini' | 'small' | 'default' | 'medium' | 'large'
