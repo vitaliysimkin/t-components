@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { TTextarea } from 't-components'
+import { TTextarea } from '@vitaliysimkin/t-components'
 
 const text = ref('')
 </script>

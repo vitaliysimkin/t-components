@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { TInput } from 't-components'
+import { TInput } from '@vitaliysimkin/t-components'
 
 const text = ref('')
 const email = ref('')

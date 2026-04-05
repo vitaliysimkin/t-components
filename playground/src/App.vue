@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
-import { currentTheme, applyTheme, type Theme } from 't-components'
+import { currentTheme, applyTheme, type Theme } from '@vitaliysimkin/t-components'
 
 const themeOptions = [
   { value: 'light' as Theme, icon: 'system-uicons:sun', label: 'Light' },

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { TTag } from 't-components'
+import { TTag } from '@vitaliysimkin/t-components'
 
 const tags = ref(['Vue', 'TypeScript', 'Vite'])
 

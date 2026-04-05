@@ -10,8 +10,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { TButton } from 't-components'
-import { modalManager } from 't-components'
+import { TButton } from '@vitaliysimkin/t-components'
+import { modalManager } from '@vitaliysimkin/t-components'
 import CallbackModalContent from './CallbackModalContent.vue'
 
 const lastRequestTime = ref('')

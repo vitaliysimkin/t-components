@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { TDateInput } from 't-components'
-import { TTimeInput } from 't-components'
-import { TDateTimeInput } from 't-components'
+import { TDateInput } from '@vitaliysimkin/t-components'
+import { TTimeInput } from '@vitaliysimkin/t-components'
+import { TDateTimeInput } from '@vitaliysimkin/t-components'
 
 const date = ref<string | null>(null)
 const time = ref<string | null>('09:00')

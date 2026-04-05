@@ -8,7 +8,7 @@ import '../../src/styles/index.css'
 import App from './App.vue'
 import ComponentsPage from './views/ComponentsPage.vue'
 
-import TComponents from 't-components'
+import TComponents from '@vitaliysimkin/t-components'
 
 const router = createRouter({
   history: createWebHistory(),

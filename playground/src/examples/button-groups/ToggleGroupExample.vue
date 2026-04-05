@@ -43,8 +43,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { TButtonGroup } from 't-components'
-import type { TButtonGroupOption } from 't-components'
+import { TButtonGroup } from '@vitaliysimkin/t-components'
+import type { TButtonGroupOption } from '@vitaliysimkin/t-components'
 
 const alignment = ref<string | number | null>('center')
 const view = ref<string | number | null>('list')

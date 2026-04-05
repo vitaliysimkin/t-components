@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { vue } from '@codemirror/lang-vue'
-import { TButton, CodeEditor } from 't-components'
+import { TButton, CodeEditor } from '@vitaliysimkin/t-components'
 
 defineProps<{
   component: any

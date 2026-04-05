@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { TSelect } from 't-components'
+import { TSelect } from '@vitaliysimkin/t-components'
 
 const roleId = ref<string | number | null>('editor')
 const roles = [

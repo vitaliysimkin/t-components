@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { TSwitch } from 't-components'
+import { TSwitch } from '@vitaliysimkin/t-components'
 
 const checked = ref(false)
 </script>

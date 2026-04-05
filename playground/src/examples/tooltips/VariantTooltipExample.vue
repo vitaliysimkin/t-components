@@ -21,6 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import { TTooltip } from 't-components'
-import { TButton } from 't-components'
+import { TTooltip } from '@vitaliysimkin/t-components'
+import { TButton } from '@vitaliysimkin/t-components'
 </script>

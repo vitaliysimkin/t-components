@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { TSelect } from 't-components';
+import { TSelect } from '@vitaliysimkin/t-components';
 const model = ref("");
 const options = [
     { value: 'gpt-4o', label: 'GPT-4o', icon: 'simple-icons:openai' },

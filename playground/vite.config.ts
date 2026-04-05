@@ -8,7 +8,7 @@ export default defineConfig({
   root: resolve(__dirname),
   resolve: {
     alias: {
-      't-components': resolve(__dirname, '../src/index.ts'),
+      '@vitaliysimkin/t-components': resolve(__dirname, '../src/index.ts'),
       '@': resolve(__dirname, 'src'),
     },
   },

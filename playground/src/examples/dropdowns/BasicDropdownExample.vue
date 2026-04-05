@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { TButton } from 't-components';
-import { TDropdown } from 't-components'
-// import { TButton } from 't-components'
+import { TButton } from '@vitaliysimkin/t-components';
+import { TDropdown } from '@vitaliysimkin/t-components'
+// import { TButton } from '@vitaliysimkin/t-components'
 </script>
 
 <template>

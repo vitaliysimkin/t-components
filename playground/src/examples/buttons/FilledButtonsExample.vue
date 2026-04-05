@@ -7,5 +7,5 @@
 </template>
 
 <script setup lang="ts">
-import { TButton } from 't-components'
+import { TButton } from '@vitaliysimkin/t-components'
 </script>

@@ -11,9 +11,9 @@
 </template>
 
 <script setup lang="ts">
-import { TButtonGroup } from 't-components'
-import { TButton } from 't-components'
-import type { TButtonGroupOption } from 't-components'
+import { TButtonGroup } from '@vitaliysimkin/t-components'
+import { TButton } from '@vitaliysimkin/t-components'
+import type { TButtonGroupOption } from '@vitaliysimkin/t-components'
 
 const basicOptions: TButtonGroupOption[] = [
   { value: 1, label: 'Option 1' },

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { modalManager } from 't-components'
-import { TButton } from 't-components'
+import { modalManager } from '@vitaliysimkin/t-components'
+import { TButton } from '@vitaliysimkin/t-components'
 
 const openAdvancedModal = () => {
   modalManager.openInputModal({

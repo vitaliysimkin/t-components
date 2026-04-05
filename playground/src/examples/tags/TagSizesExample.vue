@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TTag } from 't-components'
+import { TTag } from '@vitaliysimkin/t-components'
 </script>
 
 <template>

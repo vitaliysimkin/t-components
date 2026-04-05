@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { TSelect } from 't-components'
+import { TSelect } from '@vitaliysimkin/t-components'
 
 const userId = ref<string | number | null>(null)
 
