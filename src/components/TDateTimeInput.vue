@@ -114,7 +114,7 @@ function commitText() {
     ref="dropdownRef"
     v-model:is-open="isOpen"
     :close-on-panel-click="false"
-    style="display: block; width: 100%;"
+    style="display: block; width: 100%; min-width: 0;"
   >
     <template #trigger>
       <div class="t-datetime-input__trigger">
@@ -150,6 +150,7 @@ function commitText() {
 <style scoped>
 .t-datetime-input__trigger {
   width: 100%;
+  min-width: 0;
 }
 
 .t-datetime-panel {

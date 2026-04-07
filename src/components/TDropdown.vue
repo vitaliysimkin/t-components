@@ -306,6 +306,7 @@ defineExpose({
 <style scoped>
 .t-dropdown {
   display: inline-block;
+  min-width: 0;
 }
 
 .t-dropdown-panel {
