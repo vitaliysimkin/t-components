@@ -50,12 +50,23 @@ const internalDate = computed<Date | null>(() => {
   return new Date(parts[0]!, parts[1]! - 1, parts[2]!)
 })
 
+function onTriggerClick() {
+  if (props.editable) return
+  if (isOpen.value) {
+    dropdownRef.value?.close()
+  } else {
+    dropdownRef.value?.open()
+  }
+}
+
 function onFocus() {
+  if (!props.editable) return
   isEditing.value = true
   dropdownRef.value?.open()
 }
 
 function onBlur() {
+  if (!props.editable) return
   isEditing.value = false
   commitText()
 }
@@ -92,7 +103,7 @@ function onDateSelect(date: Date | null) {
     style="display: block; width: 100%;"
   >
     <template #trigger>
-      <div class="t-date-input__trigger">
+      <div class="t-date-input__trigger" @click="onTriggerClick">
         <TInput
           v-model="localText"
           placeholder="ДД.ММ.РРРР"
