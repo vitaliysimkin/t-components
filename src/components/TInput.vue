@@ -68,6 +68,7 @@ const handleClear = () => {
   display: inline-flex;
   align-items: flex-start;
   width: 100%;
+  min-width: 0;
   height: var(--t-input-height);
   border-radius: var(--t-input-radius);
   border: 1px solid var(--t-color-border);
@@ -76,7 +77,7 @@ const handleClear = () => {
   box-sizing: border-box;
   gap: var(--t-space-2);
   padding: 0 var(--t-space-3);
-    flex-direction: row;
+  flex-direction: row;
 }
 
 .t-input-wrapper:focus-within {
@@ -94,6 +95,8 @@ const handleClear = () => {
    ======================================== */
 .t-input {
   flex: 1;
+  width: 100%;
+  min-width: 0;
   padding: 0;
   height: 100%;
   border: none;
