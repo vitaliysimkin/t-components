@@ -41,6 +41,10 @@ watch(
   { immediate: true },
 )
 
+watch(isOpen, (open) => {
+  if (!open) commitText()
+})
+
 function p(n: number) { return String(n).padStart(2, '0') }
 
 function snapMinute(m: number): number {
@@ -87,8 +91,19 @@ function confirm() {
   dropdownRef.value?.close()
 }
 
-function onFocus() { isEditing.value = true; dropdownRef.value?.open() }
-function onBlur() { isEditing.value = false; commitText() }
+function onFocus() {
+  isEditing.value = true
+  if (!pickedDate.value) {
+    const now = new Date()
+    pickedDate.value = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    localText.value = buildDisplay()
+  }
+  dropdownRef.value?.open()
+}
+function onBlur() {
+  isEditing.value = false
+  if (!isOpen.value) commitText()
+}
 
 function commitText() {
   const trimmed = localText.value.trim()
