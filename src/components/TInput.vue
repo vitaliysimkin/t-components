@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { Icon } from '@iconify/vue'
 import type { TElementSize } from './types'
 
@@ -21,19 +22,23 @@ const emit = defineEmits<{
   'clear': []
 }>()
 
+const inputRef = ref<HTMLInputElement | null>(null)
+
 const handleClear = () => {
   emit('update:modelValue', '')
   emit('clear')
 }
+
 </script>
 
 <template>
-  <div 
-    class="t-input-wrapper" 
+  <div
+    class="t-input-wrapper"
     :class="`size-${props.size}`"
   >
-    <Icon v-if="prefixIcon" :icon="prefixIcon" class="t-input-icon t-input-icon--prefix" />
-    <input 
+    <Icon v-if="prefixIcon" :icon="prefixIcon" class="t-input-icon t-input-icon--prefix" @mousedown.prevent="inputRef?.focus()" />
+    <input
+      ref="inputRef"
       class="t-input"
       :class="{
         'has-prefix': prefixIcon,
@@ -49,7 +54,7 @@ const handleClear = () => {
       class="t-input-icon t-input-icon--clear" 
       @click="handleClear"
     />
-    <Icon v-if="suffixIcon" :icon="suffixIcon" class="t-input-icon t-input-icon--suffix" />
+    <Icon v-if="suffixIcon" :icon="suffixIcon" class="t-input-icon t-input-icon--suffix" @mousedown.prevent="inputRef?.focus()" />
   </div>
 </template>
 
