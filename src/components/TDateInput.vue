@@ -4,7 +4,13 @@ import TInput from './TInput.vue'
 import TDropdown from './TDropdown.vue'
 import DatePicker from './DatePicker.vue'
 
-const props = defineProps<{ modelValue: string | null }>()
+const props = withDefaults(
+  defineProps<{
+    modelValue: string | null
+    editable?: boolean
+  }>(),
+  { editable: false },
+)
 const emit = defineEmits<{ (e: 'update:modelValue', v: string | null): void }>()
 
 const dropdownRef = ref<InstanceType<typeof TDropdown> | null>(null)
@@ -91,6 +97,7 @@ function onDateSelect(date: Date | null) {
           v-model="localText"
           placeholder="ДД.ММ.РРРР"
           suffix-icon="material-symbols:calendar-month-outline"
+          :readonly="!editable"
           @focus="onFocus"
           @blur="onBlur"
           @keyup.enter="commitText"

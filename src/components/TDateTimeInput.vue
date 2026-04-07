@@ -10,8 +10,9 @@ const props = withDefaults(
   defineProps<{
     modelValue: string | null
     step?: number
+    editable?: boolean
   }>(),
-  { step: 15 },
+  { step: 15, editable: false },
 )
 const emit = defineEmits<{ (e: 'update:modelValue', v: string | null): void }>()
 
@@ -137,6 +138,7 @@ function commitText() {
           v-model="localText"
           placeholder="ДД.ММ.РРРР ГГ:хх"
           suffix-icon="material-symbols:calendar-clock-outline"
+          :readonly="!editable"
           @focus="onFocus"
           @blur="onBlur"
           @keyup.enter="commitText"

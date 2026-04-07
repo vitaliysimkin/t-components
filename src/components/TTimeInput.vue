@@ -8,8 +8,9 @@ const props = withDefaults(
   defineProps<{
     modelValue: string | null
     step?: number
+    editable?: boolean
   }>(),
-  { step: 15 },
+  { step: 15, editable: false },
 )
 const emit = defineEmits<{ (e: 'update:modelValue', v: string | null): void }>()
 
@@ -84,6 +85,7 @@ function commitText() {
           v-model="localText"
           placeholder="ГГ:хх"
           suffix-icon="material-symbols:schedule-outline"
+          :readonly="!editable"
           @focus="onFocus"
           @blur="onBlur"
           @keyup.enter="commitText"
