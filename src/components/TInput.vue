@@ -65,10 +65,9 @@ const handleClear = () => {
    ======================================== */
 .t-input-wrapper {
   position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: flex-start;
   width: 100%;
-  min-width: 0;
   height: var(--t-input-height);
   border-radius: var(--t-input-radius);
   border: 1px solid var(--t-color-border);
@@ -95,8 +94,6 @@ const handleClear = () => {
    ======================================== */
 .t-input {
   flex: 1;
-  min-width: 0;
-  width: 0;
   padding: 0;
   height: 100%;
   border: none;
