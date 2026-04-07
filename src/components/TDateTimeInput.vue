@@ -176,11 +176,12 @@ function commitText() {
   display: flex;
   flex-direction: column;
   gap: var(--t-space-2);
+  max-width: calc(100vw - 16px);
 }
 
 .t-datetime-panel__body {
   display: flex;
-  gap: var(--t-space-3);
+  gap: var(--t-space-2);
   align-items: flex-start;
 }
 
@@ -189,5 +190,20 @@ function commitText() {
   justify-content: flex-end;
   border-top: 1px solid var(--t-color-border);
   padding-top: var(--t-space-2);
+}
+
+/* Compact date picker cells */
+.t-datetime-panel__body :deep(.va-date-picker) {
+  --va-date-picker-cell-size: 28px;
+  --va-date-picker-cell-gap: 1px;
+}
+
+/* Compact time columns */
+.t-datetime-panel__body :deep(.t-time-col) {
+  width: 2rem;
+}
+
+.t-datetime-panel__body :deep(.t-time-item) {
+  height: 28px;
 }
 </style>

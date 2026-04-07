@@ -88,7 +88,7 @@ const updatePosition = () => {
   
   let top = 0
   let left = 0
-  
+
   switch (props.placement) {
     case 'bottom-start':
       top = triggerRect.bottom + props.offset
@@ -107,7 +107,30 @@ const updatePosition = () => {
       left = triggerRect.right - panelRect.width
       break
   }
-  
+
+  const vw = window.innerWidth
+  const vh = window.innerHeight
+  const pw = panelRect.width
+  const ph = panelRect.height
+  const margin = 8
+
+  // Horizontal clamping
+  if (left + pw > vw - margin) left = vw - pw - margin
+  if (left < margin) left = margin
+
+  // Vertical flip
+  if (top + ph > vh - margin && props.placement.startsWith('bottom')) {
+    const flipped = triggerRect.top - ph - props.offset
+    if (flipped >= margin) top = flipped
+  } else if (top < margin && props.placement.startsWith('top')) {
+    const flipped = triggerRect.bottom + props.offset
+    if (flipped + ph <= vh - margin) top = flipped
+  }
+
+  // Final vertical clamp
+  if (top + ph > vh - margin) top = vh - ph - margin
+  if (top < margin) top = margin
+
   panelPosition.value = { top, left }
 }
 
@@ -216,6 +239,8 @@ const panelStyle = computed(() => {
     top: `${panelPosition.value.top}px`,
     left: `${panelPosition.value.left}px`,
     zIndex: 1000,
+    maxHeight: `calc(100vh - 16px)`,
+    overflow: 'auto',
   }
   
   if (panelWidth.value !== undefined) {
