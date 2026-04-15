@@ -23,7 +23,10 @@
     "build": "vue-tsc --noEmit && vite build",
     "build:nocheck": "vite build",
     "dev": "vite --config playground/vite.config.ts",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit",
+    "release:patch": "npm version patch && git push --follow-tags",
+    "release:minor": "npm version minor && git push --follow-tags",
+    "release:major": "npm version major && git push --follow-tags"
   },
   "peerDependencies": {
     "@iconify/vue": ">=4.0.0",
