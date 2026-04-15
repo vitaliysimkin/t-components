@@ -4,6 +4,8 @@ import './styles/index.css'
 // Composables
 export { useTheme, currentTheme, applyTheme } from './composables/useTheme'
 export type { Theme } from './composables/useTheme'
+export { useNotifications } from './composables/useNotifications'
+export type { Notification, NotificationKind } from './composables/useNotifications'
 
 // Components
 import TButton from './components/TButton.vue'
@@ -25,6 +27,7 @@ import DatePicker from './components/DatePicker.vue'
 import TModalBox from './components/modal/TModalBox.vue'
 import TModalBoxHost from './components/modal/TModalBoxHost.vue'
 import TInputModalBox from './components/modal/TInputModalBox.vue'
+import TNotifications from './components/TNotifications.vue'
 
 // Re-exports for convenience
 export { modalManager } from './components/modal/useModalManager'
@@ -54,6 +57,7 @@ export {
   TModalBox,
   TModalBoxHost,
   TInputModalBox,
+  TNotifications,
 }
 
 // Vue plugin — registers all components globally
@@ -77,6 +81,7 @@ const components = [
   TModalBox,
   TModalBoxHost,
   TInputModalBox,
+  TNotifications,
 ]
 
 export default {

@@ -56,12 +56,18 @@ import SelectLoadingExample from './select/SelectLoadingExample.vue'
 import SelectAutocompleteExample from './select/SelectAutocompleteExample.vue'
 import SelectLlmModelAutocomplete from './select/SelectLlmModelAutocomplete.vue'
 
-// Modal Examples  
+// Modal Examples
 import ModalBoxExample from './modals/ModalBoxExample.vue'
 import BlockingModalExample from './modals/BlockingModalExample.vue'
 import CallbackModalExample from './modals/CallbackModalExample.vue'
 import InputModalExample from './modals/InputModalExample.vue'
 import InputModalTypesExample from './modals/InputModalTypesExample.vue'
+
+// Notification Examples
+import BasicNotificationExample from './notifications/BasicNotificationExample.vue'
+import KindsNotificationExample from './notifications/KindsNotificationExample.vue'
+import PersistentNotificationExample from './notifications/PersistentNotificationExample.vue'
+import CustomTimeoutNotificationExample from './notifications/CustomTimeoutNotificationExample.vue'
 
 
 // Raw code imports for displaying source
@@ -104,6 +110,10 @@ import BlockingModalExampleCode from './modals/BlockingModalExample.vue?raw'
 import CallbackModalExampleCode from './modals/CallbackModalExample.vue?raw'
 import InputModalExampleCode from './modals/InputModalExample.vue?raw'
 import InputModalTypesExampleCode from './modals/InputModalTypesExample.vue?raw'
+import BasicNotificationExampleCode from './notifications/BasicNotificationExample.vue?raw'
+import KindsNotificationExampleCode from './notifications/KindsNotificationExample.vue?raw'
+import PersistentNotificationExampleCode from './notifications/PersistentNotificationExample.vue?raw'
+import CustomTimeoutNotificationExampleCode from './notifications/CustomTimeoutNotificationExample.vue?raw'
 
 export interface ExampleComponent {
   component: any
@@ -376,6 +386,31 @@ export const elements: Element[] = [
         label: 'Advanced Types'
       }
     ]
+  },
+  {
+    label: 'TNotifications',
+    components: [
+      {
+        component: BasicNotificationExample,
+        code: BasicNotificationExampleCode,
+        label: 'Basic Usage'
+      },
+      {
+        component: KindsNotificationExample,
+        code: KindsNotificationExampleCode,
+        label: 'Kinds (info / success / warning / error)'
+      },
+      {
+        component: CustomTimeoutNotificationExample,
+        code: CustomTimeoutNotificationExampleCode,
+        label: 'Custom Timeout'
+      },
+      {
+        component: PersistentNotificationExample,
+        code: PersistentNotificationExampleCode,
+        label: 'Persistent + Clear All'
+      }
+    ]
   }
 ]
 
@@ -417,4 +452,8 @@ export {
   CallbackModalExample,
   InputModalExample,
   InputModalTypesExample,
+  BasicNotificationExample,
+  KindsNotificationExample,
+  PersistentNotificationExample,
+  CustomTimeoutNotificationExample,
 }
