@@ -19,6 +19,6 @@ jobs:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
-      - run: npm ci
+      - run: npm install --no-audit --no-fund
 
       - run: npm publish --access public --provenance
