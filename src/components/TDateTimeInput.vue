@@ -6,14 +6,13 @@ import TDropdown from './TDropdown.vue'
 import TTimePicker from './TTimePicker.vue'
 import DatePicker from './DatePicker.vue'
 
-const props = withDefaults(
-  defineProps<{
-    modelValue: string | null
-    step?: number
-    editable?: boolean
-  }>(),
-  { step: 15, editable: false },
-)
+export interface TDateTimeInputProps {
+  modelValue: string | null
+  step?: number
+  editable?: boolean
+}
+
+const props = withDefaults(defineProps<TDateTimeInputProps>(), { step: 15, editable: false })
 const emit = defineEmits<{ (e: 'update:modelValue', v: string | null): void }>()
 
 const dropdownRef = ref<InstanceType<typeof TDropdown> | null>(null)

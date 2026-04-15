@@ -9,7 +9,7 @@ import type { TElementSize } from './types'
 
 type TOption = string | number | Record<string, any>
 
-const props = withDefaults(defineProps<{
+export interface TSelectProps {
   autocomplete?: boolean
   options?: Array<TOption>
   modelValue?: TOption | string | number | null
@@ -29,7 +29,9 @@ const props = withDefaults(defineProps<{
   debounce?: number
   valueMode?: 'option' | 'value'
   inputProps?: Record<string, any>
-}>(), {
+}
+
+const props = withDefaults(defineProps<TSelectProps>(), {
   autocomplete: false,
   options: () => [],
   valueKey: 'value',

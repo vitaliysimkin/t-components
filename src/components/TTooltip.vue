@@ -8,7 +8,7 @@ export type TTooltipTrigger = 'hover' | 'click' | 'focus' | 'manual'
 defineOptions({ inheritAttrs: false })
 const attrs = useAttrs()
 
-interface Props {
+export interface TTooltipProps {
   content?: string
   placement?: TTooltipPlacement
   variant?: TTooltipVariant
@@ -16,7 +16,7 @@ interface Props {
   trigger?: TTooltipTrigger
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<TTooltipProps>(), {
   placement: 'top',
   variant: 'neutral',
   disabled: false,

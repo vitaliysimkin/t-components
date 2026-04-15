@@ -74,7 +74,7 @@ interface MenuItem {
   color?: string
 }
 
-interface Props {
+export interface TSidebarProps {
   collapsed?: boolean
   expandedWidth?: string
   collapsedWidth?: string
@@ -85,18 +85,18 @@ interface Props {
   headerLabel?: string
 }
 
-interface Emits {
+export interface TSidebarEmits {
   (e: 'update:collapsed', value: boolean): void
   (e: 'toggle', collapsed: boolean): void
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<TSidebarProps>(), {
   collapsed: true,
   position: 'left',
   persistent: false
 })
 
-const emit = defineEmits<Emits>()
+const emit = defineEmits<TSidebarEmits>()
 
 const route = useRoute()
 const collapsed = ref(props.collapsed)

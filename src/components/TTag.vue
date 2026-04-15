@@ -21,24 +21,24 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
+export interface TTagProps {
   label?: string
   variant?: 'gray' | 'blue' | 'red' | 'green' | 'teal' | 'yellow' | 'orange'
   size?: 'small' | 'medium' | 'large'
   removable?: boolean
 }
 
-interface Emits {
+export interface TTagEmits {
   (e: 'remove'): void
 }
 
-withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<TTagProps>(), {
   variant: 'gray',
   size: 'medium',
   removable: false
 })
 
-defineEmits<Emits>()
+defineEmits<TTagEmits>()
 </script>
 
 <style scoped>

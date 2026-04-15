@@ -19,7 +19,7 @@ import { useEventListener, onClickOutside } from '@vueuse/core'
 export type TDropdownTrigger = 'click' | 'hover' | 'both'
 export type TDropdownPlacement = 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end'
 
-interface Props {
+export interface TDropdownProps {
   /** How the dropdown opens/closes from trigger interactions */
   trigger?: TDropdownTrigger
   /** When true, dropdown never opens and ignores interactions */
@@ -36,7 +36,7 @@ interface Props {
   customPanelStyle?: Record<string, any> | string
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<TDropdownProps>(), {
   trigger: 'click',
   disabled: false,
   closeOnPanelClick: true,

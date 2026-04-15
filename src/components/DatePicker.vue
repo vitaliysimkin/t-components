@@ -17,22 +17,22 @@
 import { ref, computed, watch } from 'vue';
 import type { DatePickerView } from 'vuestic-ui/dist/types/components/va-date-picker/types.js';
 
-interface Props {
+export interface DatePickerProps {
   modelValue: any;
   mode?: 'range' | 'single';
   weekdayNames?: string[];
   monthNames?: string[];
 }
 
-interface Emits {
+export interface DatePickerEmits {
   (e: 'update:modelValue', value: any): void;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<DatePickerProps>(), {
   mode: 'single'
 });
 
-const emit = defineEmits<Emits>();
+const emit = defineEmits<DatePickerEmits>();
 
 // Fallback to Intl API (respects browser locale) when no props provided
 const resolvedWeekdayNames = computed(() => {
