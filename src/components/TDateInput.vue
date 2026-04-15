@@ -4,7 +4,13 @@ import TInput from './TInput.vue'
 import TDropdown from './TDropdown.vue'
 import DatePicker from './DatePicker.vue'
 
-const props = defineProps<{ modelValue: string | null }>()
+const props = withDefaults(
+  defineProps<{
+    modelValue: string | null
+    editable?: boolean
+  }>(),
+  { editable: false },
+)
 const emit = defineEmits<{ (e: 'update:modelValue', v: string | null): void }>()
 
 const dropdownRef = ref<InstanceType<typeof TDropdown> | null>(null)
@@ -44,12 +50,23 @@ const internalDate = computed<Date | null>(() => {
   return new Date(parts[0]!, parts[1]! - 1, parts[2]!)
 })
 
+function onTriggerClick() {
+  if (props.editable) return
+  if (isOpen.value) {
+    dropdownRef.value?.close()
+  } else {
+    dropdownRef.value?.open()
+  }
+}
+
 function onFocus() {
+  if (!props.editable) return
   isEditing.value = true
   dropdownRef.value?.open()
 }
 
 function onBlur() {
+  if (!props.editable) return
   isEditing.value = false
   commitText()
 }
@@ -86,11 +103,12 @@ function onDateSelect(date: Date | null) {
     style="display: block; width: 100%;"
   >
     <template #trigger>
-      <div class="t-date-input__trigger">
+      <div class="t-date-input__trigger" @click="onTriggerClick">
         <TInput
           v-model="localText"
           placeholder="ДД.ММ.РРРР"
           suffix-icon="material-symbols:calendar-month-outline"
+          :readonly="!editable"
           @focus="onFocus"
           @blur="onBlur"
           @keyup.enter="commitText"

@@ -28,6 +28,8 @@ import DisabledSwitchExample from './switches/DisabledSwitchExample.vue'
 // DateTimeInput Examples
 import BasicDateTimeInputExample from './datetime-input/BasicDateTimeInputExample.vue'
 import BasicDateTimeInputExampleCode from './datetime-input/BasicDateTimeInputExample.vue?raw'
+import EditableDateTimeInputExample from './datetime-input/EditableDateTimeInputExample.vue'
+import EditableDateTimeInputExampleCode from './datetime-input/EditableDateTimeInputExample.vue?raw'
 
 // Input Examples
 import BasicInputExample from './inputs/BasicInputExample.vue'
@@ -244,6 +246,11 @@ export const elements: Element[] = [
         component: BasicDateTimeInputExample,
         code: BasicDateTimeInputExampleCode,
         label: 'Date, Time & DateTime pickers',
+      },
+      {
+        component: EditableDateTimeInputExample,
+        code: EditableDateTimeInputExampleCode,
+        label: 'Editable (manual text input)',
       },
     ],
   },

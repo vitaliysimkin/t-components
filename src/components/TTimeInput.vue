@@ -8,8 +8,9 @@ const props = withDefaults(
   defineProps<{
     modelValue: string | null
     step?: number
+    editable?: boolean
   }>(),
-  { step: 15 },
+  { step: 15, editable: false },
 )
 const emit = defineEmits<{ (e: 'update:modelValue', v: string | null): void }>()
 
@@ -52,8 +53,26 @@ function emitTime(h: number, m: number) {
 function onHour(h: number) { selectedHour.value = h; emitTime(h, selectedMinute.value) }
 function onMinute(m: number) { selectedMinute.value = m; emitTime(selectedHour.value, m) }
 
-function onFocus() { isEditing.value = true; dropdownRef.value?.open() }
-function onBlur() { isEditing.value = false; commitText() }
+function onTriggerClick() {
+  if (props.editable) return
+  if (isOpen.value) {
+    dropdownRef.value?.close()
+  } else {
+    dropdownRef.value?.open()
+  }
+}
+
+function onFocus() {
+  if (!props.editable) return
+  isEditing.value = true
+  dropdownRef.value?.open()
+}
+
+function onBlur() {
+  if (!props.editable) return
+  isEditing.value = false
+  commitText()
+}
 
 function commitText() {
   const trimmed = localText.value.trim()
@@ -79,11 +98,12 @@ function commitText() {
     style="display: block; width: 100%;"
   >
     <template #trigger>
-      <div class="t-time-input__trigger">
+      <div class="t-time-input__trigger" @click="onTriggerClick">
         <TInput
           v-model="localText"
           placeholder="ГГ:хх"
           suffix-icon="material-symbols:schedule-outline"
+          :readonly="!editable"
           @focus="onFocus"
           @blur="onBlur"
           @keyup.enter="commitText"

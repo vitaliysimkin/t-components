@@ -10,8 +10,9 @@ const props = withDefaults(
   defineProps<{
     modelValue: string | null
     step?: number
+    editable?: boolean
   }>(),
-  { step: 15 },
+  { step: 15, editable: false },
 )
 const emit = defineEmits<{ (e: 'update:modelValue', v: string | null): void }>()
 
@@ -91,16 +92,33 @@ function confirm() {
   dropdownRef.value?.close()
 }
 
-function onFocus() {
-  isEditing.value = true
+function initDate() {
   if (!pickedDate.value) {
     const now = new Date()
     pickedDate.value = new Date(now.getFullYear(), now.getMonth(), now.getDate())
     localText.value = buildDisplay()
   }
+}
+
+function onTriggerClick() {
+  if (props.editable) return
+  if (isOpen.value) {
+    dropdownRef.value?.close()
+  } else {
+    initDate()
+    dropdownRef.value?.open()
+  }
+}
+
+function onFocus() {
+  if (!props.editable) return
+  isEditing.value = true
+  initDate()
   dropdownRef.value?.open()
 }
+
 function onBlur() {
+  if (!props.editable) return
   isEditing.value = false
   if (!isOpen.value) commitText()
 }
@@ -132,11 +150,12 @@ function commitText() {
     style="display: block; width: 100%;"
   >
     <template #trigger>
-      <div class="t-datetime-input__trigger">
+      <div class="t-datetime-input__trigger" @click="onTriggerClick">
         <TInput
           v-model="localText"
           placeholder="ДД.ММ.РРРР ГГ:хх"
           suffix-icon="material-symbols:calendar-clock-outline"
+          :readonly="!editable"
           @focus="onFocus"
           @blur="onBlur"
           @keyup.enter="commitText"
