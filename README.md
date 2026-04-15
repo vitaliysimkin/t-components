@@ -18,9 +18,8 @@ npm run release:major   # 0.2.0 → 1.0.0
 
 Команда: піднімає версію в `package.json`, створює комміт + git-тег, пушить комміт і тег на GitHub. Далі workflow [.github/workflows/release.yml](.github/workflows/release.yml) збере пакет і опублікує його в npm.
 
-### Одноразове налаштування
+### Одноразове налаштування (вже зроблено)
 
-1. Створити npm-токен типу **Automation** (він обходить 2FA): https://www.npmjs.com/settings/~/tokens → *Generate New Token* → *Classic Token* → *Automation*.
-2. Додати його як secret у GitHub: `Settings → Secrets and variables → Actions → New repository secret` з іменем **`NPM_TOKEN`**.
+Публікація використовує **npm Trusted Publishing (OIDC)** — токен не потрібен. Довіра налаштована на npmjs.com: *Package → Settings → Publishing access → Trusted Publisher* (GitHub Actions, repo `vitaliysimkin/t-components`, workflow `release.yml`).
 
-Після цього достатньо `npm run release:patch` — все інше зробить CI.
+Після цього достатньо `npm run release:patch` — все інше зробить CI, включно з npm provenance.
