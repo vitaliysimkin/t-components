@@ -6,7 +6,19 @@ import dts from 'vite-plugin-dts'
 export default defineConfig({
   plugins: [
     vue(),
-    dts({ tsconfigPath: './tsconfig.app.json' }),
+    dts({
+      tsconfigPath: './tsconfig.app.json',
+      beforeWriteFile(filePath, content) {
+        // Ensure the consumer auto-loads the GlobalComponents augmentation
+        // (Volar template typings) when they import from the package entry.
+        if (filePath.endsWith('index.d.ts')) {
+          return {
+            filePath,
+            content: `/// <reference path="./globalComponents.d.ts" />\n${content}`,
+          }
+        }
+      },
+    }),
   ],
   build: {
     lib: {
