@@ -22,4 +22,4 @@ npm run release:major   # 0.2.0 → 1.0.0
 
 Публікація використовує **npm Trusted Publishing (OIDC)** — токен не потрібен. Довіра налаштована на npmjs.com: *Package → Settings → Publishing access → Trusted Publisher* (GitHub Actions, repo `vitaliysimkin/t-components`, workflow `release.yml`).
 
-Після цього достатньо `npm run release:patch` — все інше зробить CI, включно з npm provenance.
+Після цього достатньо `npm run release:patch` — все інше зробить CI.
