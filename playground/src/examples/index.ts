@@ -75,6 +75,13 @@ import CustomTimeoutNotificationExample from './notifications/CustomTimeoutNotif
 import BasicSidebarExample from './sidebars/BasicSidebarExample.vue'
 import FooterSlotSidebarExample from './sidebars/FooterSlotSidebarExample.vue'
 
+// Tabs Examples
+import BasicTabsExample from './tabs/BasicTabsExample.vue'
+import IconTabsExample from './tabs/IconTabsExample.vue'
+import VariantTabsExample from './tabs/VariantTabsExample.vue'
+import SizeTabsExample from './tabs/SizeTabsExample.vue'
+import DisabledTabsExample from './tabs/DisabledTabsExample.vue'
+
 
 // Raw code imports for displaying source
 import FilledButtonsExampleCode from './buttons/FilledButtonsExample.vue?raw'
@@ -122,6 +129,11 @@ import PersistentNotificationExampleCode from './notifications/PersistentNotific
 import CustomTimeoutNotificationExampleCode from './notifications/CustomTimeoutNotificationExample.vue?raw'
 import BasicSidebarExampleCode from './sidebars/BasicSidebarExample.vue?raw'
 import FooterSlotSidebarExampleCode from './sidebars/FooterSlotSidebarExample.vue?raw'
+import BasicTabsExampleCode from './tabs/BasicTabsExample.vue?raw'
+import IconTabsExampleCode from './tabs/IconTabsExample.vue?raw'
+import VariantTabsExampleCode from './tabs/VariantTabsExample.vue?raw'
+import SizeTabsExampleCode from './tabs/SizeTabsExample.vue?raw'
+import DisabledTabsExampleCode from './tabs/DisabledTabsExample.vue?raw'
 
 export interface ExampleComponent {
   component: any
@@ -440,6 +452,38 @@ export const elements: Element[] = [
         component: FooterSlotSidebarExample,
         code: FooterSlotSidebarExampleCode,
         label: 'With Footer Slot'
+      }
+    ]
+  },
+  {
+    label: 'TTabs',
+    slug: 'tabs',
+    icon: 'material-symbols-light:tab-outline',
+    components: [
+      {
+        component: BasicTabsExample,
+        code: BasicTabsExampleCode,
+        label: 'Basic Usage'
+      },
+      {
+        component: IconTabsExample,
+        code: IconTabsExampleCode,
+        label: 'With Icons & Badges'
+      },
+      {
+        component: VariantTabsExample,
+        code: VariantTabsExampleCode,
+        label: 'Variants (underline / pills / segmented)'
+      },
+      {
+        component: SizeTabsExample,
+        code: SizeTabsExampleCode,
+        label: 'Sizes'
+      },
+      {
+        component: DisabledTabsExample,
+        code: DisabledTabsExampleCode,
+        label: 'Disabled tabs + keyboard navigation'
       }
     ]
   },

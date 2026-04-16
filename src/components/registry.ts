@@ -13,6 +13,7 @@ import TDateInput from './TDateInput.vue'
 import TTimeInput from './TTimeInput.vue'
 import TDateTimeInput from './TDateTimeInput.vue'
 import TTimePicker from './TTimePicker.vue'
+import TTabs from './TTabs.vue'
 import CodeEditor from './CodeEditor.vue'
 import DatePicker from './DatePicker.vue'
 import TModalBox from './modal/TModalBox.vue'
@@ -28,6 +29,7 @@ export {
   TSelect,
   TSwitch,
   TTag,
+  TTabs,
   TDropdown,
   TTooltip,
   TSidebar,
@@ -55,6 +57,7 @@ export const componentRegistry: Record<string, Component> = {
   TSelect,
   TSwitch,
   TTag,
+  TTabs,
   TDropdown,
   TTooltip,
   TSidebar,

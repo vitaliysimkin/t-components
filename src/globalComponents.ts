@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
     TSelect: typeof import('./components/TSelect.vue')['default']
     TSwitch: typeof import('./components/TSwitch.vue')['default']
     TTag: typeof import('./components/TTag.vue')['default']
+    TTabs: typeof import('./components/TTabs.vue')['default']
     TDropdown: typeof import('./components/TDropdown.vue')['default']
     TTooltip: typeof import('./components/TTooltip.vue')['default']
     TSidebar: typeof import('./components/TSidebar.vue')['default']

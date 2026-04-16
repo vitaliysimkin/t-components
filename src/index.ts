@@ -16,6 +16,7 @@ export type { ModalBoxConfig, ModalInputConfig } from './components/modal/types'
 export type { TElementSize } from './components/types'
 export type { TButtonVariant, TButtonSize } from './components/TButton.vue'
 export type { TButtonGroupOption } from './components/TButtonGroup.vue'
+export type { TTabsVariant, TTabsSize, TTabsAlign, TTabValue, TTabItem } from './components/TTabs.vue'
 
 // Named component exports (tree-shakeable) — single source of truth lives in registry.ts
 export {
@@ -26,6 +27,7 @@ export {
   TSelect,
   TSwitch,
   TTag,
+  TTabs,
   TDropdown,
   TTooltip,
   TSidebar,
