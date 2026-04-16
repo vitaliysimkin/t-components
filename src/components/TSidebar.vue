@@ -5,19 +5,59 @@
       't-sidebar--collapsed': collapsed,
       't-sidebar--right': position === 'right'
     }"
+    role="navigation"
+    @click="onAsideClick"
   >
-    <div class="t-sidebar__header" v-if="headerIcon || headerLabel">
-      <Icon v-if="headerIcon" :icon="headerIcon" class="t-sidebar__header-icon" />
+    <slot name="header" :collapsed="collapsed" :toggle="toggle">
+      <div class="t-sidebar__header">
+        <!-- Collapsed: single morph-trigger (logo ↔ expand-icon on hover). -->
+        <button
+          v-if="collapsed && headerIcon"
+          type="button"
+          class="t-sidebar__logo t-sidebar__logo--trigger"
+          :aria-expanded="false"
+          :aria-label="toggleLabel.expand"
+          :title="toggleLabel.expand"
+          @click.stop="toggle"
+        >
+          <span class="t-sidebar__trigger">
+            <Icon
+              :icon="headerIcon"
+              class="t-sidebar__trigger-icon t-sidebar__trigger-icon--primary"
+            />
+            <Icon
+              :icon="expandIcon"
+              class="t-sidebar__trigger-icon t-sidebar__trigger-icon--morph"
+            />
+          </span>
+        </button>
 
-      <!-- Keep text in DOM. Animate it instead of v-if/v-show. -->
-      <span
-        v-if="headerLabel"
-        class="t-sidebar__header-label t-sidebar__text"
-        :class="{ 't-sidebar__text--hidden': collapsed }"
-      >
-        {{ headerLabel }}
-      </span>
-    </div>
+        <!-- Expanded: static logo on the left (no morph). -->
+        <span v-else-if="headerIcon" class="t-sidebar__logo">
+          <Icon :icon="headerIcon" class="t-sidebar__logo-icon" />
+        </span>
+
+        <span
+          v-if="headerLabel"
+          class="t-sidebar__header-label t-sidebar__text"
+          :class="{ 't-sidebar__text--hidden': collapsed }"
+        >
+          {{ headerLabel }}
+        </span>
+
+        <!-- Expanded: separate collapse button on the right. -->
+        <button
+          v-if="!collapsed"
+          type="button"
+          class="t-sidebar__collapse"
+          :aria-label="toggleLabel.collapse"
+          :title="toggleLabel.collapse"
+          @click.stop="toggle"
+        >
+          <Icon :icon="collapseIcon" class="t-sidebar__collapse-icon" />
+        </button>
+      </div>
+    </slot>
 
     <div class="t-sidebar__content">
       <nav class="t-sidebar__nav">
@@ -29,10 +69,10 @@
           :class="{ 't-sidebar__nav-item--active': isMenuItemActive(item) }"
           :title="collapsed ? item.title : undefined"
           :style="item.color ? { '--menu-item-color': item.color } : {}"
+          @click.stop
         >
           <Icon :icon="item.icon" class="t-sidebar__nav-icon" />
 
-          <!-- Keep text in DOM. Animate it instead of v-if. -->
           <span
             class="t-sidebar__nav-text t-sidebar__text"
             :class="{ 't-sidebar__text--hidden': collapsed }"
@@ -43,28 +83,16 @@
       </nav>
     </div>
 
-    <div class="t-sidebar__footer">
-      <TButton
-        variant="neutral"
-        mode="text"
-        size="fit"
-        :icon="
-          collapsed
-            ? 'system-uicons:window-collapse-right'
-            : 'system-uicons:window-collapse-left'
-        "
-        :title="collapsed ? 'Розгорнути' : 'Згорнути'"
-        @click="toggle"
-      />
+    <div v-if="$slots.footer" class="t-sidebar__footer">
+      <slot name="footer" :collapsed="collapsed" />
     </div>
   </aside>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { Icon } from '@iconify/vue'
-import TButton from './TButton.vue'
 
 interface MenuItem {
   route: string
@@ -72,6 +100,11 @@ interface MenuItem {
   icon: string
   activeRoutes?: string[]
   color?: string
+}
+
+export interface TSidebarToggleLabel {
+  expand: string
+  collapse: string
 }
 
 export interface TSidebarProps {
@@ -83,6 +116,10 @@ export interface TSidebarProps {
   menuItems: MenuItem[]
   headerIcon?: string
   headerLabel?: string
+  expandIcon?: string
+  collapseIcon?: string
+  expandOnBodyClick?: boolean
+  toggleLabel?: Partial<TSidebarToggleLabel>
 }
 
 export interface TSidebarEmits {
@@ -93,7 +130,10 @@ export interface TSidebarEmits {
 const props = withDefaults(defineProps<TSidebarProps>(), {
   collapsed: true,
   position: 'left',
-  persistent: false
+  persistent: false,
+  expandIcon: 'system-uicons:window-collapse-right',
+  collapseIcon: 'system-uicons:window-collapse-left',
+  expandOnBodyClick: true
 })
 
 const emit = defineEmits<TSidebarEmits>()
@@ -101,14 +141,22 @@ const emit = defineEmits<TSidebarEmits>()
 const route = useRoute()
 const collapsed = ref(props.collapsed)
 
-// Функція для перевірки чи маршрут активний
+const toggleLabel = computed<TSidebarToggleLabel>(() => ({
+  expand: props.toggleLabel?.expand ?? 'Розгорнути',
+  collapse: props.toggleLabel?.collapse ?? 'Згорнути'
+}))
+
 const isMenuItemActive = (item: MenuItem) => {
   const currentPath = route.path
-  
+
   if (item.activeRoutes) {
-    return item.activeRoutes.some(activeRoute => currentPath.startsWith(activeRoute))
+    return item.activeRoutes.some(
+      (activeRoute) =>
+        currentPath === activeRoute ||
+        currentPath.startsWith(activeRoute + '/')
+    )
   }
-  
+
   return currentPath === item.route
 }
 
@@ -116,6 +164,12 @@ const toggle = () => {
   collapsed.value = !collapsed.value
   emit('update:collapsed', collapsed.value)
   emit('toggle', collapsed.value)
+}
+
+const onAsideClick = () => {
+  if (collapsed.value && props.expandOnBodyClick) {
+    toggle()
+  }
 }
 
 watch(
@@ -130,19 +184,20 @@ watch(
 <style scoped>
 .t-sidebar {
   height: 100vh;
-  background: var(--t-oc-gray-9);
-  border-right: var(--t-sidebar-border-w) solid var(--t-oc-gray-7);
+  background: var(--t-color-surface);
+  border-right: var(--t-sidebar-border-w) solid var(--t-color-border);
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  color: var(--t-oc-gray-1);
+  color: var(--t-color-text);
+  user-select: none;
 
   /* fallback values if props are not passed */
   --nav-icon-size: 24px;
   --header-icon-size: 30px;
 
-  
+
   --t-sidebar-expanded-w: 200px;
   --t-sidebar-header-padding: var(--t-space-3);
   --t-sidebar-border-w: 1px;
@@ -162,39 +217,148 @@ watch(
 
 .t-sidebar--right {
   border-right: none;
-  border-left: 1px solid var(--t-oc-gray-7);
+  border-left: var(--t-sidebar-border-w) solid var(--t-color-border);
 }
 
-/* Header */
+/* Header — container with left logo, optional label, right collapse button */
 .t-sidebar__header {
   display: flex;
   align-items: center;
+  width: 100%;
   padding: var(--t-sidebar-header-padding) var(--t-sidebar-header-padding);
-  /* border-bottom: 1px solid var(--t-oc-gray-7); */
   gap: var(--t-space-3);
   transition: padding 280ms cubic-bezier(0.2, 0, 0, 1), gap 280ms cubic-bezier(0.2, 0, 0, 1);
 }
 
 /*
   Important: do NOT toggle justify-content.
-  justify-content does not animate and causes the “snap”.
+  justify-content does not animate and causes the "snap".
   Instead, center the icon via symmetric padding that CAN animate.
 */
 .t-sidebar--collapsed .t-sidebar__header {
   gap: 0;
 }
 
-.t-sidebar__header-icon {
+/* Logo — either a button (collapsed, morphs) or a static span (expanded) */
+.t-sidebar__logo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: var(--header-icon-size);
   height: var(--header-icon-size);
-  color: var(--t-oc-blue-3);
   flex-shrink: 0;
+  color: var(--t-color-accent);
+}
+
+.t-sidebar__logo-icon {
+  width: var(--header-icon-size);
+  height: var(--header-icon-size);
+  color: var(--t-color-accent);
+}
+
+.t-sidebar__logo--trigger {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--t-radius-mini, 4px);
+}
+
+.t-sidebar__logo--trigger:focus-visible {
+  outline: 2px solid var(--t-color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Trigger: two stacked icons, primary fades out when sidebar is hovered */
+.t-sidebar__trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--header-icon-size);
+  height: var(--header-icon-size);
+  flex-shrink: 0;
+}
+
+.t-sidebar__trigger-icon {
+  position: absolute;
+  inset: 0;
+  width: var(--header-icon-size);
+  height: var(--header-icon-size);
+  transition: opacity 150ms ease;
+  pointer-events: none;
+}
+
+.t-sidebar__trigger-icon--primary {
+  opacity: 1;
+  color: var(--t-color-accent);
+}
+
+.t-sidebar__trigger-icon--morph {
+  opacity: 0;
+  color: var(--t-color-text-muted);
+}
+
+/* Morph only while the mouse is physically over the sidebar (collapsed state). */
+.t-sidebar--collapsed:hover .t-sidebar__trigger-icon--primary {
+  opacity: 0;
+}
+
+.t-sidebar--collapsed:hover .t-sidebar__trigger-icon--morph {
+  opacity: 1;
+}
+
+/* Keyboard: morph when the trigger button is keyboard-focused. */
+.t-sidebar__logo--trigger:focus-visible .t-sidebar__trigger-icon--primary {
+  opacity: 0;
+}
+
+.t-sidebar__logo--trigger:focus-visible .t-sidebar__trigger-icon--morph {
+  opacity: 1;
+}
+
+/* Collapse button (right side of expanded header) */
+.t-sidebar__collapse {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--header-icon-size) * 0.7);
+  height: calc(var(--header-icon-size) * 0.7);
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--t-color-text-muted);
+  cursor: pointer;
+  border-radius: var(--t-radius-mini, 4px);
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: background-color 160ms ease, color 160ms ease, opacity 160ms ease;
+}
+
+.t-sidebar__collapse:hover {
+  background: color-mix(in srgb, var(--t-color-text) 8%, transparent);
+  color: var(--t-color-text);
+  opacity: 1;
+}
+
+.t-sidebar__collapse:focus-visible {
+  outline: 2px solid var(--t-color-focus-ring);
+  outline-offset: 2px;
+  opacity: 1;
+}
+
+.t-sidebar__collapse-icon {
+  width: 100%;
+  height: 100%;
 }
 
 .t-sidebar__header-label {
   font-size: var(--t-font-size-medium);
   font-weight: 600;
-  color: var(--t-oc-gray-1);
+  color: var(--t-color-text);
   font-family: var(--t-font-ui);
 }
 
@@ -226,7 +390,7 @@ watch(
   padding: var(--t-space-3)
       calc(var(--t-sidebar-icon-center-left) - var( --t-sidebar-content-padding) - var(--nav-icon-size) / 2);
 
-  color: var(--t-oc-gray-4);
+  color: var(--t-color-text-muted);
   text-decoration: none;
   border-radius: 0;
 
@@ -242,14 +406,14 @@ watch(
 }
 
 .t-sidebar__nav-item:hover {
-  background: var(--t-oc-gray-8);
-  color: var(--t-oc-gray-2);
+  background: color-mix(in srgb, var(--t-color-text) 8%, transparent);
+  color: var(--t-color-text);
 }
 
 .t-sidebar__nav-item.router-link-active,
 .t-sidebar__nav-item.t-sidebar__nav-item--active {
-  background: color-mix(in srgb, var(--t-oc-blue-4) 20%, transparent);
-  color: var(--t-oc-blue-3);
+  background: var(--t-color-accent-plain-bg);
+  color: var(--t-color-accent);
 }
 
 /* Support for custom menu item colors */
@@ -293,7 +457,7 @@ watch(
   - keep nodes mounted
   - shrink via max-width (removes layout space)
   - fade + slight translate
-  Extra: min-width: 0 avoids flex overflow “snap”.
+  Extra: min-width: 0 avoids flex overflow "snap".
 */
 .t-sidebar__text {
   display: inline-block;
@@ -322,15 +486,10 @@ watch(
   pointer-events: none;
 }
 
-/* Footer */
+/* Footer (slot-only — legacy hardcoded toggle removed in 0.4.0) */
 .t-sidebar__footer {
-  padding: var(--t-space-1);
-  height: calc(var(--header-icon-size) * 1.4);
-  font-size: 20px;
-  box-sizing: content-box;
   flex-shrink: 0;
-  display: flex;
-  justify-content: center;
+  border-top: 1px solid var(--t-color-border);
 }
 
 /* Scrollbar styling */
@@ -343,12 +502,12 @@ watch(
 }
 
 .t-sidebar__content::-webkit-scrollbar-thumb {
-  background: var(--t-oc-gray-7);
+  background: var(--t-color-border-strong);
   border-radius: var(--t-radius-mini);
 }
 
 .t-sidebar__content::-webkit-scrollbar-thumb:hover {
-  background: var(--t-oc-gray-6);
+  background: var(--t-color-border);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -357,7 +516,8 @@ watch(
   .t-sidebar__content,
   .t-sidebar__nav-item,
   .t-sidebar__nav-icon,
-  .t-sidebar__text {
+  .t-sidebar__text,
+  .t-sidebar__trigger-icon {
     transition: none !important;
   }
 }

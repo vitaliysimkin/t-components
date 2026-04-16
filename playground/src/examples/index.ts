@@ -71,6 +71,10 @@ import KindsNotificationExample from './notifications/KindsNotificationExample.v
 import PersistentNotificationExample from './notifications/PersistentNotificationExample.vue'
 import CustomTimeoutNotificationExample from './notifications/CustomTimeoutNotificationExample.vue'
 
+// Sidebar Examples
+import BasicSidebarExample from './sidebars/BasicSidebarExample.vue'
+import FooterSlotSidebarExample from './sidebars/FooterSlotSidebarExample.vue'
+
 
 // Raw code imports for displaying source
 import FilledButtonsExampleCode from './buttons/FilledButtonsExample.vue?raw'
@@ -116,6 +120,8 @@ import BasicNotificationExampleCode from './notifications/BasicNotificationExamp
 import KindsNotificationExampleCode from './notifications/KindsNotificationExample.vue?raw'
 import PersistentNotificationExampleCode from './notifications/PersistentNotificationExample.vue?raw'
 import CustomTimeoutNotificationExampleCode from './notifications/CustomTimeoutNotificationExample.vue?raw'
+import BasicSidebarExampleCode from './sidebars/BasicSidebarExample.vue?raw'
+import FooterSlotSidebarExampleCode from './sidebars/FooterSlotSidebarExample.vue?raw'
 
 export interface ExampleComponent {
   component: any
@@ -125,12 +131,16 @@ export interface ExampleComponent {
 
 export interface Element {
   label: string
+  slug: string
+  icon: string
   components: ExampleComponent[]
 }
 
 export const elements: Element[] = [
   {
     label: 'TButton',
+    slug: 'button',
+    icon: 'material-symbols-light:ads-click',
     components: [
       {
         component: FilledButtonsExample,
@@ -171,6 +181,8 @@ export const elements: Element[] = [
   },
   {
     label: 'TButtonGroup',
+    slug: 'button-group',
+    icon: 'material-symbols-light:view-week-outline',
     components: [
       {
         component: ButtonGroupExample,
@@ -186,6 +198,8 @@ export const elements: Element[] = [
   },
   {
     label: 'Icons',
+    slug: 'icons',
+    icon: 'material-symbols-light:star-outline',
     components: [
       {
         component: IconExample,
@@ -196,6 +210,8 @@ export const elements: Element[] = [
   },
   {
     label: 'TTooltip',
+    slug: 'tooltip',
+    icon: 'material-symbols-light:tooltip-2-outline',
     components: [
       {
         component: BasicTooltipExample,
@@ -221,6 +237,8 @@ export const elements: Element[] = [
   },
   {
     label: 'TSwitch',
+    slug: 'switch',
+    icon: 'material-symbols-light:toggle-on',
     components: [
       {
         component: BasicSwitchExample,
@@ -241,6 +259,8 @@ export const elements: Element[] = [
   },
   {
     label: 'TDateInput / TTimeInput / TDateTimeInput',
+    slug: 'datetime',
+    icon: 'material-symbols-light:calendar-month-outline',
     components: [
       {
         component: BasicDateTimeInputExample,
@@ -256,6 +276,8 @@ export const elements: Element[] = [
   },
   {
     label: 'TInput',
+    slug: 'input',
+    icon: 'material-symbols-light:text-fields',
     components: [
       {
         component: BasicInputExample,
@@ -281,6 +303,8 @@ export const elements: Element[] = [
   },
   {
     label: 'TTextarea',
+    slug: 'textarea',
+    icon: 'material-symbols-light:description-outline',
     components: [
       {
         component: BasicTextareaExample,
@@ -296,6 +320,8 @@ export const elements: Element[] = [
   },
   {
     label: 'TTag',
+    slug: 'tag',
+    icon: 'material-symbols-light:label-outline',
     components: [
       {
         component: BasicTagExample,
@@ -316,6 +342,8 @@ export const elements: Element[] = [
   },
   {
     label: 'TDropdown',
+    slug: 'dropdown',
+    icon: 'material-symbols-light:arrow-drop-down-circle-outline',
     components: [
       {
         component: BasicDropdownExample,
@@ -326,6 +354,8 @@ export const elements: Element[] = [
   },
   {
     label: 'TSelect',
+    slug: 'select',
+    icon: 'material-symbols-light:list-alt-outline',
     components: [
       {
         component: SimpleSelectExample,
@@ -366,6 +396,8 @@ export const elements: Element[] = [
   },
   {
     label: 'ModalBox',
+    slug: 'modal',
+    icon: 'material-symbols-light:preview-outline',
     components: [
       {
         component: ModalBoxExample,
@@ -395,7 +427,26 @@ export const elements: Element[] = [
     ]
   },
   {
+    label: 'TSidebar',
+    slug: 'sidebar',
+    icon: 'material-symbols-light:dock-to-right-outline',
+    components: [
+      {
+        component: BasicSidebarExample,
+        code: BasicSidebarExampleCode,
+        label: 'Basic Usage'
+      },
+      {
+        component: FooterSlotSidebarExample,
+        code: FooterSlotSidebarExampleCode,
+        label: 'With Footer Slot'
+      }
+    ]
+  },
+  {
     label: 'TNotifications',
+    slug: 'notifications',
+    icon: 'material-symbols-light:notifications-outline',
     components: [
       {
         component: BasicNotificationExample,

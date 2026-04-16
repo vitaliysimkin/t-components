@@ -9,12 +9,16 @@ import App from './App.vue'
 import ComponentsPage from './views/ComponentsPage.vue'
 
 import TComponents from '@vitaliysimkin/t-components'
+import { elements } from './examples/index'
+
+const firstSlug = elements[0]?.slug ?? 'button'
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/', redirect: '/components' },
-    { path: '/components', name: 'components', component: ComponentsPage },
+    { path: '/', redirect: `/components/${firstSlug}` },
+    { path: '/components', redirect: `/components/${firstSlug}` },
+    { path: '/components/:slug', name: 'components', component: ComponentsPage },
   ],
 })
 
