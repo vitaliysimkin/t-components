@@ -14,8 +14,7 @@ const openAdvancedModal = () => {
       { code: 'subscribe', label: '', type: 'swtich', placeholder: 'Subscribe to newsletter', defaultValue: true }
     ],
     onSubmit: (values) => {
-      console.log('Submitted:', values)
-      alert('Registration submitted!')
+      alert('Registration submitted!\n' + JSON.stringify(values, null, 2))
     }
   })
 }

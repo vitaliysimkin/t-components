@@ -186,7 +186,6 @@ const { resizeStyle, setSize, setMinSize, setMaxSize } = useResizer(
 
 // Обробка натискання ESC
 const handleEscKey = (event: KeyboardEvent) => {
-  console.log('ESC key pressed', event)
   if (event.key === 'Escape' && mergedConfig.value.blocking && mergedConfig.value.blockingDismissible) {
     handleClose()
   }

@@ -12,7 +12,7 @@
 
 ## Статус
 
-- [ ] [01 — ESLint + `no-console`](./01-eslint.md) — P0 · S · S/M
+- [x] [01 — ESLint + `no-console`](./01-eslint.md) — P0 · S · S/M
 - [ ] [02 — Smoke-тести (Vitest)](./02-smoke-tests.md) — P0 · M · XL
 - [ ] [03 — Уніфікація form-API (`disabled/readonly/error`)](./03-form-api-unification.md) — P0 · M · L
 - [ ] [04 — Фікс модалки: ESC-слухач + singleton](./04-modal-esc-singleton.md) — P0 · M · L
@@ -22,6 +22,7 @@
 - [ ] [08 — `TFormField` wrapper](./08-form-field-wrapper.md) — P1 · M · L
 - [ ] [09 — `TTable` (мінімальна версія)](./09-table-component.md) — P2 · L · XL
 - [ ] [10 — `publint` + `@arethetypeswrong/cli` + `size-limit`](./10-publint-attw-size-limit.md) — P2 · S · M
+- [ ] [11 — Розгребти lint-warnings після #01](./11-lint-warnings-cleanup.md) — P1 · M · M
 
 ## Batching
 
@@ -41,11 +42,15 @@
 **Окремо (велике):**
 - #09 (`TTable`) — запускай окремо, бо торкається `registry.ts`/`globalComponents.ts`/`index.ts` й довгий сам по собі. Після #08, щоб використати `TFormField` у прикладах таблиці.
 
+**Після основної хвилі:**
+- #11 (lint-warnings cleanup) — після #03, #05, #08, бо вони зачіпають ті самі modal/`TSelect` файли, де сидить більшість `any`. Інакше мерж-конфлікти.
+
 ## Граф залежностей
 
 ```
-#01 ─┬─> #03 ─┬─> #05
-     │        └─> #08 ─> #09
+#01 ─┬─> #03 ─┬─> #05 ─┐
+     │        └─> #08 ─┼─> #09
+     │                 └─> #11
      └─> #10
 
 #02, #04, #06, #07 — вільні
@@ -56,3 +61,9 @@
 У промпті до агента додавай цей блок:
 
 > Перед комітом: запусти `npm run typecheck` і `npm run build:nocheck`. Комітувати лише якщо обидва проходять. Не додавай новий функціонал поза scope файлу задачі. Не чіпай файли, яких немає у `Files to touch`. Якщо зустрів несподіване — зупинись і опиши, що знайшов.
+>
+> **Після виконання** (перед або в одному коміті з основними змінами):
+> 1. У самому файлі задачі (`tasks/NN-*.md`) відмітити acceptance criteria як `[x]` і додати секцію `## Зроблено` зі списком реальних змін (посилання на файли/рядки, відхилення від first step, рішення по trade-off'ах, будь-які compromised/downgraded вимоги).
+> 2. Якщо під час роботи накопичились follow-up'и, які не входять у scope — створити окремий `tasks/NN-*.md` і додати його в статус-ліст, batching-секцію й граф залежностей цього README.
+> 3. У `tasks/README.md` помітити задачу як `[x]` у статус-лісті.
+> 4. Закомітити все разом (код + оновлений task-файл + README). Один task = один commit (або PR).
