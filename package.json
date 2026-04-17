@@ -2,6 +2,10 @@
   "name": "@vitaliysimkin/t-components",
   "version": "0.6.0",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitaliysimkin/t-components.git"
+  },
   "files": [
     "dist"
   ],
