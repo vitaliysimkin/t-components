@@ -4,7 +4,7 @@ import TInput from './TInput.vue'
 import TButton from './TButton.vue'
 import TDropdown from './TDropdown.vue'
 import TTimePicker from './TTimePicker.vue'
-import DatePicker from './DatePicker.vue'
+import TDatePicker from './TDatePicker.vue'
 
 export interface TDateTimeInputProps {
   modelValue: string | null
@@ -164,7 +164,7 @@ function commitText() {
 
     <div class="t-datetime-panel">
       <div class="t-datetime-panel__body">
-        <DatePicker :model-value="pickedDate" @update:model-value="onDateSelect" />
+        <TDatePicker :model-value="pickedDate" @update:model-value="onDateSelect" />
         <TTimePicker
           :hour="pickedHour"
           :minute="pickedMinute"

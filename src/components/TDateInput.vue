@@ -2,7 +2,7 @@
 import { ref, computed, watch } from 'vue'
 import TInput from './TInput.vue'
 import TDropdown from './TDropdown.vue'
-import DatePicker from './DatePicker.vue'
+import TDatePicker from './TDatePicker.vue'
 
 export interface TDateInputProps {
   modelValue: string | null
@@ -116,7 +116,7 @@ function onDateSelect(date: Date | null) {
     </template>
 
     <div class="t-date-input__panel">
-      <DatePicker :model-value="internalDate" @update:model-value="onDateSelect" />
+      <TDatePicker :model-value="internalDate" @update:model-value="onDateSelect" />
     </div>
   </TDropdown>
 </template>

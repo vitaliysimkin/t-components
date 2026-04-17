@@ -18,7 +18,7 @@ declare module '@vue/runtime-core' {
     TDateTimeInput: typeof import('./components/TDateTimeInput.vue')['default']
     TTimePicker: typeof import('./components/TTimePicker.vue')['default']
     CodeEditor: typeof import('./components/CodeEditor.vue')['default']
-    DatePicker: typeof import('./components/DatePicker.vue')['default']
+    TDatePicker: typeof import('./components/TDatePicker.vue')['default']
     TModalBox: typeof import('./components/modal/TModalBox.vue')['default']
     TModalBoxHost: typeof import('./components/modal/TModalBoxHost.vue')['default']
     TInputModalBox: typeof import('./components/modal/TInputModalBox.vue')['default']

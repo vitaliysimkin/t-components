@@ -36,7 +36,7 @@ export {
   TDateTimeInput,
   TTimePicker,
   CodeEditor,
-  DatePicker,
+  TDatePicker,
   TModalBox,
   TModalBoxHost,
   TInputModalBox,
