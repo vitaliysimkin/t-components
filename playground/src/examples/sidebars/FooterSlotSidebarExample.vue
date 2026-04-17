@@ -11,13 +11,15 @@ const menuItems = [
 </script>
 
 <template>
-  <div class="frame">
+  <!-- swallow demo nav -->
+  <div class="frame" @click.capture.prevent>
     <TSidebar
       v-model:collapsed="collapsed"
       :menu-items="menuItems"
       header-icon="system-uicons:document-stack"
       header-label="With Footer"
-    >
+      nested
+    > <!-- nested: only for embedded sidebars -->
       <template #footer="{ collapsed: c }">
         <div class="user">
           <div class="user__avatar">D</div>

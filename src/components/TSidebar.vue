@@ -3,12 +3,13 @@
     class="t-sidebar"
     :class="{
       't-sidebar--collapsed': collapsed,
-      't-sidebar--right': position === 'right'
+      't-sidebar--right': position === 'right',
+      't-sidebar--nested': nested
     }"
     role="navigation"
-    @click="onAsideClick"
   >
-    <slot name="header" :collapsed="collapsed" :toggle="toggle">
+    <div class="t-sidebar__panel" @click="onAsideClick">
+      <slot name="header" :collapsed="collapsed" :toggle="toggle">
       <div class="t-sidebar__header">
         <!-- Collapsed: single morph-trigger (logo ↔ expand-icon on hover). -->
         <button
@@ -86,6 +87,7 @@
     <div v-if="$slots.footer" class="t-sidebar__footer">
       <slot name="footer" :collapsed="collapsed" />
     </div>
+    </div>
   </aside>
 </template>
 
@@ -120,6 +122,16 @@ export interface TSidebarProps {
   collapseIcon?: string
   expandOnBodyClick?: boolean
   toggleLabel?: Partial<TSidebarToggleLabel>
+  /**
+   * Enable when TSidebar is embedded inside a parent with its own scroll context
+   * (e.g. an examples page, modal, or nested panel). Default mode (`false`) pins
+   * the sidebar to the viewport via `position: fixed`, which avoids a 1px
+   * subpixel jitter that `position: sticky` exhibits at scroll boundaries on
+   * tall pages. In nested mode the sidebar uses sticky positioning and stays
+   * contained within its parent — jitter may reappear in that mode; it is an
+   * inherent browser quirk of sticky positioning.
+   */
+  nested?: boolean
 }
 
 export interface TSidebarEmits {
@@ -133,7 +145,8 @@ const props = withDefaults(defineProps<TSidebarProps>(), {
   persistent: false,
   expandIcon: 'system-uicons:window-collapse-right',
   collapseIcon: 'system-uicons:window-collapse-left',
-  expandOnBodyClick: true
+  expandOnBodyClick: true,
+  nested: false
 })
 
 const emit = defineEmits<TSidebarEmits>()
@@ -183,15 +196,9 @@ watch(
 
 <style scoped>
 .t-sidebar {
-  height: 100vh;
-  background: var(--t-color-surface);
-  border-right: var(--t-sidebar-border-w) solid var(--t-color-border);
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
   color: var(--t-color-text);
   user-select: none;
+  flex-shrink: 0;
 
   /* fallback values if props are not passed */
   --nav-icon-size: 24px;
@@ -215,9 +222,52 @@ watch(
   --t-sidebar-width: var(--t-sidebar-collapsed-w);
 }
 
-.t-sidebar--right {
+/*
+  Default mode: aside is an in-flow spacer that reserves width in the flex
+  layout; the visible panel is pinned to the viewport via position: fixed.
+  This avoids the 1px subpixel jitter that sticky positioning exhibits at
+  scroll boundaries on tall pages.
+*/
+.t-sidebar__panel {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--t-sidebar-width);
+  display: flex;
+  flex-direction: column;
+  background: var(--t-color-surface);
+  border-right: var(--t-sidebar-border-w) solid var(--t-color-border);
+  overflow: hidden;
+  will-change: width;
+  transition: width 280ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.t-sidebar--right .t-sidebar__panel {
+  left: auto;
+  right: 0;
   border-right: none;
   border-left: var(--t-sidebar-border-w) solid var(--t-color-border);
+}
+
+/*
+  Nested mode: aside itself is sticky within its parent; panel fills it.
+  Use this when the sidebar lives inside a container with its own scroll
+  context (examples page, modal, nested panel).
+*/
+.t-sidebar--nested {
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: 100vh;
+  display: flex;
+}
+
+.t-sidebar--nested .t-sidebar__panel {
+  position: static;
+  width: 100%;
+  height: 100%;
+  transition: none;
 }
 
 /* Header — container with left logo, optional label, right collapse button */
