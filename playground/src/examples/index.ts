@@ -25,6 +25,18 @@ import BasicSwitchExample from './switches/BasicSwitchExample.vue'
 import SizeSwitchExample from './switches/SizeSwitchExample.vue'
 import DisabledSwitchExample from './switches/DisabledSwitchExample.vue'
 
+// DateInput Examples
+import BasicDateInputExample from './date-input/BasicDateInputExample.vue'
+import BasicDateInputExampleCode from './date-input/BasicDateInputExample.vue?raw'
+import EditableDateInputExample from './date-input/EditableDateInputExample.vue'
+import EditableDateInputExampleCode from './date-input/EditableDateInputExample.vue?raw'
+
+// TimeInput Examples
+import BasicTimeInputExample from './time-input/BasicTimeInputExample.vue'
+import BasicTimeInputExampleCode from './time-input/BasicTimeInputExample.vue?raw'
+import EditableTimeInputExample from './time-input/EditableTimeInputExample.vue'
+import EditableTimeInputExampleCode from './time-input/EditableTimeInputExample.vue?raw'
+
 // DateTimeInput Examples
 import BasicDateTimeInputExample from './datetime-input/BasicDateTimeInputExample.vue'
 import BasicDateTimeInputExampleCode from './datetime-input/BasicDateTimeInputExample.vue?raw'
@@ -301,14 +313,48 @@ export const elements: Element[] = [
     ],
   },
   {
-    label: 'TDateInput / TTimeInput / TDateTimeInput',
-    slug: 'datetime',
+    label: 'TDateInput',
+    slug: 'date-input',
+    icon: 'material-symbols-light:calendar-today-outline',
+    components: [
+      {
+        component: BasicDateInputExample,
+        code: BasicDateInputExampleCode,
+        label: 'Basic Usage',
+      },
+      {
+        component: EditableDateInputExample,
+        code: EditableDateInputExampleCode,
+        label: 'Editable (manual text input)',
+      },
+    ],
+  },
+  {
+    label: 'TTimeInput',
+    slug: 'time-input',
+    icon: 'material-symbols-light:schedule-outline',
+    components: [
+      {
+        component: BasicTimeInputExample,
+        code: BasicTimeInputExampleCode,
+        label: 'Basic Usage + step',
+      },
+      {
+        component: EditableTimeInputExample,
+        code: EditableTimeInputExampleCode,
+        label: 'Editable (manual text input)',
+      },
+    ],
+  },
+  {
+    label: 'TDateTimeInput',
+    slug: 'datetime-input',
     icon: 'material-symbols-light:calendar-month-outline',
     components: [
       {
         component: BasicDateTimeInputExample,
         code: BasicDateTimeInputExampleCode,
-        label: 'Date, Time & DateTime pickers',
+        label: 'Basic Usage + step',
       },
       {
         component: EditableDateTimeInputExample,

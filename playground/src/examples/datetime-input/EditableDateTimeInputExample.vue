@@ -1,22 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { TDateInput, TTimeInput, TDateTimeInput } from '@vitaliysimkin/t-components'
+import { TDateTimeInput } from '@vitaliysimkin/t-components'
 
-const date = ref<string | null>(null)
-const time = ref<string | null>(null)
 const datetime = ref<string | null>(null)
 </script>
 
 <template>
   <div class="example-cnt">
-    <div class="example__row">
-      <span class="example__label">TDateInput</span>
-      <TDateInput v-model="date" :editable="true" />
-    </div>
-    <div class="example__row">
-      <span class="example__label">TTimeInput</span>
-      <TTimeInput v-model="time" :editable="true" />
-    </div>
     <div class="example__row">
       <span class="example__label">TDateTimeInput</span>
       <TDateTimeInput v-model="datetime" :editable="true" />

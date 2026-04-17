@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { TDateTimeInput } from '@vitaliysimkin/t-components'
+import { TTimeInput } from '@vitaliysimkin/t-components'
 
-const datetime = ref<string | null>(null)
-const datetimeStep30 = ref<string | null>(null)
+const time = ref<string | null>('09:00')
+const timeStep5 = ref<string | null>('09:00')
 </script>
 
 <template>
   <div class="example-cnt">
     <div class="example__row">
-      <span class="example__label">TDateTimeInput</span>
-      <TDateTimeInput v-model="datetime" />
+      <span class="example__label">TTimeInput</span>
+      <TTimeInput v-model="time" />
     </div>
     <div class="example__row">
-      <span class="example__label">TDateTimeInput :step="30"</span>
-      <TDateTimeInput v-model="datetimeStep30" :step="30" />
+      <span class="example__label">TTimeInput :step="5"</span>
+      <TTimeInput v-model="timeStep5" :step="5" />
     </div>
   </div>
 </template>
