@@ -14,7 +14,7 @@ import { elements } from './examples/index'
 const firstSlug = elements[0]?.slug ?? 'button'
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', redirect: `/components/${firstSlug}` },
     { path: '/components', redirect: `/components/${firstSlug}` },
