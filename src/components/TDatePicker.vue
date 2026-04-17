@@ -54,6 +54,7 @@
                 't-date-picker__cell--range': isInRange(cell.date) || isInPendingRange(cell.date),
                 't-date-picker__cell--range-start': isRangeEdge(cell.date, 'start') || isPendingEdge(cell.date, 'start'),
                 't-date-picker__cell--range-end': isRangeEdge(cell.date, 'end') || isPendingEdge(cell.date, 'end'),
+                't-date-picker__cell--pending': isHoverPending(cell.date),
               }"
               @click="onDayClick(cell.date)"
               @mouseenter="hoverDate = cell.date"
@@ -333,6 +334,12 @@ function isInPendingRange(date: Date): boolean {
   return t > lo && t < hi;
 }
 
+function isHoverPending(date: Date): boolean {
+  if (props.mode !== 'range') return false;
+  if (!rangePending.value || !hoverDate.value) return false;
+  return isSameDay(hoverDate.value, date) && !isSameDay(rangePending.value, date);
+}
+
 function isPendingEdge(date: Date, edge: 'start' | 'end'): boolean {
   if (props.mode !== 'range') return false;
   if (!rangePending.value || !hoverDate.value) return false;
@@ -577,6 +584,12 @@ const yearGrid = computed(() => {
   background: var(--t-color-accent);
   color: var(--t-color-accent-contrast);
   border-color: var(--t-color-accent);
+}
+
+.t-date-picker__cell--pending {
+  background: color-mix(in srgb, var(--t-color-accent) 45%, transparent);
+  color: var(--t-color-text);
+  border-color: transparent;
 }
 
 .t-date-picker__grid {
