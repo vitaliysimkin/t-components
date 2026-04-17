@@ -415,6 +415,7 @@ const yearGrid = computed(() => {
   display: inline-flex;
   flex-direction: column;
   gap: var(--t-space-2);
+  width: calc(7 * var(--t-date-picker-cell-size) + 6 * var(--t-date-picker-cell-gap));
   font-family: var(--t-font-ui);
   font-size: var(--t-font-size-default);
   color: var(--t-color-text);
