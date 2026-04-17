@@ -39,7 +39,7 @@
           {{ wd }}
         </div>
       </div>
-      <div class="t-date-picker__days">
+      <div class="t-date-picker__days" @mouseleave="hoverDate = null">
         <template v-for="(row, rIdx) in calendarWeeks" :key="rIdx">
           <template v-for="(cell, cIdx) in row" :key="cIdx">
             <button
@@ -51,11 +51,12 @@
                 't-date-picker__cell--weekend': highlightWeekend && isWeekendIndex(cIdx),
                 't-date-picker__cell--today': isSameDay(cell.date, today),
                 't-date-picker__cell--selected': isDateSelected(cell.date),
-                't-date-picker__cell--range': isInRange(cell.date),
-                't-date-picker__cell--range-start': isRangeEdge(cell.date, 'start'),
-                't-date-picker__cell--range-end': isRangeEdge(cell.date, 'end'),
+                't-date-picker__cell--range': isInRange(cell.date) || isInPendingRange(cell.date),
+                't-date-picker__cell--range-start': isRangeEdge(cell.date, 'start') || isPendingEdge(cell.date, 'start'),
+                't-date-picker__cell--range-end': isRangeEdge(cell.date, 'end') || isPendingEdge(cell.date, 'end'),
               }"
               @click="onDayClick(cell.date)"
+              @mouseenter="hoverDate = cell.date"
             >
               {{ cell.date.getDate() }}
             </button>
@@ -316,9 +317,32 @@ function isYearSelected(y: number): boolean {
 }
 
 // ---------------------------------------------------------------------------
-// Range pending state (for two-click range selection).
+// Range pending state (for two-click range selection) and hover preview.
 // ---------------------------------------------------------------------------
 const rangePending = ref<Date | null>(null);
+const hoverDate = ref<Date | null>(null);
+
+function isInPendingRange(date: Date): boolean {
+  if (props.mode !== 'range') return false;
+  if (!rangePending.value || !hoverDate.value) return false;
+  const a = startOfDay(rangePending.value);
+  const b = startOfDay(hoverDate.value);
+  const t = startOfDay(date);
+  const lo = Math.min(a, b);
+  const hi = Math.max(a, b);
+  return t > lo && t < hi;
+}
+
+function isPendingEdge(date: Date, edge: 'start' | 'end'): boolean {
+  if (props.mode !== 'range') return false;
+  if (!rangePending.value || !hoverDate.value) return false;
+  const a = startOfDay(rangePending.value);
+  const b = startOfDay(hoverDate.value);
+  if (a === b) return edge === 'start' && isSameDay(rangePending.value, date);
+  const startDate = a < b ? rangePending.value : hoverDate.value;
+  const endDate = a < b ? hoverDate.value : rangePending.value;
+  return edge === 'start' ? isSameDay(startDate, date) : isSameDay(endDate, date);
+}
 
 // ---------------------------------------------------------------------------
 // Click handlers.
