@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { CodeEditor } from '@vitaliysimkin/t-components'
+import { TCodeEditor } from '@vitaliysimkin/t-components'
 
 const jsonValue = ref(`{
   "ok": true,
@@ -9,7 +9,7 @@ const jsonValue = ref(`{
 
 const markdownValue = ref(`# Release notes
 
-- **New:** \`CodeEditor\` examples
+- **New:** \`TCodeEditor\` examples
 - Fix: gutter toggle
 - Supports \`json\`, \`markdown\`, and plain \`text\`
 `)
@@ -20,9 +20,9 @@ just a comfortable multi-line editor with line numbers.`)
 
 <template>
   <div class="stack">
-    <CodeEditor v-model="jsonValue" label="JSON" language="json" min-height="120px" />
-    <CodeEditor v-model="markdownValue" label="Markdown" language="markdown" min-height="120px" line-wrapping />
-    <CodeEditor v-model="textValue" label="Plain text" language="text" min-height="100px" line-wrapping />
+    <TCodeEditor v-model="jsonValue" label="JSON" language="json" min-height="120px" />
+    <TCodeEditor v-model="markdownValue" label="Markdown" language="markdown" min-height="120px" line-wrapping />
+    <TCodeEditor v-model="textValue" label="Plain text" language="text" min-height="100px" line-wrapping />
   </div>
 </template>
 

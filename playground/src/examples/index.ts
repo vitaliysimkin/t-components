@@ -93,7 +93,7 @@ import CustomTimeoutNotificationExample from './notifications/CustomTimeoutNotif
 import BasicSidebarExample from './sidebars/BasicSidebarExample.vue'
 import FooterSlotSidebarExample from './sidebars/FooterSlotSidebarExample.vue'
 
-// CodeEditor Examples
+// TCodeEditor Examples
 import BasicCodeEditorExample from './code-editor/BasicCodeEditorExample.vue'
 import LanguagesCodeEditorExample from './code-editor/LanguagesCodeEditorExample.vue'
 import ReadonlyCodeEditorExample from './code-editor/ReadonlyCodeEditorExample.vue'
@@ -565,7 +565,7 @@ export const elements: Element[] = [
     ]
   },
   {
-    label: 'CodeEditor',
+    label: 'TCodeEditor',
     slug: 'code-editor',
     icon: 'material-symbols-light:code',
     components: [

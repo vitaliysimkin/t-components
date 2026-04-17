@@ -5,7 +5,7 @@ import TInput from '../TInput.vue'
 import TTextarea from '../TTextarea.vue'
 import TSwitch from '../TSwitch.vue'
 import TButton from '../TButton.vue'
-import CodeEditor from '../CodeEditor.vue'
+import TCodeEditor from '../TCodeEditor.vue'
 
 const props = defineProps<{
   inputs: Array<ModalInputConfig> | ModalInputConfig
@@ -54,7 +54,7 @@ const handleCancel = () => {
           :label="input.label"
           v-bind="input.attrs"
         />
-        <CodeEditor
+        <TCodeEditor
           v-else-if="input.type === 'code'"
           v-model="values[input.code]"
           v-bind="input.attrs" />

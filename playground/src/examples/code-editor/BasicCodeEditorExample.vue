@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { CodeEditor } from '@vitaliysimkin/t-components'
+import { TCodeEditor } from '@vitaliysimkin/t-components'
 
 const value = ref(`{
   "name": "t-components",
@@ -10,7 +10,7 @@ const value = ref(`{
 </script>
 
 <template>
-  <CodeEditor
+  <TCodeEditor
     v-model="value"
     label="Config (JSON)"
     language="json"

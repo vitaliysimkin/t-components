@@ -16,7 +16,7 @@
       <component :is="component" />
     </div>
 
-    <CodeEditor
+    <TCodeEditor
       v-if="showCode"
       :model-value="code"
       :customLanguageExtension="vue()"
@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { vue } from '@codemirror/lang-vue'
-import { TButton, CodeEditor } from '@vitaliysimkin/t-components'
+import { TButton, TCodeEditor } from '@vitaliysimkin/t-components'
 
 defineProps<{
   component: any

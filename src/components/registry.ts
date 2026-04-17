@@ -14,7 +14,7 @@ import TTimeInput from './TTimeInput.vue'
 import TDateTimeInput from './TDateTimeInput.vue'
 import TTimePicker from './TTimePicker.vue'
 import TTabs from './TTabs.vue'
-import CodeEditor from './CodeEditor.vue'
+import TCodeEditor from './TCodeEditor.vue'
 import TDatePicker from './TDatePicker.vue'
 import TModalBox from './modal/TModalBox.vue'
 import TModalBoxHost from './modal/TModalBoxHost.vue'
@@ -37,7 +37,7 @@ export {
   TTimeInput,
   TDateTimeInput,
   TTimePicker,
-  CodeEditor,
+  TCodeEditor,
   TDatePicker,
   TModalBox,
   TModalBoxHost,
@@ -65,7 +65,7 @@ export const componentRegistry: Record<string, Component> = {
   TTimeInput,
   TDateTimeInput,
   TTimePicker,
-  CodeEditor,
+  TCodeEditor,
   TDatePicker,
   TModalBox,
   TModalBoxHost,

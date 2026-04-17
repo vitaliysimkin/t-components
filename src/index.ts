@@ -43,7 +43,7 @@ export {
   TTimeInput,
   TDateTimeInput,
   TTimePicker,
-  CodeEditor,
+  TCodeEditor,
   TDatePicker,
   TModalBox,
   TModalBoxHost,

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { CodeEditor } from '@vitaliysimkin/t-components'
+import { TCodeEditor } from '@vitaliysimkin/t-components'
 
 const snippet = ref(`{
   "readonly": true,
@@ -10,7 +10,7 @@ const snippet = ref(`{
 </script>
 
 <template>
-  <CodeEditor
+  <TCodeEditor
     v-model="snippet"
     label="Server response (read-only)"
     language="json"
