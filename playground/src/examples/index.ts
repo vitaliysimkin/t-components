@@ -31,6 +31,12 @@ import BasicDateTimeInputExampleCode from './datetime-input/BasicDateTimeInputEx
 import EditableDateTimeInputExample from './datetime-input/EditableDateTimeInputExample.vue'
 import EditableDateTimeInputExampleCode from './datetime-input/EditableDateTimeInputExample.vue?raw'
 
+// DatePicker Examples
+import BasicDatePickerExample from './date-picker/BasicDatePickerExample.vue'
+import BasicDatePickerExampleCode from './date-picker/BasicDatePickerExample.vue?raw'
+import RangeDatePickerExample from './date-picker/RangeDatePickerExample.vue'
+import RangeDatePickerExampleCode from './date-picker/RangeDatePickerExample.vue?raw'
+
 // Input Examples
 import BasicInputExample from './inputs/BasicInputExample.vue'
 import InputSizesExample from './inputs/InputSizesExample.vue'
@@ -276,6 +282,23 @@ export const elements: Element[] = [
         label: 'Disabled State'
       }
     ]
+  },
+  {
+    label: 'TDatePicker',
+    slug: 'date-picker',
+    icon: 'material-symbols-light:calendar-today-outline',
+    components: [
+      {
+        component: BasicDatePickerExample,
+        code: BasicDatePickerExampleCode,
+        label: 'Single date',
+      },
+      {
+        component: RangeDatePickerExample,
+        code: RangeDatePickerExampleCode,
+        label: 'Range',
+      },
+    ],
   },
   {
     label: 'TDateInput / TTimeInput / TDateTimeInput',
