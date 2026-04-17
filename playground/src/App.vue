@@ -30,6 +30,7 @@
       <RouterView />
     </main>
     <TNotifications />
+    <TModalBoxHost />
   </div>
 </template>
 
@@ -41,7 +42,8 @@ import {
   applyTheme,
   type Theme,
   TSidebar,
-  TNotifications
+  TNotifications,
+  TModalBoxHost
 } from '@vitaliysimkin/t-components'
 import { elements } from './examples/index'
 
