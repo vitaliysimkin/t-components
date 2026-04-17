@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { Icon } from '@iconify/vue'
-import { createVuestic } from 'vuestic-ui'
 import 'material-icons/iconfont/material-icons.css'
 import '../../src/styles/index.css'
 
@@ -24,7 +23,6 @@ const router = createRouter({
 
 const app = createApp(App)
 app.component('Icon', Icon)
-app.use(createVuestic())
 app.use(TComponents)
 app.use(router)
 app.mount('#app')

@@ -28,7 +28,7 @@ export default defineConfig({
       fileName: 'index',
     },
     rollupOptions: {
-      external: ['vue', '@iconify/vue', '@vueuse/core', 'vue-router', 'vuestic-ui', 'codemirror', /^@codemirror\//],
+      external: ['vue', '@iconify/vue', '@vueuse/core', 'vue-router', 'codemirror', /^@codemirror\//],
       output: {
         exports: 'named',
         globals: {
@@ -36,7 +36,6 @@ export default defineConfig({
           '@iconify/vue': 'IconifyVue',
           '@vueuse/core': 'VueUse',
           'vue-router': 'VueRouter',
-          'vuestic-ui': 'Vuestic',
         },
       },
     },
