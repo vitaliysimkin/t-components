@@ -17,6 +17,14 @@ export type { TElementSize } from './components/types'
 export type { TButtonVariant, TButtonSize } from './components/TButton.vue'
 export type { TButtonGroupOption } from './components/TButtonGroup.vue'
 export type { TTabsVariant, TTabsSize, TTabsAlign, TTabValue, TTabItem } from './components/TTabs.vue'
+export type {
+  TDatePickerMode,
+  TDatePickerViewType,
+  TDatePickerView,
+  TDatePickerRangeValue,
+  TDatePickerProps,
+  TDatePickerEmits,
+} from './components/TDatePicker.vue'
 
 // Named component exports (tree-shakeable) — single source of truth lives in registry.ts
 export {
@@ -36,7 +44,7 @@ export {
   TDateTimeInput,
   TTimePicker,
   CodeEditor,
-  DatePicker,
+  TDatePicker,
   TModalBox,
   TModalBoxHost,
   TInputModalBox,
