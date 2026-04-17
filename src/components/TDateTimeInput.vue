@@ -211,9 +211,9 @@ function commitText() {
 }
 
 /* Compact date picker cells */
-.t-datetime-panel__body :deep(.va-date-picker) {
-  --va-date-picker-cell-size: 28px;
-  --va-date-picker-cell-gap: 1px;
+.t-datetime-panel__body :deep(.t-date-picker) {
+  --t-date-picker-cell-size: 28px;
+  --t-date-picker-cell-gap: 1px;
 }
 
 /* Compact time columns */
