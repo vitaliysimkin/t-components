@@ -409,7 +409,7 @@ const yearGrid = computed(() => {
 
 <style scoped>
 .t-date-picker {
-  --t-date-picker-cell-size: 36px;
+  --t-date-picker-cell-size: var(--t-control-h-medium);
   --t-date-picker-cell-gap: 2px;
 
   display: inline-flex;
@@ -450,8 +450,8 @@ const yearGrid = computed(() => {
 
 .t-date-picker__chev {
   display: inline-block;
-  width: 0.5rem;
-  height: 0.5rem;
+  width: var(--t-space-2);
+  height: var(--t-space-2);
   border-top: 2px solid currentColor;
   border-right: 2px solid currentColor;
 }
@@ -558,14 +558,14 @@ const yearGrid = computed(() => {
 .t-date-picker__grid {
   display: grid;
   gap: var(--t-date-picker-cell-gap);
+  /* Match day-view total height: 7 cells + 6 gaps (6 day rows + 1 weekday row). */
+  min-height: calc(7 * var(--t-date-picker-cell-size) + 6 * var(--t-date-picker-cell-gap));
 }
 
-.t-date-picker__grid--months {
-  grid-template-columns: repeat(3, 1fr);
-}
-
+.t-date-picker__grid--months,
 .t-date-picker__grid--years {
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
 }
 
 .t-date-picker__grid-cell {
@@ -576,7 +576,6 @@ const yearGrid = computed(() => {
   font: inherit;
   cursor: pointer;
   padding: 0 var(--t-space-2);
-  height: calc(var(--t-date-picker-cell-size) * 2);
   border-radius: var(--t-radius-default);
   display: inline-flex;
   align-items: center;
