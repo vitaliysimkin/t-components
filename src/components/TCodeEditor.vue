@@ -7,17 +7,16 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
-import { EditorView, basicSetup } from 'codemirror'
-import { EditorState, Compartment, type Extension } from '@codemirror/state'
-import { json } from '@codemirror/lang-json'
-import { markdown } from '@codemirror/lang-markdown'
-import { oneDark } from '@codemirror/theme-one-dark'
+import { useTheme } from '../composables/useTheme'
+
+type Language = 'json' | 'markdown' | 'text'
+type ExtensionLike = any
 
 const props = defineProps<{
   modelValue: string
   label?: string
-  language?: 'json' | 'markdown' | 'text'
-  customLanguageExtension?: Extension
+  language?: Language
+  customLanguageExtension?: ExtensionLike
   readonly?: boolean
   height?: string
   maxHeight?: string
@@ -31,7 +30,6 @@ const emit = defineEmits<{
 }>()
 
 const editorRef = ref<HTMLElement | null>(null)
-let editorView: EditorView | null = null
 
 const editorStyle = computed(() => ({
   height: props.height || 'auto',
@@ -39,64 +37,168 @@ const editorStyle = computed(() => ({
   '--max-height': props.maxHeight
 }))
 
-function getLanguageExtension(lang: typeof props.language): Extension {
-  if (props.customLanguageExtension) {
-    return props.customLanguageExtension
-  }
+const { currentTheme } = useTheme()
+const systemDark = ref(
+  typeof window !== 'undefined'
+    ? window.matchMedia('(prefers-color-scheme: dark)').matches
+    : false
+)
+const media =
+  typeof window !== 'undefined' ? window.matchMedia('(prefers-color-scheme: dark)') : null
+const onSystemThemeChange = (e: MediaQueryListEvent) => {
+  systemDark.value = e.matches
+}
+
+const isDark = computed(() =>
+  currentTheme.value === 'dark' || (currentTheme.value === 'auto' && systemDark.value)
+)
+
+let destroyed = false
+
+let EditorView: any = null
+let EditorState: any = null
+let Compartment: any = null
+let basicSetup: any = null
+
+let editorView: any = null
+let themeCompartment: any = null
+let gutterCompartment: any = null
+let languageCompartment: any = null
+
+let initPromise: Promise<void> | null = null
+
+async function loadCore(): Promise<void> {
+  if (EditorView && EditorState && Compartment && basicSetup) return
+
+  const [{ EditorView: EV }, { EditorState: ES, Compartment: C }, core] = await Promise.all([
+    import('@codemirror/view'),
+    import('@codemirror/state'),
+    import('codemirror')
+  ])
+
+  EditorView = EV
+  EditorState = ES
+  Compartment = C
+  basicSetup = core.basicSetup
+}
+
+async function loadThemeExtension(): Promise<ExtensionLike> {
+  if (!isDark.value) return []
+  const mod = await import('@codemirror/theme-one-dark')
+  return mod.oneDark
+}
+
+async function loadLanguageExtension(lang: Language | undefined): Promise<ExtensionLike> {
+  if (props.customLanguageExtension) return props.customLanguageExtension
+
   switch (lang) {
-    case 'json': return json()
-    case 'markdown': return markdown()
+    case 'json': {
+      const mod = await import('@codemirror/lang-json')
+      return mod.json()
+    }
+    case 'markdown': {
+      const mod = await import('@codemirror/lang-markdown')
+      return mod.markdown()
+    }
     default:
       return []
   }
 }
 
-// Detect dark mode by watching the html element class (set by whatever theme manager is used)
-const isDark = ref(document.documentElement.classList.contains('dark'))
-let themeObserver: MutationObserver | null = null
+function makeGutterHiddenExtension(hidden: boolean): ExtensionLike {
+  if (!hidden) return []
+  return EditorView.theme({
+    '.cm-gutters': { display: 'none' }
+  })
+}
 
-const themeCompartment = new Compartment()
-const gutterCompartment = new Compartment()
-const languageCompartment = new Compartment()
+async function ensureInitialized(): Promise<void> {
+  if (initPromise) return initPromise
 
-function applyLanguage(lang: typeof props.language) {
+  initPromise = (async () => {
+    await loadCore()
+    if (destroyed) return
+    if (!editorRef.value) return
+
+    themeCompartment = new Compartment()
+    gutterCompartment = new Compartment()
+    languageCompartment = new Compartment()
+
+    const [themeExt, gutterExt, languageExt] = await Promise.all([
+      loadThemeExtension(),
+      Promise.resolve(makeGutterHiddenExtension(!!props.hideGutter)),
+      loadLanguageExtension(props.language)
+    ])
+    if (destroyed) return
+
+    const extensions: ExtensionLike[] = [
+      basicSetup,
+      themeCompartment.of(themeExt),
+      gutterCompartment.of(gutterExt),
+      languageCompartment.of(languageExt),
+      EditorView.updateListener.of((update: any) => {
+        if (update.docChanged) emit('update:modelValue', update.state.doc.toString())
+      })
+    ]
+
+    if (props.readonly) extensions.push(EditorState.readOnly.of(true))
+    if (props.lineWrapping) extensions.push(EditorView.lineWrapping)
+
+    const state = EditorState.create({ doc: props.modelValue || '', extensions })
+    editorView = new EditorView({ state, parent: editorRef.value })
+  })()
+
+  return initPromise
+}
+
+async function applyLanguage(lang: Language | undefined) {
+  await ensureInitialized()
+  if (!editorView || !languageCompartment) return
+  const ext = await loadLanguageExtension(lang)
   if (!editorView) return
-  const ext = getLanguageExtension(lang)
   editorView.dispatch({
     effects: languageCompartment.reconfigure(ext)
   })
 }
 
-onMounted(async () => {
-  themeObserver = new MutationObserver(() => {
-    isDark.value = document.documentElement.classList.contains('dark')
+async function applyTheme() {
+  await ensureInitialized()
+  if (!editorView || !themeCompartment) return
+  const themeExt = await loadThemeExtension()
+  if (!editorView) return
+  editorView.dispatch({
+    effects: themeCompartment.reconfigure(themeExt)
   })
-  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+}
 
-  if (!editorRef.value) return
+async function applyGutter() {
+  await ensureInitialized()
+  if (!editorView || !gutterCompartment) return
+  const gutterExt = makeGutterHiddenExtension(!!props.hideGutter)
+  if (!editorView) return
+  editorView.dispatch({
+    effects: gutterCompartment.reconfigure(gutterExt)
+  })
+}
 
-  const extensions: Extension[] = [
-    basicSetup,
-    themeCompartment.of(isDark.value ? oneDark : []),
-    gutterCompartment.of(props.hideGutter ? EditorView.theme({ '.cm-gutters': { display: 'none' } }) : []),
-    languageCompartment.of([]),
-    EditorView.updateListener.of((update) => {
-      if (update.docChanged) emit('update:modelValue', update.state.doc.toString())
+function applyDocValue(newValue: string) {
+  if (!editorView) return
+  const current = editorView.state.doc.toString()
+  if ((newValue || '') !== current) {
+    editorView.dispatch({
+      changes: { from: 0, to: editorView.state.doc.length, insert: newValue || '' }
     })
-  ]
+  }
+}
 
-  if (props.readonly) extensions.push(EditorState.readOnly.of(true))
-  if (props.lineWrapping) extensions.push(EditorView.lineWrapping)
-
-  const state = EditorState.create({ doc: props.modelValue || '', extensions })
-
-  editorView = new EditorView({ state, parent: editorRef.value })
-
-  await applyLanguage(props.language)
+onMounted(async () => {
+  media?.addEventListener('change', onSystemThemeChange)
+  await ensureInitialized()
 })
 
 onUnmounted(() => {
-  themeObserver?.disconnect()
+  destroyed = true
+  media?.removeEventListener('change', onSystemThemeChange)
   editorView?.destroy()
   editorView = null
 })
@@ -104,28 +206,16 @@ onUnmounted(() => {
 watch(() => props.language, (lang) => { applyLanguage(lang) })
 watch(() => props.customLanguageExtension, () => { applyLanguage(props.language) })
 
-watch(() => props.modelValue, (newValue) => {
-  if (!editorView) return
-  if (newValue !== editorView.state.doc.toString()) {
-    editorView.dispatch({
-      changes: { from: 0, to: editorView.state.doc.length, insert: newValue || '' }
-    })
-  }
-})
+watch(() => props.modelValue, (v) => { applyDocValue(v) })
 
-watch(isDark, (v) => {
+watch(isDark, () => { applyTheme() })
+watch(() => props.hideGutter, () => { applyGutter() })
+
+watch(() => props.readonly, async (v) => {
+  await ensureInitialized()
   if (!editorView) return
   editorView.dispatch({
-    effects: themeCompartment.reconfigure(v ? oneDark : [])
-  })
-})
-
-watch(() => props.hideGutter, (v) => {
-  if (!editorView) return
-  editorView.dispatch({
-    effects: gutterCompartment.reconfigure(v ? EditorView.theme({
-      '.cm-gutters': { display: 'none' }
-    }) : [])
+    effects: EditorState.readOnly.reconfigure(!!v)
   })
 })
 </script>
