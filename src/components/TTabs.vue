@@ -51,8 +51,8 @@ const activeValue = computed<TTabValue | undefined>(() => {
 })
 
 const tabRefs = ref<Record<string, HTMLButtonElement | null>>({})
-const setTabRef = (value: TTabValue) => (el: Element | null) => {
-  tabRefs.value[String(value)] = el as HTMLButtonElement | null
+const setTabRef = (value: TTabValue) => (el: unknown) => {
+  tabRefs.value[String(value)] = (el as HTMLButtonElement | null) ?? null
 }
 
 const tabId = (value: TTabValue) => `t-tab-${uid}-${String(value)}`
