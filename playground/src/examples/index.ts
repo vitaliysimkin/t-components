@@ -75,6 +75,14 @@ import CustomTimeoutNotificationExample from './notifications/CustomTimeoutNotif
 import BasicSidebarExample from './sidebars/BasicSidebarExample.vue'
 import FooterSlotSidebarExample from './sidebars/FooterSlotSidebarExample.vue'
 
+// CodeEditor Examples
+import BasicCodeEditorExample from './code-editor/BasicCodeEditorExample.vue'
+import LanguagesCodeEditorExample from './code-editor/LanguagesCodeEditorExample.vue'
+import ReadonlyCodeEditorExample from './code-editor/ReadonlyCodeEditorExample.vue'
+import BasicCodeEditorExampleCode from './code-editor/BasicCodeEditorExample.vue?raw'
+import LanguagesCodeEditorExampleCode from './code-editor/LanguagesCodeEditorExample.vue?raw'
+import ReadonlyCodeEditorExampleCode from './code-editor/ReadonlyCodeEditorExample.vue?raw'
+
 // Tabs Examples
 import BasicTabsExample from './tabs/BasicTabsExample.vue'
 import IconTabsExample from './tabs/IconTabsExample.vue'
@@ -488,6 +496,28 @@ export const elements: Element[] = [
     ]
   },
   {
+    label: 'CodeEditor',
+    slug: 'code-editor',
+    icon: 'material-symbols-light:code',
+    components: [
+      {
+        component: BasicCodeEditorExample,
+        code: BasicCodeEditorExampleCode,
+        label: 'Basic Usage'
+      },
+      {
+        component: LanguagesCodeEditorExample,
+        code: LanguagesCodeEditorExampleCode,
+        label: 'Languages (JSON / Markdown / Text)'
+      },
+      {
+        component: ReadonlyCodeEditorExample,
+        code: ReadonlyCodeEditorExampleCode,
+        label: 'Read-only + hidden gutter'
+      }
+    ]
+  },
+  {
     label: 'TNotifications',
     slug: 'notifications',
     icon: 'material-symbols-light:notifications-outline',
@@ -558,4 +588,7 @@ export {
   KindsNotificationExample,
   PersistentNotificationExample,
   CustomTimeoutNotificationExample,
+  BasicCodeEditorExample,
+  LanguagesCodeEditorExample,
+  ReadonlyCodeEditorExample,
 }
