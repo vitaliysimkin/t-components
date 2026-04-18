@@ -28,32 +28,38 @@ export function useModalManager() {
   const modals = computed(() => modalBoxes.value)
   const modalCount = computed(() => modalBoxes.value.length)
 
-  // Розрахунок позиції для нової модалки
-  const calculateModalPosition = (): { x: number; y: number } => {
-    const padding = 50
-    const modalWidth = 400
-    const modalHeight = 300
-    
-    const maxX = window.innerWidth - modalWidth - padding
-    const maxY = window.innerHeight - modalHeight - padding
-    
-    // Каскадний ефект для нових модалок
-    const offset = (modalBoxes.value.length % 5) * 30
-    
-    return {
-      x: Math.max(padding, Math.min(maxX, padding + offset)),
-      y: Math.max(padding, Math.min(maxY, padding + offset))
-    }
-  }
-
-  // Створення конфігурації модалки
-  const createModalConfig = (customConfig?: Partial<ModalBoxConfig>): ModalBoxConfig => {
-    const position = calculateModalPosition()
-    
+  // Створення конфігурації модалки.
+  // Позиція обчислюється lazily всередині openModal/openInputModal через
+  // calculateModalPosition(), щоб window.innerWidth/innerHeight НЕ читались
+  // при імпорті модуля (SSR-safety). Під час runtime-виклику window
+  // гарантовано існує.
+  const createModalConfig = (
+    customConfig?: Partial<ModalBoxConfig>,
+    position?: { x: number; y: number }
+  ): ModalBoxConfig => {
     return {
       id: generateId(),
       position,
       ...customConfig
+    }
+  }
+
+  // Розрахунок позиції для нової модалки.
+  // Викликається лише з openModal/openInputModal (runtime), не при ініціалізації модуля.
+  const calculateModalPosition = (): { x: number; y: number } => {
+    const padding = 50
+    const modalWidth = 400
+    const modalHeight = 300
+
+    const maxX = window.innerWidth - modalWidth - padding
+    const maxY = window.innerHeight - modalHeight - padding
+
+    // Каскадний ефект для нових модалок
+    const offset = (modalBoxes.value.length % 5) * 30
+
+    return {
+      x: Math.max(padding, Math.min(maxX, padding + offset)),
+      y: Math.max(padding, Math.min(maxY, padding + offset))
     }
   }
 
@@ -72,7 +78,7 @@ export function useModalManager() {
       minimizable: false,
       position: "center",
       ...modalConfig
-    })
+    }, calculateModalPosition())
     
     const modalId = finalConfig.id!
     
@@ -107,7 +113,7 @@ export function useModalManager() {
     componentProps?: Record<string, any>;
   }): string => {
     const { label, icon, contentComponent, componentProps, ...modalConfig } = config || {}
-    const finalConfig = createModalConfig(modalConfig)
+    const finalConfig = createModalConfig(modalConfig, calculateModalPosition())
     const newModal: ModalBoxInstance = {
       id: finalConfig.id!,
       config: finalConfig,

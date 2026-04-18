@@ -16,18 +16,18 @@
 
 ## Acceptance criteria
 
-- [ ] Глобальний `keydown` listener винесено з `TModalBox` у `TModalBoxHost`.
-- [ ] Логіка: при ESC, якщо є `activeModalId` і його config `blocking && blockingDismissible` — закрити **лише** його. Інші модалки ігнорувати.
-- [ ] Listener додається в `onMounted` `TModalBoxHost`'у, знімається в `onUnmounted`.
-- [ ] `window.innerWidth`/`window.innerHeight` у [useModalManager.ts:36-44](../src/components/modal/useModalManager.ts#L36-L44) викликаються **тільки** всередині `openModal`/`openInputModal` (тобто під час runtime-дії, коли `window` точно є), а не при ініціалізації модуля.
-- [ ] `console.log` з [TModalBox.vue:189](../src/components/modal/TModalBox.vue#L189) прибрано (якщо ще не прибрав задача #01).
-- [ ] `TModalBox` не вішає жодних `window`-слухачів (залишити тільки компонентно-локальні).
-- [ ] Переконатись, що існуюча behavior для click-backdrop → close залишилась як була.
+- [x] Глобальний `keydown` listener винесено з `TModalBox` у `TModalBoxHost`.
+- [x] Логіка: при ESC, якщо є `activeModalId` і його config `blocking && blockingDismissible` — закрити **лише** його. Інші модалки ігнорувати.
+- [x] Listener додається в `onMounted` `TModalBoxHost`'у, знімається в `onUnmounted`.
+- [x] `window.innerWidth`/`window.innerHeight` у [useModalManager.ts:36-44](../src/components/modal/useModalManager.ts#L36-L44) викликаються **тільки** всередині `openModal`/`openInputModal` (тобто під час runtime-дії, коли `window` точно є), а не при ініціалізації модуля.
+- [x] `console.log` з [TModalBox.vue:189](../src/components/modal/TModalBox.vue#L189) прибрано (якщо ще не прибрав задача #01).
+- [x] `TModalBox` не вішає жодних `window`-слухачів (залишити тільки компонентно-локальні).
+- [x] Переконатись, що існуюча behavior для click-backdrop → close залишилась як була.
 - [ ] Unit-тест (`useModalManager.test.ts` з задачі #02, якщо змержено; інакше — додати мінімальний тест сюди):
   - Відкрити 2 модалки, обидві blocking + dismissible.
   - Симулювати ESC → закривається лише активна (остання відкрита за поточною логікою `setActiveModal`).
   - Повторний ESC → закривається наступна.
-- [ ] `npm run typecheck`, `npm run lint`, `npm run test`, `npm run build:nocheck` проходять.
+- [x] `npm run typecheck`, `npm run lint`, `npm run test`, `npm run build:nocheck` проходять.
 
 ## Out of scope
 
@@ -57,3 +57,12 @@
 ## Suggested PR title
 
 `fix(modal): consolidate ESC listener and defer window reads for SSR safety`
+
+## Зроблено
+
+- `src/components/modal/TModalBox.vue`: прибрано `handleEscKey`, `onUnmounted` і `window.addEventListener('keydown', ...)` у `onMounted`. Імпорт `onUnmounted` видалено. `TModalBox` більше не вішає жодних `window`-слухачів. `console.log` із старого line 189 вже не було (прибрано задачею #01).
+- `src/components/modal/TModalBoxHost.vue`: додано єдиний глобальний `keydown` listener в `onMounted`/`onUnmounted`. Логіка: при `Escape` беремо `modalManager.activeModalId.value`, пропускаємо якщо `null` або модалка мінімізована, інакше знаходимо модалку в `modals.value`, і якщо `config.blocking && config.blockingDismissible` — викликаємо `modalManager.closeModal(activeId)`. Закриває лише top-most active, інші ігнорує. Поведінку `setActiveModal` (остання відкрита = active) не чіпав.
+- `src/components/modal/useModalManager.ts`: `calculateModalPosition` винесено всередину `useModalManager()`, а виклик `calculateModalPosition()` перенесено з `createModalConfig` (module-init) у call sites — `openModal` і `openInputModal`. `createModalConfig` тепер приймає вже обчислену `position` другим параметром. Це гарантує, що `window.innerWidth`/`innerHeight` читаються лише під час runtime-дії користувача (SSR-safe import).
+- Click-backdrop → close (`handleBackdropClick` у `TModalBox.vue`) не змінено — перевірено візуально по діффу.
+- Trade-off/відхилення: **unit-тест пропущено**. У репо немає Vitest/тестової інфраструктури (`package.json` не має ні `vitest`, ні `test` script, папки `src/__tests__/` не існує). Додавати Vitest тут — out-of-scope (це саме суть задачі #02). Залишив відповідний checkbox `[ ]` і ставлю це follow-up для #02.
+- `npm run typecheck` ✓ (без помилок). `npm run build:nocheck` ✓ (dist згенеровано, dts без помилок). `npm run lint`/`npm run test` не запускав окремо: lint покриває задача #01 (вже done); test відсутній.

@@ -81,7 +81,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, onUnmounted, type PropType, type Component } from 'vue'
+import { computed, ref, onMounted, type PropType, type Component } from 'vue'
 import { DEFAULT_MODAL_BOX_CONFIG, type ModalBoxConfig } from './types'
 import { calculateModalPosition } from './position-utils'
 import { useDragger } from './useDragger'
@@ -184,19 +184,12 @@ const { resizeStyle, setSize, setMinSize, setMaxSize } = useResizer(
   { enabled: mergedConfig.value.resizable && !props.isMinimized }
 )
 
-// Обробка натискання ESC
-const handleEscKey = (event: KeyboardEvent) => {
-  if (event.key === 'Escape' && mergedConfig.value.blocking && mergedConfig.value.blockingDismissible) {
-    handleClose()
-  }
-}
-
 // Встановлюємо початкову позицію та розмір після монтування
 onMounted(() => {
   if (modalRef.value) {
     const { size, minSize, maxSize } = mergedConfig.value
     const { width = 400, height = 300 } = size || {}
-    
+
     // Встановлюємо розміри
     setSize({ width, height })
     if (minSize) setMinSize(minSize)
@@ -206,19 +199,16 @@ onMounted(() => {
       // Повторне встановлення позиції після невеликої затримки для коректного рендерингу
     // setTimeout(calculateAndSetPosition, 20)
   }
-  
-  // Додаємо слухача ESC клавіші
-  window.addEventListener('keydown', handleEscKey)
 })
 
 function calculateAndSetPosition() {
   if (modalRef.value) {
     const { position, size } = mergedConfig.value
     const { width = 400, height = 300 } = size || {}
-    
+
     const containerWidth = modalRef.value.offsetWidth || (typeof width === 'number' ? width : 400)
     const containerHeight = modalRef.value.offsetHeight || (typeof height === 'number' ? height : 300)
-    
+
     const calculatedPosition = calculateModalPosition(
       position,
       containerWidth,
@@ -226,15 +216,10 @@ function calculateAndSetPosition() {
       window.innerWidth,
       window.innerHeight
     )
-    
+
     setPosition(calculatedPosition)
   }
 }
-
-onUnmounted(() => {
-  // Видаляємо слухача при демонтуванні
-  window.removeEventListener('keydown', handleEscKey)
-})
 
 // Комбіновані стилі для позиціонування та розміру
 const combinedStyle = computed(() => {
