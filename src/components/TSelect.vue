@@ -14,6 +14,7 @@ export interface TSelectProps {
   options?: Array<TOption>
   modelValue?: TOption | string | number | null
   disabled?: boolean
+  error?: string | boolean
   placeholder?: string
   clearable?: boolean
   size?: TElementSize
@@ -42,6 +43,7 @@ const props = withDefaults(defineProps<TSelectProps>(), {
   debounce: 300,
   valueMode: 'option',
   inputProps: () => ({}),
+  error: false,
 })
 
 const dropdownRef = ref<InstanceType<typeof TDropdown> | null>(null)
@@ -319,10 +321,11 @@ function handleMouseEnter(index: number) {
         :show-pointer="!disabled ? '' : null"
         :disabled="disabled ? '' : null"
         @keydown="handleKeydown">
-        <TInput 
-          :model-value="displayLabel" 
+        <TInput
+          :model-value="displayLabel"
           :readonly="!searchable && !autocomplete"
           :disabled="disabled"
+          :error="error"
           :placeholder="placeholder"
           :clearable="clearable"
           :size="size"

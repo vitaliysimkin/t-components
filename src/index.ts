@@ -13,7 +13,7 @@ export type { Notification, NotificationKind } from './composables/useNotificati
 // Re-exports for convenience
 export { modalManager } from './components/modal/useModalManager'
 export type { ModalBoxConfig, ModalInputConfig } from './components/modal/types'
-export type { TElementSize } from './components/types'
+export type { TElementSize, TFormFieldProps } from './components/types'
 export type { TButtonVariant, TButtonSize } from './components/TButton.vue'
 export type { TButtonGroupOption } from './components/TButtonGroup.vue'
 export type { TTabsVariant, TTabsSize, TTabsAlign, TTabValue, TTabItem } from './components/TTabs.vue'

@@ -11,14 +11,20 @@ const props = withDefaults(
     modelValue: boolean
     size?: TSwitchSize
     disabled?: boolean
+    error?: string | boolean
     label?: string
     labelPosition?: TSwitchLabelPosition
   }>(),
   {
     size: 'default',
     disabled: false,
+    error: false,
     labelPosition: 'right'
   }
+)
+
+const hasError = computed(() =>
+  props.error !== false && props.error !== '' && props.error !== undefined
 )
 
 const emit = defineEmits<{
@@ -44,7 +50,7 @@ const inputAttrs = computed(() => {
     :class="[
       `size-${props.size}`,
       `label-${props.labelPosition}`,
-      { 'is-disabled': props.disabled },
+      { 'is-disabled': props.disabled, 'is-error': hasError },
       rootClass
     ]"
     :style="rootStyle as any"
@@ -59,6 +65,7 @@ const inputAttrs = computed(() => {
         type="checkbox"
         :checked="props.modelValue"
         :disabled="props.disabled"
+        :aria-invalid="hasError || undefined"
         v-bind="inputAttrs"
         @change="emit('update:modelValue', ($event.target as HTMLInputElement).checked)"
       />
@@ -85,6 +92,12 @@ const inputAttrs = computed(() => {
 .t-switch.is-disabled {
   opacity: 0.55;
   cursor: not-allowed;
+}
+
+/* Error state: danger outline around the track */
+.t-switch.is-error .t-switch__track {
+  border-color: var(--t-color-danger);
+  box-shadow: 0 0 0 1px var(--t-color-danger);
 }
 
 .t-switch__label {

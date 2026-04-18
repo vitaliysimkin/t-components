@@ -54,6 +54,7 @@ import BasicInputExample from './inputs/BasicInputExample.vue'
 import InputSizesExample from './inputs/InputSizesExample.vue'
 import InputIconsExample from './inputs/InputIconsExample.vue'
 import DisabledInputExample from './inputs/DisabledInputExample.vue'
+import ErrorInputExample from './inputs/ErrorInputExample.vue'
 
 // Textarea Examples
 import BasicTextareaExample from './textareas/BasicTextareaExample.vue'
@@ -131,6 +132,7 @@ import BasicInputExampleCode from './inputs/BasicInputExample.vue?raw'
 import InputSizesExampleCode from './inputs/InputSizesExample.vue?raw'
 import InputIconsExampleCode from './inputs/InputIconsExample.vue?raw'
 import DisabledInputExampleCode from './inputs/DisabledInputExample.vue?raw'
+import ErrorInputExampleCode from './inputs/ErrorInputExample.vue?raw'
 import BasicTextareaExampleCode from './textareas/BasicTextareaExample.vue?raw'
 import TextareaSizesExampleCode from './textareas/TextareaSizesExample.vue?raw'
 import BasicTagExampleCode from './tags/BasicTagExample.vue?raw'
@@ -387,6 +389,11 @@ export const elements: Element[] = [
         component: DisabledInputExample,
         code: DisabledInputExampleCode,
         label: 'Disabled State'
+      },
+      {
+        component: ErrorInputExample,
+        code: ErrorInputExampleCode,
+        label: 'Error State'
       }
     ]
   },
@@ -638,6 +645,7 @@ export {
   InputSizesExample,
   InputIconsExample,
   DisabledInputExample,
+  ErrorInputExample,
   BasicTextareaExample,
   TextareaSizesExample,
   BasicTagExample,
