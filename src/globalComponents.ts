@@ -23,6 +23,7 @@ declare module '@vue/runtime-core' {
     TModalBoxHost: typeof import('./components/modal/TModalBoxHost.vue')['default']
     TInputModalBox: typeof import('./components/modal/TInputModalBox.vue')['default']
     TNotifications: typeof import('./components/TNotifications.vue')['default']
+    TFormField: typeof import('./components/TFormField.vue')['default']
   }
 }
 

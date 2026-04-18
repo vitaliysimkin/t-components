@@ -19,7 +19,7 @@
 - [x] [05 — Типізація `TDatePicker` + `TSelect` (generics, falsy-bug)](./05-typing-select-datepicker.md) — P1 · S-M · M
 - [x] [06 — README + CHANGELOG](./06-readme-changelog.md) — P2 · S · M/L
 - [x] [07 — Валідація дат + i18n-пропи для date/time inputs](./07-date-validation-i18n.md) — P1 · S · M
-- [ ] [08 — `TFormField` wrapper](./08-form-field-wrapper.md) — P1 · M · L
+- [x] [08 — `TFormField` wrapper](./08-form-field-wrapper.md) — P1 · M · L
 - [ ] [09 — `TTable` (мінімальна версія)](./09-table-component.md) — P2 · L · XL
 - [x] [10 — `publint` + `@arethetypeswrong/cli` + `size-limit`](./10-publint-attw-size-limit.md) — P2 · S · M
 - [ ] [11 — Розгребти lint-warnings після #01](./11-lint-warnings-cleanup.md) — P1 · M · M

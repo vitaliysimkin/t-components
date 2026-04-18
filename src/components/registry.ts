@@ -20,6 +20,7 @@ import TModalBox from './modal/TModalBox.vue'
 import TModalBoxHost from './modal/TModalBoxHost.vue'
 import TInputModalBox from './modal/TInputModalBox.vue'
 import TNotifications from './TNotifications.vue'
+import TFormField from './TFormField.vue'
 
 export {
   TButton,
@@ -43,6 +44,7 @@ export {
   TModalBoxHost,
   TInputModalBox,
   TNotifications,
+  TFormField,
 }
 
 // Plugin registration source of truth. Types are intentionally erased to
@@ -71,4 +73,5 @@ export const componentRegistry: Record<string, Component> = {
   TModalBoxHost,
   TInputModalBox,
   TNotifications,
+  TFormField,
 }

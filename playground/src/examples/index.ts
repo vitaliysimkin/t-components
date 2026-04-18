@@ -102,6 +102,14 @@ import BasicCodeEditorExampleCode from './code-editor/BasicCodeEditorExample.vue
 import LanguagesCodeEditorExampleCode from './code-editor/LanguagesCodeEditorExample.vue?raw'
 import ReadonlyCodeEditorExampleCode from './code-editor/ReadonlyCodeEditorExample.vue?raw'
 
+// FormField Examples
+import BasicFormFieldExample from './form-field/BasicFormFieldExample.vue'
+import BasicFormFieldExampleCode from './form-field/BasicFormFieldExample.vue?raw'
+import ValidationFormFieldExample from './form-field/ValidationFormFieldExample.vue'
+import ValidationFormFieldExampleCode from './form-field/ValidationFormFieldExample.vue?raw'
+import ComplexFormFieldExample from './form-field/ComplexFormFieldExample.vue'
+import ComplexFormFieldExampleCode from './form-field/ComplexFormFieldExample.vue?raw'
+
 // Tabs Examples
 import BasicTabsExample from './tabs/BasicTabsExample.vue'
 import IconTabsExample from './tabs/IconTabsExample.vue'
@@ -572,6 +580,28 @@ export const elements: Element[] = [
     ]
   },
   {
+    label: 'TFormField',
+    slug: 'form-field',
+    icon: 'material-symbols-light:edit-note-outline',
+    components: [
+      {
+        component: BasicFormFieldExample,
+        code: BasicFormFieldExampleCode,
+        label: 'Basic (label + input)'
+      },
+      {
+        component: ValidationFormFieldExample,
+        code: ValidationFormFieldExampleCode,
+        label: 'Required + error + hint'
+      },
+      {
+        component: ComplexFormFieldExample,
+        code: ComplexFormFieldExampleCode,
+        label: 'Combined form (input / select / textarea / switch)'
+      }
+    ]
+  },
+  {
     label: 'TCodeEditor',
     slug: 'code-editor',
     icon: 'material-symbols-light:code',
@@ -668,4 +698,7 @@ export {
   BasicCodeEditorExample,
   LanguagesCodeEditorExample,
   ReadonlyCodeEditorExample,
+  BasicFormFieldExample,
+  ValidationFormFieldExample,
+  ComplexFormFieldExample,
 }
