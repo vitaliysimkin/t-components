@@ -17,3 +17,6 @@ export interface TFormFieldProps {
   error?: string | boolean
   size?: TElementSize
 }
+
+// Base option type for TSelect and similar choosers.
+export type TOption = string | number | Record<string, any>
