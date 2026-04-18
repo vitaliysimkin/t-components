@@ -13,7 +13,7 @@
 ## Статус
 
 - [x] [01 — ESLint + `no-console`](./01-eslint.md) — P0 · S · S/M
-- [ ] [02 — Smoke-тести (Vitest)](./02-smoke-tests.md) — P0 · M · XL
+- [x] [02 — Smoke-тести (Vitest)](./02-smoke-tests.md) — P0 · M · XL
 - [ ] [03 — Уніфікація form-API (`disabled/readonly/error`)](./03-form-api-unification.md) — P0 · M · L
 - [ ] [04 — Фікс модалки: ESC-слухач + singleton](./04-modal-esc-singleton.md) — P0 · M · L
 - [ ] [05 — Типізація `TDatePicker` + `TSelect` (generics, falsy-bug)](./05-typing-select-datepicker.md) — P1 · S-M · M

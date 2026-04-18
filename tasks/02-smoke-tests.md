@@ -12,18 +12,18 @@
 
 ## Acceptance criteria
 
-- [ ] Додано `vitest`, `@testing-library/vue`, `@vue/test-utils`, `jsdom`, `happy-dom` (обрати одне — рекомендую `happy-dom`, швидший) у devDeps.
-- [ ] `vitest.config.ts` у корені з `environment: 'happy-dom'` і `globals: true`.
-- [ ] npm-скрипти: `"test": "vitest run"`, `"test:watch": "vitest"`.
-- [ ] Папка `src/__tests__/` (або `src/components/*.test.ts` рядом з компонентами — обери один стиль і консистентно).
-- [ ] Тести (мінімум 2-4 кейси на компонент):
-  - `TButton` — рендер label/icon/slot, emit click при кліку, `disabled` (після задачі #03 — якщо #03 ще не змержено, тест за fallthrough через `$attrs`).
+- [x] Додано `vitest`, `@testing-library/vue`, `@vue/test-utils`, `happy-dom` у devDeps (обрано `happy-dom`, `jsdom` не додавали — тільки один environment).
+- [x] `vitest.config.ts` у корені з `environment: 'happy-dom'` і `globals: true`.
+- [x] npm-скрипти: `"test": "vitest run"`, `"test:watch": "vitest"`.
+- [x] Папка `src/__tests__/` — обраний стиль для всіх тестів.
+- [x] Тести (мінімум 2-4 кейси на компонент):
+  - `TButton` — рендер label/icon/slot, emit click при кліку, `disabled` через `$attrs` fallthrough.
   - `TInput` — v-model two-way, `clearable` → emit `clear` + empty string, `prefixIcon` фокусує input при `@mousedown`.
-  - `TSelect` — вибір value-mode `option` vs `value`, `isSelected` для falsy values (`0`, `''`, `false`) — **цей тест буде червоним** до виконання #05, залиш `test.fails` або skip з TODO коментарем "fixed in #05".
-  - `TDatePicker` — single-mode emit, range-mode з двома кліками (включно з обміном start/end, коли другий клік раніший за перший — логіка на [TDatePicker.vue:378-380](../src/components/TDatePicker.vue#L378-L380)).
-  - `useModalManager` (unit-тест, не компонент) — `openModal` → `closeModal` → стан повертається до пустого; `toggleMinimize` двічі → модалка не мінімізована.
-- [ ] `npm run test` проходить локально.
-- [ ] Додано step `run: npm run test` у [.github/workflows/release.yml](../.github/workflows/release.yml).
+  - `TSelect` — вибір value-mode `option` vs `value`, clearable; falsy-bug (`modelValue: 0`) задокументований через `it.fails(...)` з TODO-коментарем "fixed in #05".
+  - `TDatePicker` — single-mode emit, range-mode з двома кліками + обмін start/end, коли другий клік раніший за перший.
+  - `useModalManager` — `openModal` → `closeModal` → стан очищується; `closeAllModals` повертає count; `toggleMinimize` двічі → не мінімізована; `setActiveModal`.
+- [x] `npm run test` проходить локально (21 passed + 1 expected fail).
+- [x] Додано step `run: npm run test` у [.github/workflows/release.yml](../.github/workflows/release.yml).
 
 ## Out of scope
 
@@ -72,3 +72,17 @@ export default defineConfig({
 ## Suggested PR title
 
 `test: add vitest setup and smoke tests for critical components`
+
+## Зроблено
+
+- `package.json` — додано devDeps: `vitest@^4.1.4`, `@testing-library/vue@^8.1.0`, `@vue/test-utils@^2.4.6`, `happy-dom@^20.9.0`; скрипти `"test": "vitest run"` і `"test:watch": "vitest"`. `jsdom` свідомо не додавали — happy-dom покриває всі потреби й швидший.
+- `vitest.config.ts` (new) — мінімальний конфіг з `environment: 'happy-dom'` і `globals: true`.
+- `tsconfig.app.json` — додано `exclude` для `src/**/__tests__/**` + `*.test.ts` / `*.spec.ts`. Без цього `vite-plugin-dts` під час `build:nocheck` намагався згенерувати `.d.ts` для тестів і ловив TS2345 на нетипізованих `querySelector` результатах. Продакшн-білд це не ламало, але сміттям у логах. Тести не потрапляють у `dist`, типи від `vitest/globals` через глобальне оголошення в `vitest` + `tsconfig`-ексклюд працюють.
+- `src/__tests__/TButton.test.ts` (new) — 5 кейсів: label, slot-override, icon, click-emit, `$attrs` fallthrough для `disabled` (до задачі #03).
+- `src/__tests__/TInput.test.ts` (new) — 5 кейсів: reflect modelValue, v-model update, clearable emit `clear` + `''`, clear-icon прихований при пустому, prefix-icon фокусує input при mousedown.
+- `src/__tests__/TSelect.test.ts` (new) — 4 кейси: valueMode `option` / `value` emit, clear emit, + задокументований falsy-bug через `it.fails(...)` (`modelValue: 0` має бути selected — на даний момент фейлиться в `isSelected` через `if (!props.modelValue) return false`; fix у #05).
+- `src/__tests__/TDatePicker.test.ts` (new) — 3 кейси: single-mode emit дати, range-mode два кліки, range-swap коли другий клік раніший за перший (логіка на `TDatePicker.vue:378-380`).
+- `src/__tests__/useModalManager.test.ts` (new) — 5 кейсів: openModal/closeModal round-trip, closeModal для unknown id, closeAllModals, toggleMinimize двічі, setActiveModal. Використовується `beforeEach` з `closeAllModals()` для ізоляції, бо `useModalManager` ділить module-scope state.
+- `.github/workflows/release.yml` — додано `npm run test` step між `lint` і `publish`.
+
+**Результат:** 21 passed + 1 expected fail (документує баг #05). `npm run typecheck` і `npm run build:nocheck` — чисто. `npm run lint` — 0 errors (warnings залишаються під задачу #11).
