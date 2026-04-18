@@ -4,4 +4,4 @@ dist
 *.png
 !src/**/*.png
 !playground/**/*.png
-./notify
+notify
