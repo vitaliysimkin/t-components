@@ -3,13 +3,18 @@ import { ref, computed, watch } from 'vue'
 import TInput from './TInput.vue'
 import TDropdown from './TDropdown.vue'
 import TDatePicker from './TDatePicker.vue'
+import { isRealDate } from './date-utils'
 
 export interface TDateInputProps {
   modelValue: string | null
   editable?: boolean
+  placeholder?: string
 }
 
-const props = withDefaults(defineProps<TDateInputProps>(), { editable: false })
+const props = withDefaults(defineProps<TDateInputProps>(), {
+  editable: false,
+  placeholder: 'ДД.ММ.РРРР',
+})
 const emit = defineEmits<{ (e: 'update:modelValue', v: string | null): void }>()
 
 const dropdownRef = ref<InstanceType<typeof TDropdown> | null>(null)
@@ -38,7 +43,7 @@ function parseDate(s: string): string | null {
   const m = s.trim().match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/)
   if (!m) return null
   const d = Number(m[1]), mo = Number(m[2]), y = Number(m[3])
-  if (d < 1 || d > 31 || mo < 1 || mo > 12) return null
+  if (!isRealDate(y, mo, d)) return null
   const p = (n: number) => String(n).padStart(2, '0')
   return `${y}-${p(mo)}-${p(d)}`
 }
@@ -105,7 +110,7 @@ function onDateSelect(date: Date | null) {
       <div class="t-date-input__trigger" @click="onTriggerClick">
         <TInput
           v-model="localText"
-          placeholder="ДД.ММ.РРРР"
+          :placeholder="placeholder"
           suffix-icon="material-symbols:calendar-month-outline"
           :readonly="!editable"
           @focus="onFocus"

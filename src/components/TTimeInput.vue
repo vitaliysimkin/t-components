@@ -8,9 +8,14 @@ export interface TTimeInputProps {
   modelValue: string | null
   step?: number
   editable?: boolean
+  placeholder?: string
 }
 
-const props = withDefaults(defineProps<TTimeInputProps>(), { step: 15, editable: false })
+const props = withDefaults(defineProps<TTimeInputProps>(), {
+  step: 15,
+  editable: false,
+  placeholder: 'ГГ:хх',
+})
 const emit = defineEmits<{ (e: 'update:modelValue', v: string | null): void }>()
 
 const dropdownRef = ref<InstanceType<typeof TDropdown> | null>(null)
@@ -100,7 +105,7 @@ function commitText() {
       <div class="t-time-input__trigger" @click="onTriggerClick">
         <TInput
           v-model="localText"
-          placeholder="ГГ:хх"
+          :placeholder="placeholder"
           suffix-icon="material-symbols:schedule-outline"
           :readonly="!editable"
           @focus="onFocus"

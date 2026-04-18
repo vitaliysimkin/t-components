@@ -7,11 +7,19 @@ import TSwitch from '../TSwitch.vue'
 import TButton from '../TButton.vue'
 import TCodeEditor from '../TCodeEditor.vue'
 
-const props = defineProps<{
-  inputs: Array<ModalInputConfig> | ModalInputConfig
-  onSubmit?: (values: Record<string, any>) => void
-  onCancel?: () => void
-}>()
+const props = withDefaults(
+  defineProps<{
+    inputs: Array<ModalInputConfig> | ModalInputConfig
+    onSubmit?: (values: Record<string, any>) => void
+    onCancel?: () => void
+    submitLabel?: string
+    cancelLabel?: string
+  }>(),
+  {
+    submitLabel: 'Submit',
+    cancelLabel: 'Cancel',
+  },
+)
 
 const inputsArray = computed(() => 
   Array.isArray(props.inputs) ? props.inputs : [props.inputs]
@@ -68,8 +76,8 @@ const handleCancel = () => {
       </div>
     </div>
     <div class="t-input-modal-actions">
-      <TButton variant="neutral" @click="handleCancel">Cancel</TButton>
-      <TButton variant="accent" @click="handleSubmit">Submit</TButton>
+      <TButton variant="neutral" @click="handleCancel">{{ cancelLabel }}</TButton>
+      <TButton variant="accent" @click="handleSubmit">{{ submitLabel }}</TButton>
     </div>
   </div>
 </template>

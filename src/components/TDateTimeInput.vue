@@ -5,14 +5,22 @@ import TButton from './TButton.vue'
 import TDropdown from './TDropdown.vue'
 import TTimePicker from './TTimePicker.vue'
 import TDatePicker from './TDatePicker.vue'
+import { isRealDate } from './date-utils'
 
 export interface TDateTimeInputProps {
   modelValue: string | null
   step?: number
   editable?: boolean
+  placeholder?: string
+  doneLabel?: string
 }
 
-const props = withDefaults(defineProps<TDateTimeInputProps>(), { step: 15, editable: false })
+const props = withDefaults(defineProps<TDateTimeInputProps>(), {
+  step: 15,
+  editable: false,
+  placeholder: 'ДД.ММ.РРРР ГГ:хх',
+  doneLabel: 'Готово',
+})
 const emit = defineEmits<{ (e: 'update:modelValue', v: string | null): void }>()
 
 const dropdownRef = ref<InstanceType<typeof TDropdown> | null>(null)
@@ -129,7 +137,7 @@ function commitText() {
   if (!m) { localText.value = buildDisplay(); return }
   const d = Number(m[1]), mo = Number(m[2]), y = Number(m[3])
   const h = Number(m[4] ?? 0), min = Number(m[5] ?? 0)
-  if (d < 1 || d > 31 || mo < 1 || mo > 12 || h > 23 || min > 59) {
+  if (!isRealDate(y, mo, d) || h > 23 || min > 59) {
     localText.value = buildDisplay()
     return
   }
@@ -152,7 +160,7 @@ function commitText() {
       <div class="t-datetime-input__trigger" @click="onTriggerClick">
         <TInput
           v-model="localText"
-          placeholder="ДД.ММ.РРРР ГГ:хх"
+          :placeholder="placeholder"
           suffix-icon="material-symbols:calendar-clock-outline"
           :readonly="!editable"
           @focus="onFocus"
@@ -174,7 +182,7 @@ function commitText() {
         />
       </div>
       <div class="t-datetime-panel__footer">
-        <TButton size="small" @click="confirm">Готово</TButton>
+        <TButton size="small" @click="confirm">{{ doneLabel }}</TButton>
       </div>
     </div>
   </TDropdown>
