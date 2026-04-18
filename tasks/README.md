@@ -18,7 +18,7 @@
 - [x] [04 — Фікс модалки: ESC-слухач + singleton](./04-modal-esc-singleton.md) — P0 · M · L
 - [ ] [05 — Типізація `TDatePicker` + `TSelect` (generics, falsy-bug)](./05-typing-select-datepicker.md) — P1 · S-M · M
 - [x] [06 — README + CHANGELOG](./06-readme-changelog.md) — P2 · S · M/L
-- [ ] [07 — Валідація дат + i18n-пропи для date/time inputs](./07-date-validation-i18n.md) — P1 · S · M
+- [x] [07 — Валідація дат + i18n-пропи для date/time inputs](./07-date-validation-i18n.md) — P1 · S · M
 - [ ] [08 — `TFormField` wrapper](./08-form-field-wrapper.md) — P1 · M · L
 - [ ] [09 — `TTable` (мінімальна версія)](./09-table-component.md) — P2 · L · XL
 - [ ] [10 — `publint` + `@arethetypeswrong/cli` + `size-limit`](./10-publint-attw-size-limit.md) — P2 · S · M
