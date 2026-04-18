@@ -12,21 +12,24 @@ withDefaults(
     size?: TButtonSize
     icon?: string
     label?: string
+    disabled?: boolean
   }>(),
   {
     variant: 'neutral',
     mode: 'filled',
-    size: 'default'
+    size: 'default',
+    disabled: false
   }
 )
 </script>
 
 <template>
-  <button 
-    class="t-button" 
+  <button
+    class="t-button"
     :variant="variant"
     :mode="mode"
     :size="size"
+    :disabled="disabled"
   >
     <Icon v-if="icon" :icon="icon" />
     <slot>{{ label }}</slot>

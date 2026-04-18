@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { Icon } from '@iconify/vue'
 import type { TElementSize } from './types'
 
@@ -10,10 +10,16 @@ const props = withDefaults(
     prefixIcon?: string
     suffixIcon?: string
     clearable?: boolean
+    disabled?: boolean
+    readonly?: boolean
+    error?: string | boolean
   }>(),
   {
     size: 'default',
-    clearable: false
+    clearable: false,
+    disabled: false,
+    readonly: false,
+    error: false
   }
 )
 
@@ -24,6 +30,9 @@ const emit = defineEmits<{
 
 const inputRef = ref<HTMLInputElement | null>(null)
 
+const hasError = computed(() => props.error !== false && props.error !== '' && props.error !== undefined)
+const errorMessage = computed(() => (typeof props.error === 'string' ? props.error : ''))
+
 const handleClear = () => {
   emit('update:modelValue', '')
   emit('clear')
@@ -32,33 +41,53 @@ const handleClear = () => {
 </script>
 
 <template>
-  <div
-    class="t-input-wrapper"
-    :class="`size-${props.size}`"
-  >
-    <Icon v-if="prefixIcon" :icon="prefixIcon" class="t-input-icon t-input-icon--prefix" @mousedown.prevent="inputRef?.focus()" />
-    <input
-      ref="inputRef"
-      class="t-input"
-      :class="{
-        'has-prefix': prefixIcon,
-        'has-suffix': suffixIcon || (clearable && modelValue)
-      }"
-      :value="modelValue"
-      v-bind="$attrs"
-      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-    />
-    <Icon 
-      v-if="clearable && modelValue" 
-      icon="system-uicons:close" 
-      class="t-input-icon t-input-icon--clear" 
-      @click="handleClear"
-    />
-    <Icon v-if="suffixIcon" :icon="suffixIcon" class="t-input-icon t-input-icon--suffix" @mousedown.prevent="inputRef?.focus()" />
+  <div class="t-input-root">
+    <div
+      class="t-input-wrapper"
+      :class="`size-${props.size}`"
+      :data-error="hasError ? '' : null"
+      :data-disabled="disabled ? '' : null"
+      :data-readonly="readonly ? '' : null"
+    >
+      <Icon v-if="prefixIcon" :icon="prefixIcon" class="t-input-icon t-input-icon--prefix" @mousedown.prevent="inputRef?.focus()" />
+      <input
+        ref="inputRef"
+        class="t-input"
+        :class="{
+          'has-prefix': prefixIcon,
+          'has-suffix': suffixIcon || (clearable && modelValue)
+        }"
+        :value="modelValue"
+        :disabled="disabled"
+        :readonly="readonly"
+        :aria-invalid="hasError || undefined"
+        v-bind="$attrs"
+        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+      />
+      <Icon
+        v-if="clearable && modelValue && !disabled && !readonly"
+        icon="system-uicons:close"
+        class="t-input-icon t-input-icon--clear"
+        @click="handleClear"
+      />
+      <Icon v-if="suffixIcon" :icon="suffixIcon" class="t-input-icon t-input-icon--suffix" @mousedown.prevent="inputRef?.focus()" />
+    </div>
+    <div v-if="errorMessage" class="t-input__error">{{ errorMessage }}</div>
   </div>
 </template>
 
 <style scoped>
+/* ========================================
+   ROOT (wrapper + error message)
+   ======================================== */
+.t-input-root {
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  gap: var(--t-space-1);
+}
+
 /* ========================================
    WRAPPER STYLES
    Container for input and icons
@@ -84,10 +113,19 @@ const handleClear = () => {
   border-color: var(--t-color-accent);
 }
 
-.t-input-wrapper:has(.t-input:disabled) {
+.t-input-wrapper:has(.t-input:disabled),
+.t-input-wrapper[data-disabled] {
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+.t-input-wrapper[data-error] {
+  border-color: var(--t-color-danger);
+}
+
+.t-input-wrapper[data-error]:focus-within {
+  border-color: var(--t-color-danger);
 }
 
 /* ========================================
@@ -136,6 +174,15 @@ const handleClear = () => {
 
 .t-input-icon--clear:hover {
   color: var(--t-color-text);
+}
+
+/* ========================================
+   ERROR MESSAGE
+   ======================================== */
+.t-input__error {
+  color: var(--t-color-danger);
+  font-size: var(--t-font-size-small);
+  line-height: 1.2;
 }
 
 /* ========================================
