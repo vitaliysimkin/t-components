@@ -1,18 +1,21 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends TOption">
 // Select: choose from options (strings/numbers/objects)
 // Autocomplete: free text input with string suggestions
 import { ref, computed, watch } from 'vue'
 import { Icon } from '@iconify/vue'
 import TInput from './TInput.vue'
 import TDropdown from './TDropdown.vue'
-import type { TElementSize } from './types'
+import type { TElementSize, TOption } from './types'
 
-type TOption = string | number | Record<string, any>
-
-export interface TSelectProps {
+// `valueMode: 'value'` emits a primitive derived from the option via `valueKey`,
+// so `modelValue` for that mode is `string | number | null`. Representing both
+// modes in a single generic would require overloads that Vue's <script setup>
+// does not support, so the prop type here is a union. When `valueMode: 'option'`
+// (default) `modelValue` is `T | null`.
+export interface TSelectProps<T extends TOption = TOption> {
   autocomplete?: boolean
-  options?: Array<TOption>
-  modelValue?: TOption | string | number | null
+  options?: T[]
+  modelValue?: T | string | number | null
   disabled?: boolean
   placeholder?: string
   clearable?: boolean
@@ -24,16 +27,16 @@ export interface TSelectProps {
   loading?: boolean
   emptyText?: string
   loadingText?: string
-  filterFn?: (option: TOption, query: string) => boolean
-  loadOptions?: (query: string) => Promise<any[]>
+  filterFn?: (option: T, query: string) => boolean
+  loadOptions?: (query: string) => Promise<T[]>
   debounce?: number
   valueMode?: 'option' | 'value'
   inputProps?: Record<string, any>
 }
 
-const props = withDefaults(defineProps<TSelectProps>(), {
+const props = withDefaults(defineProps<TSelectProps<T>>(), {
   autocomplete: false,
-  options: () => [],
+  options: () => [] as unknown as T[],
   valueKey: 'value',
   labelKey: 'label',
   iconKey: '',
@@ -48,14 +51,14 @@ const dropdownRef = ref<InstanceType<typeof TDropdown> | null>(null)
 const isOpen = ref(false)
 const searchQuery = ref('')
 const activeIndex = ref(0)
-const internalOptions = ref<Array<TOption>>([])
+const internalOptions = ref<T[]>([]) as { value: T[] }
 const internalLoading = ref(false)
 const requestSeq = ref(0)
 const lastLoadedQuery = ref<string | null>(null)
 let debounceTimer: ReturnType<typeof setTimeout> | null = null
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string | number | Record<string, any> | null]
+  'update:modelValue': [value: T | string | number | null]
   'clear': []
 }>()
 
@@ -71,7 +74,7 @@ const currentOptions = computed(() => isAsyncMode.value ? internalOptions.value 
 const isLoading = computed(() => props.loading || internalLoading.value)
 
 // Helper to get value from option
-function getValue(option: string | number | Record<string, any>): string | number {
+function getValue(option: TOption): string | number {
   if (typeof option === 'string' || typeof option === 'number') {
     return option
   }
@@ -79,7 +82,7 @@ function getValue(option: string | number | Record<string, any>): string | numbe
 }
 
 // Helper to get label from option
-function getLabel(option: string | number | Record<string, any>): string {
+function getLabel(option: TOption): string {
   if (typeof option === 'string' || typeof option === 'number') {
     return option.toString()
   }
@@ -90,7 +93,7 @@ function getLabel(option: string | number | Record<string, any>): string {
 }
 
 // Helper to get icon from option
-function getIcon(option: string | number | Record<string, any>): string | null {
+function getIcon(option: TOption): string | null {
   if (!props.iconKey) return null
   if (typeof option === 'string' || typeof option === 'number') {
     return null
@@ -98,13 +101,14 @@ function getIcon(option: string | number | Record<string, any>): string | null {
   return option[props.iconKey] ?? null
 }
 
-// Get display label for selected value
+// Get display label for selected value.
+// Use `== null` so falsy-but-valid values (`0`, `''`, `false`) are still rendered.
 const displayLabel = computed(() => {
   if (isOpen.value && (props.searchable || props.autocomplete)) {
-    return searchQuery.value || (props.modelValue ? getLabel(props.modelValue) : '')
+    return searchQuery.value || (props.modelValue == null ? '' : getLabel(props.modelValue))
   }
-  
-  if (!props.modelValue) return ''
+
+  if (props.modelValue == null) return ''
   return getLabel(props.modelValue)
 })
 
@@ -151,12 +155,20 @@ watch(isOpen, (newVal) => {
   }
 })
 
-function isSelected(option: TOption): boolean {
-  if (!props.modelValue) return false
+function isSelected(option: T): boolean {
+  // `== null` so falsy-but-valid values (`0`, `''`, `false`) still compare.
+  if (props.modelValue == null) return false
   if (props.valueMode === 'value') {
+    // In 'value' mode the modelValue is a primitive (string | number).
     return getValue(option) === props.modelValue
   }
-  return getValue(option) === getValue(props.modelValue as TOption)
+  // In 'option' mode modelValue is an option object/primitive of type T.
+  // Narrow via typeof so we don't rely on a lying cast.
+  const mv = props.modelValue
+  if (typeof mv === 'string' || typeof mv === 'number' || (typeof mv === 'object' && mv !== null)) {
+    return getValue(option) === getValue(mv as TOption)
+  }
+  return false
 }
 
 // Watch filteredOptions to reset activeIndex if it goes out of bounds
@@ -216,7 +228,7 @@ watch(searchQuery, (newQuery) => {
   }, props.debounce)
 })
 
-function selectOption(option: TOption) {
+function selectOption(option: T) {
   const payload = props.valueMode === 'value' ? getValue(option) : option
   emit('update:modelValue', payload)
   searchQuery.value = ''
