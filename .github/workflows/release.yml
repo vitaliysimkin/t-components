@@ -25,4 +25,12 @@ jobs:
 
       - run: npm run test
 
+      - run: npm run build:nocheck
+
+      - run: npm run check:pack
+
+      - run: npm run check:types
+
+      - run: npm run check:size
+
       - run: npm publish --access public
