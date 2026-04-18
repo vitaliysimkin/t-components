@@ -29,7 +29,7 @@
     "dev": "vite --config playground/vite.config.ts",
     "build:playground": "vite build --config playground/vite.config.ts",
     "typecheck": "vue-tsc --noEmit",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "release:patch": "npm version patch && git push --follow-tags",
     "release:minor": "npm version minor && git push --follow-tags",

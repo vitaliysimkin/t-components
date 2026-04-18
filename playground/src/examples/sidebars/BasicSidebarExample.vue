@@ -13,7 +13,10 @@ const menuItems = [
 
 <template>
   <!-- swallow demo nav -->
-  <div class="frame" @click.capture.prevent>
+  <div
+    class="frame"
+    @click.capture.prevent
+  >
     <TSidebar
       v-model:collapsed="collapsed"
       :menu-items="menuItems"

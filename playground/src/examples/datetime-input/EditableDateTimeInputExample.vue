@@ -9,7 +9,10 @@ const datetime = ref<string | null>(null)
   <div class="example-cnt">
     <div class="example__row">
       <span class="example__label">TDateTimeInput</span>
-      <TDateTimeInput v-model="datetime" :editable="true" />
+      <TDateTimeInput
+        v-model="datetime"
+        :editable="true"
+      />
     </div>
   </div>
 </template>

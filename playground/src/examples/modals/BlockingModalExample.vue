@@ -1,5 +1,10 @@
 <template>
-    <TButton @click="openBlockingModal" variant="danger">Open Blocking Modal</TButton>
+  <TButton
+    variant="danger"
+    @click="openBlockingModal"
+  >
+    Open Blocking Modal
+  </TButton>
 </template>
 
 <script setup lang="ts">
@@ -8,7 +13,7 @@ import { modalManager } from '@vitaliysimkin/t-components'
 import SimpleContent from './SimpleContent.vue'
 
 const openBlockingModal = () => {
-  let modalId = modalManager.openModal({
+  const modalId = modalManager.openModal({
     label: 'Блокуюча модалка',
     icon: 'system-uicons:lock',
     contentComponent: SimpleContent,

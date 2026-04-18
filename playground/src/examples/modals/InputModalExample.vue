@@ -20,7 +20,9 @@ const openSimpleInput = () => {
 
 <template>
   <div>
-    <TButton @click="openSimpleInput">Open Input Modal</TButton>
+    <TButton @click="openSimpleInput">
+      Open Input Modal
+    </TButton>
   </div>
 </template>
 

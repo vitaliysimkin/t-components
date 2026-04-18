@@ -1,17 +1,35 @@
 <template>
   <div class="row">
-    <div class="example-label">underline (default)</div>
-    <TTabs v-model="tab" :tabs="items" variant="underline" />
+    <div class="example-label">
+      underline (default)
+    </div>
+    <TTabs
+      v-model="tab"
+      :tabs="items"
+      variant="underline"
+    />
   </div>
 
   <div class="row">
-    <div class="example-label">pills</div>
-    <TTabs v-model="tab" :tabs="items" variant="pills" />
+    <div class="example-label">
+      pills
+    </div>
+    <TTabs
+      v-model="tab"
+      :tabs="items"
+      variant="pills"
+    />
   </div>
 
   <div class="row">
-    <div class="example-label">segmented</div>
-    <TTabs v-model="tab" :tabs="items" variant="segmented" />
+    <div class="example-label">
+      segmented
+    </div>
+    <TTabs
+      v-model="tab"
+      :tabs="items"
+      variant="segmented"
+    />
   </div>
 </template>
 

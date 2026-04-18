@@ -12,16 +12,18 @@ const options = [
 ];
 </script>
 
-<template><div>
+<template>
+  <div>
     <TSelect
-        v-model="model"
-        :options="options"
-        autocomplete
-        searchable
-        value-mode="value"
-        value-key="value"
-        label-key="label"
-        icon-key="icon"
+      v-model="model"
+      :options="options"
+      autocomplete
+      searchable
+      value-mode="value"
+      value-key="value"
+      label-key="label"
+      icon-key="icon"
     />
     <p>Selected Model: {{ model }}</p>
-</div></template>
+  </div>
+</template>

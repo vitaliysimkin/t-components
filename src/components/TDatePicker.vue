@@ -28,7 +28,10 @@
     </div>
 
     <!-- Day view -->
-    <div v-if="view.type === 'day'" class="t-date-picker__day-view">
+    <div
+      v-if="view.type === 'day'"
+      class="t-date-picker__day-view"
+    >
       <div class="t-date-picker__weekdays">
         <div
           v-for="(wd, idx) in orderedWeekdayNames"
@@ -39,9 +42,18 @@
           {{ wd }}
         </div>
       </div>
-      <div class="t-date-picker__days" @mouseleave="hoverDate = null">
-        <template v-for="(row, rIdx) in calendarWeeks" :key="rIdx">
-          <template v-for="(cell, cIdx) in row" :key="cIdx">
+      <div
+        class="t-date-picker__days"
+        @mouseleave="hoverDate = null"
+      >
+        <template
+          v-for="(row, rIdx) in calendarWeeks"
+          :key="rIdx"
+        >
+          <template
+            v-for="(cell, cIdx) in row"
+            :key="cIdx"
+          >
             <button
               v-if="cell && (showOtherMonths || cell.inMonth)"
               type="button"
@@ -61,14 +73,20 @@
             >
               {{ cell.date.getDate() }}
             </button>
-            <span v-else class="t-date-picker__cell t-date-picker__cell--empty" />
+            <span
+              v-else
+              class="t-date-picker__cell t-date-picker__cell--empty"
+            />
           </template>
         </template>
       </div>
     </div>
 
     <!-- Month view -->
-    <div v-else-if="view.type === 'month'" class="t-date-picker__grid t-date-picker__grid--months">
+    <div
+      v-else-if="view.type === 'month'"
+      class="t-date-picker__grid t-date-picker__grid--months"
+    >
       <button
         v-for="(mName, mIdx) in resolvedMonthNames"
         :key="mIdx"
@@ -85,7 +103,10 @@
     </div>
 
     <!-- Year view -->
-    <div v-else class="t-date-picker__grid t-date-picker__grid--years">
+    <div
+      v-else
+      class="t-date-picker__grid t-date-picker__grid--years"
+    >
       <button
         v-for="y in yearGrid"
         :key="y"
@@ -121,15 +142,17 @@ export interface TDatePickerView {
   year: number;
 }
 
+export type TDatePickerValue = Date | TDatePickerRangeValue | null | undefined;
+
 export interface TDatePickerProps {
-  modelValue: any;
+  modelValue: TDatePickerValue;
   mode?: TDatePickerMode;
   weekdayNames?: string[];
   monthNames?: string[];
 }
 
 export interface TDatePickerEmits {
-  (e: 'update:modelValue', value: any): void;
+  (e: 'update:modelValue', value: TDatePickerValue): void;
 }
 
 const props = withDefaults(defineProps<TDatePickerProps>(), {

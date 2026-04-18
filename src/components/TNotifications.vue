@@ -1,6 +1,10 @@
 <template>
   <Teleport to="body">
-    <div class="t-notifications" :class="`t-notifications--${placement}`" aria-live="polite">
+    <div
+      class="t-notifications"
+      :class="`t-notifications--${placement}`"
+      aria-live="polite"
+    >
       <TransitionGroup name="t-notification">
         <div
           v-for="n in items"
@@ -17,7 +21,9 @@
             type="button"
             aria-label="Dismiss"
             @click.stop="dismiss(n.id)"
-          >×</button>
+          >
+            ×
+          </button>
         </div>
       </TransitionGroup>
     </div>

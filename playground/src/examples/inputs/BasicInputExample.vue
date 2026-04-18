@@ -10,10 +10,23 @@ const date = ref('')
 
 <template>
   <div>
-    <TInput v-model="text" placeholder="Enter text..." />
-    <TInput v-model="email" type="email" placeholder="Email address" />
-    <TInput v-model="number" type="number" />
-    <TInput v-model="date" type="datetime-local" />
+    <TInput
+      v-model="text"
+      placeholder="Enter text..."
+    />
+    <TInput
+      v-model="email"
+      type="email"
+      placeholder="Email address"
+    />
+    <TInput
+      v-model="number"
+      type="number"
+    />
+    <TInput
+      v-model="date"
+      type="datetime-local"
+    />
   </div>
 </template>
 

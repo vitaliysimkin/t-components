@@ -33,7 +33,7 @@ export interface TDropdownProps {
   /** If true, set panel width to match trigger width */
   matchTriggerWidth?: boolean
   /** Additional custom styles to apply to the panel */
-  customPanelStyle?: Record<string, any> | string
+  customPanelStyle?: Record<string, unknown> | string
 }
 
 const props = withDefaults(defineProps<TDropdownProps>(), {
@@ -197,7 +197,7 @@ const handleMouseLeave = () => {
 
 // Trigger props for slot
 const triggerProps = computed(() => {
-  const handlers: Record<string, any> = {}
+  const handlers: Record<string, (event: Event) => void> = {}
   
   // Add click handler if trigger mode includes 'click' or 'both'
   if (props.trigger === 'click' || props.trigger === 'both') {
@@ -215,7 +215,7 @@ const triggerProps = computed(() => {
 
 // Panel props for slot
 const panelProps = computed(() => {
-  const handlers: Record<string, any> = {}
+  const handlers: Record<string, (event: Event) => void> = {}
   
   // Add click handler if closeOnPanelClick is true
   if (props.closeOnPanelClick) {
@@ -234,7 +234,7 @@ const panelProps = computed(() => {
 
 // Panel style for positioning
 const panelStyle = computed(() => {
-  const style: Record<string, any> = {
+  const style: Record<string, unknown> = {
     position: 'fixed',
     top: `${panelPosition.value.top}px`,
     left: `${panelPosition.value.left}px`,
@@ -303,7 +303,12 @@ defineExpose({
 </script>
 
 <template>
-  <div ref="triggerRef" class="t-dropdown" :data-is-open="isOpen" v-bind="$attrs">
+  <div
+    ref="triggerRef"
+    class="t-dropdown"
+    :data-is-open="isOpen"
+    v-bind="$attrs"
+  >
     <slot
       name="trigger"
       :is-open="isOpen"

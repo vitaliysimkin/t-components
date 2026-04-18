@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="example-label">Text Toggle: {{ alignment }}</div>
+    <div class="example-label">
+      Text Toggle: {{ alignment }}
+    </div>
     <TButtonGroup
       v-model="alignment"
       :options="alignmentOptions"
@@ -9,7 +11,9 @@
   </div>
 
   <div>
-    <div class="example-label">Icon Toggle: {{ view }}</div>
+    <div class="example-label">
+      Icon Toggle: {{ view }}
+    </div>
     <TButtonGroup
       v-model="view"
       :options="viewOptions"
@@ -19,7 +23,9 @@
   </div>
 
   <div>
-    <div class="example-label">Icon + Label Toggle: {{ theme }}</div>
+    <div class="example-label">
+      Icon + Label Toggle: {{ theme }}
+    </div>
     <TButtonGroup
       v-model="theme"
       :options="themeOptions"
@@ -29,7 +35,9 @@
   </div>
 
   <div>
-    <div class="example-label">Mandatory Toggle: {{ format }}</div>
+    <div class="example-label">
+      Mandatory Toggle: {{ format }}
+    </div>
     <TButtonGroup
       v-model="format"
       :options="formatOptions"

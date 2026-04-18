@@ -133,8 +133,8 @@ onUnmounted(() => {
 
 // Get slots for checking if tooltip slot exists
 const slots = defineSlots<{
-  default(): any
-  tooltip?(): any
+  default(): unknown
+  tooltip?(): unknown
 }>()
 </script>
 
@@ -154,7 +154,10 @@ const slots = defineSlots<{
       <slot />
     </div>
 
-    <Teleport to="body" v-if="shouldShow && isVisible">
+    <Teleport
+      v-if="shouldShow && isVisible"
+      to="body"
+    >
       <div
         ref="tooltipRef"
         class="t-tooltip__popup"
@@ -177,7 +180,6 @@ const slots = defineSlots<{
       </div>
     </Teleport>
   </span>
-
 </template>
 
 <style scoped>

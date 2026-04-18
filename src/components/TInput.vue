@@ -36,7 +36,12 @@ const handleClear = () => {
     class="t-input-wrapper"
     :class="`size-${props.size}`"
   >
-    <Icon v-if="prefixIcon" :icon="prefixIcon" class="t-input-icon t-input-icon--prefix" @mousedown.prevent="inputRef?.focus()" />
+    <Icon
+      v-if="prefixIcon"
+      :icon="prefixIcon"
+      class="t-input-icon t-input-icon--prefix"
+      @mousedown.prevent="inputRef?.focus()"
+    />
     <input
       ref="inputRef"
       class="t-input"
@@ -47,14 +52,19 @@ const handleClear = () => {
       :value="modelValue"
       v-bind="$attrs"
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-    />
+    >
     <Icon 
       v-if="clearable && modelValue" 
       icon="system-uicons:close" 
       class="t-input-icon t-input-icon--clear" 
       @click="handleClear"
     />
-    <Icon v-if="suffixIcon" :icon="suffixIcon" class="t-input-icon t-input-icon--suffix" @mousedown.prevent="inputRef?.focus()" />
+    <Icon
+      v-if="suffixIcon"
+      :icon="suffixIcon"
+      class="t-input-icon t-input-icon--suffix"
+      @mousedown.prevent="inputRef?.focus()"
+    />
   </div>
 </template>
 

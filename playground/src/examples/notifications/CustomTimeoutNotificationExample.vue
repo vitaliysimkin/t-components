@@ -6,8 +6,14 @@ const { info, success } = useNotifications()
 
 <template>
   <div>
-    <TButton label="1 second"  @click="info('Gone in a flash', 1000)" />
-    <TButton label="10 seconds" @click="success('Stays a while', 10000)" />
+    <TButton
+      label="1 second"
+      @click="info('Gone in a flash', 1000)"
+    />
+    <TButton
+      label="10 seconds"
+      @click="success('Stays a while', 10000)"
+    />
   </div>
 </template>
 

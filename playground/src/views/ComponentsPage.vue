@@ -14,7 +14,9 @@ const currentElement = computed(() =>
 <template>
   <div class="component-page">
     <template v-if="currentElement">
-      <h1 class="component-page__title">{{ currentElement.label }}</h1>
+      <h1 class="component-page__title">
+        {{ currentElement.label }}
+      </h1>
       <Example
         v-for="(example, idx) in currentElement.components"
         :key="idx"
@@ -23,7 +25,10 @@ const currentElement = computed(() =>
         :label="example.label"
       />
     </template>
-    <div v-else class="component-page__empty">
+    <div
+      v-else
+      class="component-page__empty"
+    >
       Оберіть компонент у боковій панелі.
     </div>
   </div>

@@ -43,7 +43,7 @@ export interface ModalInputConfig {
   type: 'text' | 'number' | 'password' | 'email' | 'textarea' | 'swtich' | 'code';
   placeholder?: string; // #TODO or i18n localization string
   defaultValue?: string | number | boolean;
-  attrs?: Record<string, any>;
+  attrs?: Record<string, unknown>;
 }
 
 

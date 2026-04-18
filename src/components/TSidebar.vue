@@ -8,85 +8,110 @@
     }"
     role="navigation"
   >
-    <div class="t-sidebar__panel" @click="onAsideClick">
-      <slot name="header" :collapsed="collapsed" :toggle="toggle">
-      <div class="t-sidebar__header">
-        <!-- Collapsed: single morph-trigger (logo ↔ expand-icon on hover). -->
-        <button
-          v-if="collapsed && headerIcon"
-          type="button"
-          class="t-sidebar__logo t-sidebar__logo--trigger"
-          :aria-expanded="false"
-          :aria-label="toggleLabel.expand"
-          :title="toggleLabel.expand"
-          @click.stop="toggle"
-        >
-          <span class="t-sidebar__trigger">
+    <div
+      class="t-sidebar__panel"
+      @click="onAsideClick"
+    >
+      <slot
+        name="header"
+        :collapsed="collapsed"
+        :toggle="toggle"
+      >
+        <div class="t-sidebar__header">
+          <!-- Collapsed: single morph-trigger (logo ↔ expand-icon on hover). -->
+          <button
+            v-if="collapsed && headerIcon"
+            type="button"
+            class="t-sidebar__logo t-sidebar__logo--trigger"
+            :aria-expanded="false"
+            :aria-label="toggleLabel.expand"
+            :title="toggleLabel.expand"
+            @click.stop="toggle"
+          >
+            <span class="t-sidebar__trigger">
+              <Icon
+                :icon="headerIcon"
+                class="t-sidebar__trigger-icon t-sidebar__trigger-icon--primary"
+              />
+              <Icon
+                :icon="expandIcon"
+                class="t-sidebar__trigger-icon t-sidebar__trigger-icon--morph"
+              />
+            </span>
+          </button>
+
+          <!-- Expanded: static logo on the left (no morph). -->
+          <span
+            v-else-if="headerIcon"
+            class="t-sidebar__logo"
+          >
             <Icon
               :icon="headerIcon"
-              class="t-sidebar__trigger-icon t-sidebar__trigger-icon--primary"
-            />
-            <Icon
-              :icon="expandIcon"
-              class="t-sidebar__trigger-icon t-sidebar__trigger-icon--morph"
+              class="t-sidebar__logo-icon"
             />
           </span>
-        </button>
-
-        <!-- Expanded: static logo on the left (no morph). -->
-        <span v-else-if="headerIcon" class="t-sidebar__logo">
-          <Icon :icon="headerIcon" class="t-sidebar__logo-icon" />
-        </span>
-
-        <span
-          v-if="headerLabel"
-          class="t-sidebar__header-label t-sidebar__text"
-          :class="{ 't-sidebar__text--hidden': collapsed }"
-        >
-          {{ headerLabel }}
-        </span>
-
-        <!-- Expanded: separate collapse button on the right. -->
-        <button
-          v-if="!collapsed"
-          type="button"
-          class="t-sidebar__collapse"
-          :aria-label="toggleLabel.collapse"
-          :title="toggleLabel.collapse"
-          @click.stop="toggle"
-        >
-          <Icon :icon="collapseIcon" class="t-sidebar__collapse-icon" />
-        </button>
-      </div>
-    </slot>
-
-    <div class="t-sidebar__content">
-      <nav class="t-sidebar__nav">
-        <RouterLink
-          v-for="item in menuItems"
-          :key="item.route"
-          :to="item.route"
-          class="t-sidebar__nav-item"
-          :class="{ 't-sidebar__nav-item--active': isMenuItemActive(item) }"
-          :title="collapsed ? item.title : undefined"
-          :style="item.color ? { '--menu-item-color': item.color } : {}"
-          @click.stop
-        >
-          <Icon :icon="item.icon" class="t-sidebar__nav-icon" />
 
           <span
-            class="t-sidebar__nav-text t-sidebar__text"
+            v-if="headerLabel"
+            class="t-sidebar__header-label t-sidebar__text"
             :class="{ 't-sidebar__text--hidden': collapsed }"
           >
-            {{ item.title }}
+            {{ headerLabel }}
           </span>
-        </RouterLink>
-      </nav>
-    </div>
 
-    <div v-if="$slots.footer" class="t-sidebar__footer">
-      <slot name="footer" :collapsed="collapsed" />
-    </div>
+          <!-- Expanded: separate collapse button on the right. -->
+          <button
+            v-if="!collapsed"
+            type="button"
+            class="t-sidebar__collapse"
+            :aria-label="toggleLabel.collapse"
+            :title="toggleLabel.collapse"
+            @click.stop="toggle"
+          >
+            <Icon
+              :icon="collapseIcon"
+              class="t-sidebar__collapse-icon"
+            />
+          </button>
+        </div>
+      </slot>
+
+      <div class="t-sidebar__content">
+        <nav class="t-sidebar__nav">
+          <RouterLink
+            v-for="item in menuItems"
+            :key="item.route"
+            :to="item.route"
+            class="t-sidebar__nav-item"
+            :class="{ 't-sidebar__nav-item--active': isMenuItemActive(item) }"
+            :title="collapsed ? item.title : undefined"
+            :style="item.color ? { '--menu-item-color': item.color } : {}"
+            @click.stop
+          >
+            <Icon
+              :icon="item.icon"
+              class="t-sidebar__nav-icon"
+            />
+
+            <span
+              class="t-sidebar__nav-text t-sidebar__text"
+              :class="{ 't-sidebar__text--hidden': collapsed }"
+            >
+              {{ item.title }}
+            </span>
+          </RouterLink>
+        </nav>
+      </div>
+
+      <div
+        v-if="$slots.footer"
+        class="t-sidebar__footer"
+      >
+        <slot
+          name="footer"
+          :collapsed="collapsed"
+        />
+      </div>
     </div>
   </aside>
 </template>

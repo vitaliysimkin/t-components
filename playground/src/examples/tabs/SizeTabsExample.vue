@@ -1,15 +1,33 @@
 <template>
   <div class="row">
-    <div class="example-label">small</div>
-    <TTabs v-model="tab" :tabs="items" size="small" />
+    <div class="example-label">
+      small
+    </div>
+    <TTabs
+      v-model="tab"
+      :tabs="items"
+      size="small"
+    />
   </div>
   <div class="row">
-    <div class="example-label">default</div>
-    <TTabs v-model="tab" :tabs="items" size="default" />
+    <div class="example-label">
+      default
+    </div>
+    <TTabs
+      v-model="tab"
+      :tabs="items"
+      size="default"
+    />
   </div>
   <div class="row">
-    <div class="example-label">medium</div>
-    <TTabs v-model="tab" :tabs="items" size="medium" />
+    <div class="example-label">
+      medium
+    </div>
+    <TTabs
+      v-model="tab"
+      :tabs="items"
+      size="medium"
+    />
   </div>
 </template>
 

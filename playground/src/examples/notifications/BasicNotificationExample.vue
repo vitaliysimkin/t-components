@@ -6,7 +6,10 @@ const { info } = useNotifications()
 
 <template>
   <div>
-    <TButton label="Show notification" @click="info('Saved successfully')" />
+    <TButton
+      label="Show notification"
+      @click="info('Saved successfully')"
+    />
   </div>
 </template>
 

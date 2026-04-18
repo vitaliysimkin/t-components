@@ -11,9 +11,9 @@
     <button 
       v-if="removable" 
       class="t-tag__remove"
-      @click="$emit('remove')"
       type="button"
       aria-label="Remove tag"
+      @click="$emit('remove')"
     >
       ×
     </button>

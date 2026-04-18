@@ -1,6 +1,8 @@
 <template>
   <TTooltip content="Simple tooltip">
-    <TButton variant="neutral">Basic</TButton>
+    <TButton variant="neutral">
+      Basic
+    </TButton>
   </TTooltip>
   
   <TTooltip>
@@ -8,7 +10,9 @@
       <strong>HTML content</strong><br>
       <small>Rich formatting</small>
     </template>
-    <TButton variant="accent">Rich</TButton>
+    <TButton variant="accent">
+      Rich
+    </TButton>
   </TTooltip>
 </template>
 

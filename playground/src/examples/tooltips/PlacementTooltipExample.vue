@@ -1,18 +1,38 @@
 <template>
-  <TTooltip content="Top" placement="top">
-    <TButton variant="neutral">Top</TButton>
+  <TTooltip
+    content="Top"
+    placement="top"
+  >
+    <TButton variant="neutral">
+      Top
+    </TButton>
   </TTooltip>
   
-  <TTooltip content="Right" placement="right">
-    <TButton variant="neutral">Right</TButton>
+  <TTooltip
+    content="Right"
+    placement="right"
+  >
+    <TButton variant="neutral">
+      Right
+    </TButton>
   </TTooltip>
   
-  <TTooltip content="Bottom" placement="bottom">
-    <TButton variant="neutral">Bottom</TButton>
+  <TTooltip
+    content="Bottom"
+    placement="bottom"
+  >
+    <TButton variant="neutral">
+      Bottom
+    </TButton>
   </TTooltip>
   
-  <TTooltip content="Left" placement="left">
-    <TButton variant="neutral">Left</TButton>
+  <TTooltip
+    content="Left"
+    placement="left"
+  >
+    <TButton variant="neutral">
+      Left
+    </TButton>
   </TTooltip>
 </template>
 

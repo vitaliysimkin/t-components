@@ -7,8 +7,15 @@ const text = ref('')
 
 <template>
   <div>
-    <TTextarea v-model="text" placeholder="Enter your text..." />
-    <TTextarea v-model="text" :rows="5" placeholder="More rows..." />
+    <TTextarea
+      v-model="text"
+      placeholder="Enter your text..."
+    />
+    <TTextarea
+      v-model="text"
+      :rows="5"
+      placeholder="More rows..."
+    />
   </div>
 </template>
 

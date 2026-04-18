@@ -1,6 +1,8 @@
 <template>
   <div>
-    <TButton @click="openCallbackModal">Open Callback Modal</TButton>
+    <TButton @click="openCallbackModal">
+      Open Callback Modal
+    </TButton>
     
     <div v-if="lastRequestTime">
       <strong>Last data request at:</strong> {{ lastRequestTime }}

@@ -1,16 +1,27 @@
 <template>
-  <TTabs v-model="tab" :tabs="items">
+  <TTabs
+    v-model="tab"
+    :tabs="items"
+  >
     <template #panel-overview>
-      <div class="panel">Overview content.</div>
+      <div class="panel">
+        Overview content.
+      </div>
     </template>
     <template #panel-billing>
-      <div class="panel">Billing content.</div>
+      <div class="panel">
+        Billing content.
+      </div>
     </template>
     <template #panel-archive>
-      <div class="panel">Archive content (this tab is enabled).</div>
+      <div class="panel">
+        Archive content (this tab is enabled).
+      </div>
     </template>
   </TTabs>
-  <div class="hint">Try arrow keys — disabled tabs are skipped.</div>
+  <div class="hint">
+    Try arrow keys — disabled tabs are skipped.
+  </div>
 </template>
 
 <script setup lang="ts">

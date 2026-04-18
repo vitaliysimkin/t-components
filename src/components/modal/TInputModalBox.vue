@@ -9,15 +9,15 @@ import TCodeEditor from '../TCodeEditor.vue'
 
 const props = defineProps<{
   inputs: Array<ModalInputConfig> | ModalInputConfig
-  onSubmit?: (values: Record<string, any>) => void
+  onSubmit?: (values: Record<string, unknown>) => void
   onCancel?: () => void
 }>()
 
-const inputsArray = computed(() => 
+const inputsArray = computed(() =>
   Array.isArray(props.inputs) ? props.inputs : [props.inputs]
 )
 
-const values = ref<Record<string, any>>({})
+const values = ref<Record<string, unknown>>({})
 
 // Initialize values
 inputsArray.value.forEach(input => {
@@ -57,7 +57,8 @@ const handleCancel = () => {
         <TCodeEditor
           v-else-if="input.type === 'code'"
           v-model="values[input.code]"
-          v-bind="input.attrs" />
+          v-bind="input.attrs"
+        />
         <TInput 
           v-else
           v-model="values[input.code]"
@@ -68,8 +69,18 @@ const handleCancel = () => {
       </div>
     </div>
     <div class="t-input-modal-actions">
-      <TButton variant="neutral" @click="handleCancel">Cancel</TButton>
-      <TButton variant="accent" @click="handleSubmit">Submit</TButton>
+      <TButton
+        variant="neutral"
+        @click="handleCancel"
+      >
+        Cancel
+      </TButton>
+      <TButton
+        variant="accent"
+        @click="handleSubmit"
+      >
+        Submit
+      </TButton>
     </div>
   </div>
 </template>

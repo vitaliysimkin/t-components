@@ -14,7 +14,12 @@ const roles = [
 </script>
 
 <template>
-    <TSelect v-model="roleId" :options="roles" searchable placeholder="Search role..." />
+  <TSelect
+    v-model="roleId"
+    :options="roles"
+    searchable
+    placeholder="Search role..."
+  />
 </template>
 
 <style scoped>

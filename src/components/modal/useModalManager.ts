@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref, computed, type Component } from 'vue'
 import type { ModalBoxConfig, ModalInputConfig } from './types'
 import TInputModalBox from './TInputModalBox.vue'
 
@@ -7,8 +7,8 @@ export interface ModalBoxInstance {
   config: ModalBoxConfig
   label?: string
   icon?: string
-  contentComponent?: any
-  componentProps?: Record<string, any>
+  contentComponent?: Component
+  componentProps?: Record<string, unknown>
 }
 
 // Глобальний стан модальних вікон
@@ -57,11 +57,11 @@ export function useModalManager() {
     }
   }
 
-  const openInputModal = (config?: Partial<ModalBoxConfig> & { 
-    label?: string; 
+  const openInputModal = (config?: Partial<ModalBoxConfig> & {
+    label?: string;
     icon?: string;
     inputs: Array<ModalInputConfig> | ModalInputConfig;
-    onSubmit?: (values: Record<string, any>) => void;
+    onSubmit?: (values: Record<string, unknown>) => void;
   }): string => {
     const { label, icon, inputs, onSubmit, ...modalConfig } = config || { inputs: [] }
     
@@ -84,7 +84,7 @@ export function useModalManager() {
       contentComponent: TInputModalBox,
       componentProps: {
         inputs,
-        onSubmit: (values: Record<string, any>) => {
+        onSubmit: (values: Record<string, unknown>) => {
           onSubmit?.(values)
           closeModal(modalId)
         },
@@ -100,11 +100,11 @@ export function useModalManager() {
   }
 
   // Основні методи
-  const openModal = (config?: Partial<ModalBoxConfig> & { 
-    label?: string; 
+  const openModal = (config?: Partial<ModalBoxConfig> & {
+    label?: string;
     icon?: string;
-    contentComponent?: any;
-    componentProps?: Record<string, any>;
+    contentComponent?: Component;
+    componentProps?: Record<string, unknown>;
   }): string => {
     const { label, icon, contentComponent, componentProps, ...modalConfig } = config || {}
     const finalConfig = createModalConfig(modalConfig)

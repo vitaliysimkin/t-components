@@ -7,11 +7,31 @@ const text = ref('')
 
 <template>
   <div>
-    <TInput v-model="text" size="mini" placeholder="Mini" />
-    <TInput v-model="text" size="small" placeholder="Small" />
-    <TInput v-model="text" size="default" placeholder="Default" />
-    <TInput v-model="text" size="medium" placeholder="Medium" />
-    <TInput v-model="text" size="large" placeholder="Large" />
+    <TInput
+      v-model="text"
+      size="mini"
+      placeholder="Mini"
+    />
+    <TInput
+      v-model="text"
+      size="small"
+      placeholder="Small"
+    />
+    <TInput
+      v-model="text"
+      size="default"
+      placeholder="Default"
+    />
+    <TInput
+      v-model="text"
+      size="medium"
+      placeholder="Medium"
+    />
+    <TInput
+      v-model="text"
+      size="large"
+      placeholder="Large"
+    />
   </div>
 </template>
 

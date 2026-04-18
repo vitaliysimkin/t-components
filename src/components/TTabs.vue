@@ -120,7 +120,12 @@ const hasPanelSlot = (value: TTabValue) =>
 </script>
 
 <template>
-  <div class="t-tabs" :variant="variant" :size="size" :align="align">
+  <div
+    class="t-tabs"
+    :variant="variant"
+    :size="size"
+    :align="align"
+  >
     <div
       class="t-tabs__list"
       role="tablist"
@@ -128,12 +133,12 @@ const hasPanelSlot = (value: TTabValue) =>
     >
       <button
         v-for="tab in tabs"
+        :id="tabId(tab.value)"
         :key="tab.value"
         :ref="setTabRef(tab.value)"
         type="button"
         class="t-tabs__tab"
         role="tab"
-        :id="tabId(tab.value)"
         :aria-controls="panelId(tab.value)"
         :aria-selected="isActive(tab.value)"
         :aria-disabled="tab.disabled || undefined"
@@ -143,32 +148,52 @@ const hasPanelSlot = (value: TTabValue) =>
         @click="!tab.disabled && select(tab.value)"
         @keydown="onKeydown($event, tab.value)"
       >
-        <slot :name="`tab-${String(tab.value)}`" :tab="tab" :active="isActive(tab.value)">
-          <Icon v-if="tab.icon" :icon="tab.icon" class="t-tabs__tab-icon" />
-          <span v-if="tab.label" class="t-tabs__tab-label">{{ tab.label }}</span>
-          <span v-if="tab.badge !== undefined" class="t-tabs__tab-badge">{{ tab.badge }}</span>
+        <slot
+          :name="`tab-${String(tab.value)}`"
+          :tab="tab"
+          :active="isActive(tab.value)"
+        >
+          <Icon
+            v-if="tab.icon"
+            :icon="tab.icon"
+            class="t-tabs__tab-icon"
+          />
+          <span
+            v-if="tab.label"
+            class="t-tabs__tab-label"
+          >{{ tab.label }}</span>
+          <span
+            v-if="tab.badge !== undefined"
+            class="t-tabs__tab-badge"
+          >{{ tab.badge }}</span>
         </slot>
       </button>
     </div>
 
-    <template v-for="tab in tabs" :key="`panel-${tab.value}`">
+    <template
+      v-for="tab in tabs"
+      :key="`panel-${tab.value}`"
+    >
       <div
         v-if="isActive(tab.value) && hasPanelSlot(tab.value)"
+        :id="panelId(tab.value)"
         class="t-tabs__panel"
         role="tabpanel"
-        :id="panelId(tab.value)"
         :aria-labelledby="tabId(tab.value)"
         tabindex="0"
       >
-        <slot :name="`panel-${String(tab.value)}`" :tab="tab" />
+        <slot
+          :name="`panel-${String(tab.value)}`"
+          :tab="tab"
+        />
       </div>
     </template>
 
     <div
       v-if="$slots.default && activeValue !== undefined"
+      :id="panelId(activeValue)"
       class="t-tabs__panel"
       role="tabpanel"
-      :id="panelId(activeValue)"
       :aria-labelledby="tabId(activeValue)"
       tabindex="0"
     >

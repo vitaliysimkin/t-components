@@ -1,14 +1,25 @@
 <template>
   <TTooltip content="Input tooltip">
-    <input type="text" placeholder="Focus or hover">
+    <input
+      type="text"
+      placeholder="Focus or hover"
+    >
   </TTooltip>
   
-  <TTooltip content="Help button" placement="right">
+  <TTooltip
+    content="Help button"
+    placement="right"
+  >
     <button>?</button>
   </TTooltip>
   
-  <TTooltip content="Disabled tooltip" :disabled="true">
-    <TButton variant="neutral">Disabled</TButton>
+  <TTooltip
+    content="Disabled tooltip"
+    :disabled="true"
+  >
+    <TButton variant="neutral">
+      Disabled
+    </TButton>
   </TTooltip>
 </template>
 

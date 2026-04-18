@@ -15,7 +15,10 @@
           :aria-label="themeTitle"
           @click.stop="cycleTheme"
         >
-          <Icon :icon="themeIcon" class="theme-cycle__icon" />
+          <Icon
+            :icon="themeIcon"
+            class="theme-cycle__icon"
+          />
           <span
             class="theme-cycle__label"
             :class="{ 'theme-cycle__label--hidden': sidebarCollapsed }"

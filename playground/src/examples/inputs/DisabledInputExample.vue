@@ -7,8 +7,16 @@ const text = ref('Disabled value')
 
 <template>
   <div>
-    <TInput v-model="text" disabled placeholder="Disabled" />
-    <TInput model-value="" disabled placeholder="Empty disabled" />
+    <TInput
+      v-model="text"
+      disabled
+      placeholder="Disabled"
+    />
+    <TInput
+      model-value=""
+      disabled
+      placeholder="Empty disabled"
+    />
   </div>
 </template>
 

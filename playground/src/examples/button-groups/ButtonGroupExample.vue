@@ -2,12 +2,27 @@
   <TButtonGroup :options="basicOptions" />
   
   <TButtonGroup>
-    <TButton variant="neutral" label="Edit" icon="system-uicons:create" />
-    <TButton variant="danger" label="Delete" icon="system-uicons:trash" />
-    <TButton variant="info" label="Info" icon="system-uicons:book-text" />
-    <TButton variant="success" label="Save" icon="system-uicons:check" />
+    <TButton
+      variant="neutral"
+      label="Edit"
+      icon="system-uicons:create"
+    />
+    <TButton
+      variant="danger"
+      label="Delete"
+      icon="system-uicons:trash"
+    />
+    <TButton
+      variant="info"
+      label="Info"
+      icon="system-uicons:book-text"
+    />
+    <TButton
+      variant="success"
+      label="Save"
+      icon="system-uicons:check"
+    />
   </TButtonGroup>
-  
 </template>
 
 <script setup lang="ts">

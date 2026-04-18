@@ -4,7 +4,6 @@
       class="modal-box-host"
       :class="{ 'overlay-visible': overlayVisible }"
     >
-      
       <!-- Модальні вікна -->
       <TModalBox
         v-for="modal in modalManager.modals.value"

@@ -12,13 +12,13 @@ export function useResizer(
   let resizeObserver: ResizeObserver | null = null
 
   // Throttle для оптимізації
-  const throttle = (func: Function, delay: number) => {
+  const throttle = <T extends (...args: never[]) => void>(func: T, delay: number) => {
     let timeoutId: ReturnType<typeof setTimeout>
     let lastExecTime = 0
-    
-    return function (...args: any[]) {
+
+    return function (...args: Parameters<T>) {
       const currentTime = Date.now()
-      
+
       if (currentTime - lastExecTime > delay) {
         func(...args)
         lastExecTime = currentTime
