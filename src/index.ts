@@ -26,6 +26,11 @@ export type {
   TDatePickerProps,
   TDatePickerEmits,
 } from './components/TDatePicker.vue'
+export type {
+  TTableColumn,
+  TTableSort,
+  TTableSortDirection,
+} from './components/TTable.vue'
 
 // Named component exports (tree-shakeable) — single source of truth lives in registry.ts
 export {
@@ -51,6 +56,7 @@ export {
   TInputModalBox,
   TNotifications,
   TFormField,
+  TTable,
 } from './components/registry'
 
 export { TFormFieldContextKey } from './components/TFormField.vue'
