@@ -101,6 +101,18 @@ import BasicCodeEditorExampleCode from './code-editor/BasicCodeEditorExample.vue
 import LanguagesCodeEditorExampleCode from './code-editor/LanguagesCodeEditorExample.vue?raw'
 import ReadonlyCodeEditorExampleCode from './code-editor/ReadonlyCodeEditorExample.vue?raw'
 
+// Table Examples
+import BasicTableExample from './table/BasicTableExample.vue'
+import SortableTableExample from './table/SortableTableExample.vue'
+import SelectableTableExample from './table/SelectableTableExample.vue'
+import LoadingEmptyTableExample from './table/LoadingEmptyTableExample.vue'
+import CustomCellTableExample from './table/CustomCellTableExample.vue'
+import BasicTableExampleCode from './table/BasicTableExample.vue?raw'
+import SortableTableExampleCode from './table/SortableTableExample.vue?raw'
+import SelectableTableExampleCode from './table/SelectableTableExample.vue?raw'
+import LoadingEmptyTableExampleCode from './table/LoadingEmptyTableExample.vue?raw'
+import CustomCellTableExampleCode from './table/CustomCellTableExample.vue?raw'
+
 // Tabs Examples
 import BasicTabsExample from './tabs/BasicTabsExample.vue'
 import IconTabsExample from './tabs/IconTabsExample.vue'
@@ -587,6 +599,38 @@ export const elements: Element[] = [
     ]
   },
   {
+    label: 'TTable',
+    slug: 'table',
+    icon: 'material-symbols-light:table-outline',
+    components: [
+      {
+        component: BasicTableExample,
+        code: BasicTableExampleCode,
+        label: 'Basic'
+      },
+      {
+        component: SortableTableExample,
+        code: SortableTableExampleCode,
+        label: 'Sortable (client-side)'
+      },
+      {
+        component: SelectableTableExample,
+        code: SelectableTableExampleCode,
+        label: 'Selectable (master checkbox)'
+      },
+      {
+        component: LoadingEmptyTableExample,
+        code: LoadingEmptyTableExampleCode,
+        label: 'Loading + Empty states'
+      },
+      {
+        component: CustomCellTableExample,
+        code: CustomCellTableExampleCode,
+        label: 'Custom cells via slots'
+      }
+    ]
+  },
+  {
     label: 'TNotifications',
     slug: 'notifications',
     icon: 'material-symbols-light:notifications-outline',
@@ -660,4 +704,9 @@ export {
   BasicCodeEditorExample,
   LanguagesCodeEditorExample,
   ReadonlyCodeEditorExample,
+  BasicTableExample,
+  SortableTableExample,
+  SelectableTableExample,
+  LoadingEmptyTableExample,
+  CustomCellTableExample,
 }
