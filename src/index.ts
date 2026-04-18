@@ -49,7 +49,11 @@ export {
   TModalBoxHost,
   TInputModalBox,
   TNotifications,
+  TFormField,
 } from './components/registry'
+
+export { TFormFieldContextKey } from './components/TFormField.vue'
+export type { TFormFieldContext } from './components/TFormField.vue'
 
 export { componentRegistry } from './components/registry'
 
