@@ -25,13 +25,41 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
 import TModalBox from './TModalBox.vue'
 import { overlayVisible as draggerOverlayVisible } from './useDragger'
 import { modalManager } from './useModalManager'
 
 // Computed properties
 const overlayVisible = computed(() => draggerOverlayVisible.value)
+
+// Єдиний глобальний ESC-слухач для всіх модалок.
+// Закриває лише top-most active модалку, якщо вона blocking + dismissible
+// і не мінімізована. Це замінює N окремих слухачів у кожному TModalBox.
+const handleEscKey = (event: KeyboardEvent) => {
+  if (event.key !== 'Escape') return
+
+  const activeId = modalManager.activeModalId.value
+  if (!activeId) return
+
+  if (modalManager.isModalMinimized(activeId)) return
+
+  const activeModal = modalManager.modals.value.find(m => m.id === activeId)
+  if (!activeModal) return
+
+  const { blocking, blockingDismissible } = activeModal.config
+  if (blocking && blockingDismissible) {
+    modalManager.closeModal(activeId)
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleEscKey)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleEscKey)
+})
 
 // Експортуємо modalManager для зовнішнього доступу
 defineExpose({
