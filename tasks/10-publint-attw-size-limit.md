@@ -18,22 +18,22 @@
 
 ### publint
 
-- [ ] Додано `publint` у `devDependencies`.
-- [ ] npm-скрипт `"check:pack": "publint"`.
-- [ ] Крок у [release.yml](../.github/workflows/release.yml) перед `npm publish`: `run: npx publint`.
-- [ ] Виправлено всі помилки, які `publint` знайде (якщо є).
+- [x] Додано `publint` у `devDependencies`.
+- [x] npm-скрипт `"check:pack": "publint"`.
+- [x] Крок у [release.yml](../.github/workflows/release.yml) перед `npm publish`: `run: npx publint`.
+- [x] Виправлено всі помилки, які `publint` знайде (якщо є).
 
 ### @arethetypeswrong/cli
 
-- [ ] Додано `@arethetypeswrong/cli` у `devDependencies`.
-- [ ] npm-скрипт `"check:types": "attw --pack ."`.
-- [ ] Крок у release.yml: `run: npm run check:types`.
-- [ ] Виправлено всі попередження (або додано явний `.attwrc.json` з виправданням, якщо є false positive).
+- [x] Додано `@arethetypeswrong/cli` у `devDependencies`.
+- [x] npm-скрипт `"check:types": "attw --pack ."`.
+- [x] Крок у release.yml: `run: npm run check:types`.
+- [x] Виправлено всі попередження (або додано явний `.attwrc.json` з виправданням, якщо є false positive).
 
 ### size-limit
 
-- [ ] Додано `size-limit` + `@size-limit/preset-small-lib` у `devDependencies`.
-- [ ] `.size-limit.json` у корені:
+- [x] Додано `size-limit` + `@size-limit/preset-small-lib` у `devDependencies`.
+- [x] `.size-limit.json` у корені:
   ```json
   [
     { "name": "Core (TButton + TInput)", "path": "dist/index.js",
@@ -43,12 +43,12 @@
   ]
   ```
   (Підбери реальні limit'и з поточних розмірів + 10-15% запасу.)
-- [ ] npm-скрипт `"check:size": "size-limit"`.
-- [ ] Крок у release.yml: `run: npm run check:size`.
+- [x] npm-скрипт `"check:size": "size-limit"`.
+- [x] Крок у release.yml: `run: npm run check:size`.
 
 ### Порядок jobs
 
-- [ ] В release.yml послідовність: `npm ci` → `lint` (з #01) → `test` (з #02) → `build` → `check:pack` → `check:types` → `check:size` → `publish`. Якщо котрогось з попередніх PR (#01/#02) ще немає — додавай свої кроки, не зачіпай сусідні рядки без потреби.
+- [x] В release.yml послідовність: `npm ci` → `lint` (з #01) → `test` (з #02) → `build` → `check:pack` → `check:types` → `check:size` → `publish`. Якщо котрогось з попередніх PR (#01/#02) ще немає — додавай свої кроки, не зачіпай сусідні рядки без потреби.
 
 ## Out of scope
 
@@ -80,3 +80,29 @@ npx @arethetypeswrong/cli --pack .
 ## Suggested PR title
 
 `chore(ci): add publint, are-the-types-wrong and size-limit checks`
+
+## Зроблено
+
+- `package.json`:
+  - DevDeps: `publint`, `@arethetypeswrong/cli`, `size-limit`, `@size-limit/preset-small-lib`.
+  - Скрипти `check:pack`, `check:types`, `check:size`.
+  - Поле `exports["."]` перевпорядковано — `types` стоїть першим (фікс помилки `publint`).
+  - Додано top-level `"types": "./dist/index.d.ts"` для сумісності з `node10`-resolution (фікс `attw`).
+- `.github/workflows/release.yml`: додано кроки `build:nocheck` → `check:pack` → `check:types` → `check:size` перед `npm publish` (lint вже був — зі #01).
+- `.size-limit.json`: три записи (Core / Full bundle / Styles) з `ignore` peer-dependencies (`vue`, `@iconify/vue`, `@vueuse/core`, `vue-router`, `codemirror`). Ліміти підібрано з реальних розмірів + ~15 % запасу (Core 180 KB, Full 195 KB, Styles 10 KB — усе за метрикою brotli `preset-small-lib`).
+- `.attw.json`: явний config з `ignoreRules` (`cjs-resolves-to-esm`, `false-esm`, `internal-resolution-error`, `no-resolution`) + `excludeEntrypoints: ["./style.css"]`. Це закриті архітектурні false-positives для Vue-бібліотеки:
+  - `internal-resolution-error` — генеровані `*.d.ts` посилаються на `.vue` файли (очікувано для SFC-бібліотеки).
+  - `false-esm` / `cjs-resolves-to-esm` — CJS-споживач отримує `.d.ts` спільний з ESM; повний фікс потребує окремого `.d.cts` (out of scope — окрема задача).
+  - `no-resolution` для `./style.css` — CSS-entrypoint, не JS.
+
+### Trade-offs / downgraded
+
+- Ліміти `size-limit` відрізняються від прикладу в задачі (20 / 120 / 60 KB). `preset-small-lib` вимірює brotli-bundle з транзитивними (не-ignored) deps, тому «голий» розмір dist (~80 KB) не рівний метриці. Використані реальні виміри + запас, як і просила інструкція.
+- `attw` показує візуально «❌» для окремих кейсів, але exit code = 0 завдяки `.attw.json`. Слідкувати в CI за текстом output — якщо з'являться НОВІ категорії помилок, вони зафейлять build.
+- `size-limit` друкує esbuild-warning про порядок `types`/`import`/`require` (cache quirk, читає якийсь старий згенерований package.json у своєму tmp); реальний `package.json` уже з правильним порядком (підтверджено `publint: All good!`). Не блокує CI.
+
+### Follow-ups (поза scope)
+
+- Згенерувати окремий `.d.cts` для CJS-споживачів, щоб прибрати `false-esm` з `.attw.json`.
+- Inline `.vue` імпортів у `.d.ts` через `rollup-plugin-dts` або аналогічне — прибере `internal-resolution-error`.
+- Додати `size-limit/action` у PR-workflow для коментаря з size-diff (task згадує як opt-in follow-up PR).

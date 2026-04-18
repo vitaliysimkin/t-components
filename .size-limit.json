@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Core (TButton + TInput)",
+    "path": "dist/index.js",
+    "import": "{ TButton, TInput }",
+    "ignore": ["vue", "@iconify/vue", "@vueuse/core", "vue-router", "codemirror"],
+    "limit": "180 KB"
+  },
+  {
+    "name": "Full bundle",
+    "path": "dist/index.js",
+    "ignore": ["vue", "@iconify/vue", "@vueuse/core", "vue-router", "codemirror"],
+    "limit": "195 KB"
+  },
+  {
+    "name": "Styles",
+    "path": "dist/index.css",
+    "limit": "10 KB"
+  }
+]

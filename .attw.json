@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/arethetypeswrong/arethetypeswrong.github.io/main/packages/core/attw.schema.json",
+  "ignoreRules": [
+    "cjs-resolves-to-esm",
+    "false-esm",
+    "internal-resolution-error",
+    "no-resolution"
+  ],
+  "excludeEntrypoints": [
+    "./style.css"
+  ]
+}

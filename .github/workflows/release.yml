@@ -23,4 +23,12 @@ jobs:
 
       - run: npm run lint
 
+      - run: npm run build:nocheck
+
+      - run: npm run check:pack
+
+      - run: npm run check:types
+
+      - run: npm run check:size
+
       - run: npm publish --access public
