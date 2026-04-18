@@ -32,7 +32,7 @@ export interface TSelectProps<T extends TOption = TOption> {
   loadOptions?: (query: string) => Promise<T[]>
   debounce?: number
   valueMode?: 'option' | 'value'
-  inputProps?: Record<string, any>
+  inputProps?: Record<string, unknown>
 }
 
 const props = withDefaults(defineProps<TSelectProps<T>>(), {
@@ -76,31 +76,32 @@ const currentOptions = computed(() => isAsyncMode.value ? internalOptions.value 
 const isLoading = computed(() => props.loading || internalLoading.value)
 
 // Helper to get value from option
-function getValue(option: TOption): string | number {
+function getValue(option: T): string | number {
   if (typeof option === 'string' || typeof option === 'number') {
     return option
   }
-  return option[props.valueKey]
+  return option[props.valueKey] as string | number
 }
 
 // Helper to get label from option
-function getLabel(option: TOption): string {
+function getLabel(option: T): string {
   if (typeof option === 'string' || typeof option === 'number') {
     return option.toString()
   }
   if (option[props.labelKey] !== undefined) {
-    return option[props.labelKey]?.toString()
+    return String(option[props.labelKey])
   }
-  return option[props.valueKey]?.toString()
+  return String(option[props.valueKey])
 }
 
 // Helper to get icon from option
-function getIcon(option: TOption): string | null {
+function getIcon(option: T): string | null {
   if (!props.iconKey) return null
   if (typeof option === 'string' || typeof option === 'number') {
     return null
   }
-  return option[props.iconKey] ?? null
+  const value = option[props.iconKey]
+  return value == null ? null : String(value)
 }
 
 // Get display label for selected value.
@@ -323,16 +324,24 @@ function handleMouseEnter(index: number) {
 </script>
 
 <template>
-  <TDropdown ref="dropdownRef" v-model:is-open="isOpen" 
-  :match-trigger-width="true" :disabled="disabled"
+  <TDropdown
+    ref="dropdownRef"
+    v-model:is-open="isOpen" 
+    :match-trigger-width="true"
+    :disabled="disabled"
     style="display: block;width: 100%;"
-    :offset="0" :closeOnPanelClick="false"
-    @close="handleClose">
+    :offset="0"
+    :close-on-panel-click="false"
+    @close="handleClose"
+  >
     <template #trigger="{ triggerProps }">
-      <div v-bind="triggerProps" class="t-select__trigger"
+      <div
+        v-bind="triggerProps"
+        class="t-select__trigger"
         :show-pointer="!disabled ? '' : null"
         :disabled="disabled ? '' : null"
-        @keydown="handleKeydown">
+        @keydown="handleKeydown"
+      >
         <TInput
           :model-value="displayLabel"
           :readonly="!searchable && !autocomplete"
@@ -351,31 +360,45 @@ function handleMouseEnter(index: number) {
     </template>
 
     <template #default>
-      <ul class="t-select__list" :data-size="size || 'default'" v-show="!autocomplete || filteredOptions.length > 0">
+      <ul
+        v-show="!autocomplete || filteredOptions.length > 0"
+        class="t-select__list"
+        :data-size="size || 'default'"
+      >
         <!-- Loading state -->
-        <li v-if="isLoading" class="t-select__state">
+        <li
+          v-if="isLoading"
+          class="t-select__state"
+        >
           {{ loadingText }}
         </li>
         
         <!-- Empty state -->
-        <li v-else-if="filteredOptions.length === 0" class="t-select__state">
+        <li
+          v-else-if="filteredOptions.length === 0"
+          class="t-select__state"
+        >
           {{ emptyText }}
         </li>
         
         <!-- Options list -->
         <li 
-          v-else
-          v-for="(option, index) in filteredOptions" 
+          v-for="(option, index) in filteredOptions"
+          v-else 
           :key="getValue(option)"
           class="t-select__item"
-            :class="{ 
-              't-select__item--selected': isSelected(option),
+          :class="{ 
+            't-select__item--selected': isSelected(option),
             't-select__item--active': index === activeIndex
           }"
           @click="selectOption(option)"
           @mouseenter="handleMouseEnter(index)"
         >
-          <Icon v-if="iconKey && getIcon(option)" :icon="getIcon(option)!" class="t-select__icon" />
+          <Icon
+            v-if="iconKey && getIcon(option)"
+            :icon="getIcon(option)!"
+            class="t-select__icon"
+          />
           <span>{{ getLabel(option) }}</span>
         </li>
       </ul>

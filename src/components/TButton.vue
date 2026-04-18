@@ -31,7 +31,10 @@ withDefaults(
     :size="size"
     :disabled="disabled"
   >
-    <Icon v-if="icon" :icon="icon" />
+    <Icon
+      v-if="icon"
+      :icon="icon"
+    />
     <slot>{{ label }}</slot>
   </button>
 </template>

@@ -9,7 +9,10 @@ const time = ref<string | null>(null)
   <div class="example-cnt">
     <div class="example__row">
       <span class="example__label">TTimeInput</span>
-      <TTimeInput v-model="time" :editable="true" />
+      <TTimeInput
+        v-model="time"
+        :editable="true"
+      />
     </div>
   </div>
 </template>

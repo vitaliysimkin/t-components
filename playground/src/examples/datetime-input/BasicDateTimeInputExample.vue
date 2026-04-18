@@ -14,7 +14,10 @@ const datetimeStep30 = ref<string | null>(null)
     </div>
     <div class="example__row">
       <span class="example__label">TDateTimeInput :step="30"</span>
-      <TDateTimeInput v-model="datetimeStep30" :step="30" />
+      <TDateTimeInput
+        v-model="datetimeStep30"
+        :step="30"
+      />
     </div>
   </div>
 </template>

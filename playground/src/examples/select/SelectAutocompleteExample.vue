@@ -7,8 +7,12 @@ const cities = ['Kyiv', 'Lviv', 'Odesa', 'Kharkiv', 'Dnipro']
 </script>
 
 <template>
-<div>
-  <TSelect v-model="city" :options="cities" autocomplete />
-  <p>Selected: {{ city }}</p>
-</div>
+  <div>
+    <TSelect
+      v-model="city"
+      :options="cities"
+      autocomplete
+    />
+    <p>Selected: {{ city }}</p>
+  </div>
 </template>

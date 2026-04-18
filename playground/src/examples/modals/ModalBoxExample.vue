@@ -1,9 +1,15 @@
 <template>
   <div>
-    <TButton @click="openModal">Open Modal</TButton>
+    <TButton @click="openModal">
+      Open Modal
+    </TButton>
     <div style="margin-top: 10px;">
       <label>Demo Value: </label>
-      <input v-model="demoValue" type="text" placeholder="Demo value..." />
+      <input
+        v-model="demoValue"
+        type="text"
+        placeholder="Demo value..."
+      >
       {{ pressedButton }}
     </div>
   </div>

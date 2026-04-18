@@ -6,5 +6,8 @@ const checked = ref(false)
 </script>
 
 <template>
-<TSwitch v-model="checked" label="Enable notifications" />
+  <TSwitch
+    v-model="checked"
+    label="Enable notifications"
+  />
 </template>

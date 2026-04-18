@@ -105,7 +105,7 @@ const users = [{"id":1,"name":"Atlanta Brompton"},
 {"id":99,"name":"Eddie Roderigo"},
 {"id":100,"name":"Pansy Ridge"}]
 
-async function searchUsers(_query: string): Promise<any[]> {
+async function searchUsers(_query: string): Promise<Array<{ value: number; label: string }>> {
   await new Promise(resolve => setTimeout(resolve, 500))
   return users
     // .filter(u => u.name.toLowerCase().includes(query.toLowerCase()))
@@ -117,9 +117,9 @@ async function searchUsers(_query: string): Promise<any[]> {
   <TSelect
     v-model="userId"
     searchable
-    :loadOptions="searchUsers"
+    :load-options="searchUsers"
     :debounce="250"
-    :minQueryLength="2"
+    :min-query-length="2"
     placeholder="Search users..."
     clearable
   />

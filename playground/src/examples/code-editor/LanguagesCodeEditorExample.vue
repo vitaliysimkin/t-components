@@ -20,9 +20,26 @@ just a comfortable multi-line editor with line numbers.`)
 
 <template>
   <div class="stack">
-    <TCodeEditor v-model="jsonValue" label="JSON" language="json" min-height="120px" />
-    <TCodeEditor v-model="markdownValue" label="Markdown" language="markdown" min-height="120px" line-wrapping />
-    <TCodeEditor v-model="textValue" label="Plain text" language="text" min-height="100px" line-wrapping />
+    <TCodeEditor
+      v-model="jsonValue"
+      label="JSON"
+      language="json"
+      min-height="120px"
+    />
+    <TCodeEditor
+      v-model="markdownValue"
+      label="Markdown"
+      language="markdown"
+      min-height="120px"
+      line-wrapping
+    />
+    <TCodeEditor
+      v-model="textValue"
+      label="Plain text"
+      language="text"
+      min-height="100px"
+      line-wrapping
+    />
   </div>
 </template>
 

@@ -157,7 +157,10 @@ function commitText() {
     style="display: block; width: 100%;"
   >
     <template #trigger>
-      <div class="t-datetime-input__trigger" @click="onTriggerClick">
+      <div
+        class="t-datetime-input__trigger"
+        @click="onTriggerClick"
+      >
         <TInput
           v-model="localText"
           :placeholder="placeholder"
@@ -172,7 +175,10 @@ function commitText() {
 
     <div class="t-datetime-panel">
       <div class="t-datetime-panel__body">
-        <TDatePicker :model-value="pickedDate" @update:model-value="onDateSelect" />
+        <TDatePicker
+          :model-value="pickedDate"
+          @update:model-value="onDateSelect"
+        />
         <TTimePicker
           :hour="pickedHour"
           :minute="pickedMinute"
@@ -182,7 +188,12 @@ function commitText() {
         />
       </div>
       <div class="t-datetime-panel__footer">
-        <TButton size="small" @click="confirm">{{ doneLabel }}</TButton>
+        <TButton
+          size="small"
+          @click="confirm"
+        >
+          {{ doneLabel }}
+        </TButton>
       </div>
     </div>
   </TDropdown>

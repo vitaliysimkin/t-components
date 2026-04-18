@@ -11,8 +11,16 @@ function pushPersistent() {
 
 <template>
   <div>
-    <TButton label="Push persistent" @click="pushPersistent" />
-    <TButton label="Clear all" variant="neutral" mode="plain" @click="clear" />
+    <TButton
+      label="Push persistent"
+      @click="pushPersistent"
+    />
+    <TButton
+      label="Clear all"
+      variant="neutral"
+      mode="plain"
+      @click="clear"
+    />
   </div>
 </template>
 

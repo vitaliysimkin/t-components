@@ -68,7 +68,10 @@ function selectMinute(m: number) {
 
 <template>
   <div class="t-time-picker">
-    <div ref="hoursRef" class="t-time-col">
+    <div
+      ref="hoursRef"
+      class="t-time-col"
+    >
       <div
         v-for="h in 24"
         :key="h - 1"
@@ -80,9 +83,14 @@ function selectMinute(m: number) {
       </div>
     </div>
 
-    <div class="t-time-sep">:</div>
+    <div class="t-time-sep">
+      :
+    </div>
 
-    <div ref="minutesRef" class="t-time-col">
+    <div
+      ref="minutesRef"
+      class="t-time-col"
+    >
       <div
         v-for="m in minuteOptions"
         :key="m"

@@ -7,11 +7,36 @@ const role = ref<string | number | null>('Admin')
 
 <template>
   <div>
-    <TSelect v-model="role" :options="['Admin', 'Editor', 'Viewer']" size="mini" placeholder="Mini" />
-    <TSelect v-model="role" :options="['Admin', 'Editor', 'Viewer']" size="small" placeholder="Small" />
-    <TSelect v-model="role" :options="['Admin', 'Editor', 'Viewer']" size="default" placeholder="Default" />
-    <TSelect v-model="role" :options="['Admin', 'Editor', 'Viewer']" size="medium" placeholder="Medium" />
-    <TSelect v-model="role" :options="['Admin', 'Editor', 'Viewer']" size="large" placeholder="Large" />
+    <TSelect
+      v-model="role"
+      :options="['Admin', 'Editor', 'Viewer']"
+      size="mini"
+      placeholder="Mini"
+    />
+    <TSelect
+      v-model="role"
+      :options="['Admin', 'Editor', 'Viewer']"
+      size="small"
+      placeholder="Small"
+    />
+    <TSelect
+      v-model="role"
+      :options="['Admin', 'Editor', 'Viewer']"
+      size="default"
+      placeholder="Default"
+    />
+    <TSelect
+      v-model="role"
+      :options="['Admin', 'Editor', 'Viewer']"
+      size="medium"
+      placeholder="Medium"
+    />
+    <TSelect
+      v-model="role"
+      :options="['Admin', 'Editor', 'Viewer']"
+      size="large"
+      placeholder="Large"
+    />
   </div>
 </template>
 

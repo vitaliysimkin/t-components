@@ -21,5 +21,7 @@ const openAdvancedModal = () => {
 </script>
 
 <template>
-    <TButton @click="openAdvancedModal">Open Advanced Modal</TButton>
+  <TButton @click="openAdvancedModal">
+    Open Advanced Modal
+  </TButton>
 </template>

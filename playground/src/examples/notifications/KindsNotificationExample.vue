@@ -6,10 +6,26 @@ const { info, success, warning, error } = useNotifications()
 
 <template>
   <div>
-    <TButton label="Info"    variant="accent"  @click="info('Just so you know…')" />
-    <TButton label="Success" variant="success" @click="success('Operation completed')" />
-    <TButton label="Warning" variant="warning" @click="warning('Double-check this')" />
-    <TButton label="Error"   variant="danger"  @click="error('Something broke')" />
+    <TButton
+      label="Info"
+      variant="accent"
+      @click="info('Just so you know…')"
+    />
+    <TButton
+      label="Success"
+      variant="success"
+      @click="success('Operation completed')"
+    />
+    <TButton
+      label="Warning"
+      variant="warning"
+      @click="warning('Double-check this')"
+    />
+    <TButton
+      label="Error"
+      variant="danger"
+      @click="error('Something broke')"
+    />
   </div>
 </template>
 

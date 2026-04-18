@@ -107,7 +107,10 @@ function onDateSelect(date: Date | null) {
     style="display: block; width: 100%;"
   >
     <template #trigger>
-      <div class="t-date-input__trigger" @click="onTriggerClick">
+      <div
+        class="t-date-input__trigger"
+        @click="onTriggerClick"
+      >
         <TInput
           v-model="localText"
           :placeholder="placeholder"
@@ -121,7 +124,10 @@ function onDateSelect(date: Date | null) {
     </template>
 
     <div class="t-date-input__panel">
-      <TDatePicker :model-value="internalDate" @update:model-value="onDateSelect" />
+      <TDatePicker
+        :model-value="internalDate"
+        @update:model-value="onDateSelect"
+      />
     </div>
   </TDropdown>
 </template>

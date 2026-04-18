@@ -1,16 +1,26 @@
 <template>
   <div class="code-editor">
-    <label v-if="label" class="field-label">{{ label }}</label>
-    <div ref="editorRef" class="codemirror-container" :style="editorStyle"></div>
+    <label
+      v-if="label"
+      class="field-label"
+    >{{ label }}</label>
+    <div
+      ref="editorRef"
+      class="codemirror-container"
+      :style="editorStyle"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
+import type { Extension } from '@codemirror/state'
+import type { EditorView as EditorViewT, ViewUpdate } from '@codemirror/view'
+import type { EditorState as EditorStateT, Compartment as CompartmentT } from '@codemirror/state'
 import { useTheme } from '../composables/useTheme'
 
 type Language = 'json' | 'markdown' | 'text'
-type ExtensionLike = any
+type ExtensionLike = Extension
 
 const props = defineProps<{
   modelValue: string
@@ -55,15 +65,15 @@ const isDark = computed(() =>
 
 let destroyed = false
 
-let EditorView: any = null
-let EditorState: any = null
-let Compartment: any = null
-let basicSetup: any = null
+let EditorView: typeof EditorViewT | null = null
+let EditorState: typeof EditorStateT | null = null
+let Compartment: typeof CompartmentT | null = null
+let basicSetup: Extension | null = null
 
-let editorView: any = null
-let themeCompartment: any = null
-let gutterCompartment: any = null
-let languageCompartment: any = null
+let editorView: EditorViewT | null = null
+let themeCompartment: CompartmentT | null = null
+let gutterCompartment: CompartmentT | null = null
+let languageCompartment: CompartmentT | null = null
 
 let initPromise: Promise<void> | null = null
 
@@ -136,7 +146,7 @@ async function ensureInitialized(): Promise<void> {
       themeCompartment.of(themeExt),
       gutterCompartment.of(gutterExt),
       languageCompartment.of(languageExt),
-      EditorView.updateListener.of((update: any) => {
+      EditorView.updateListener.of((update: ViewUpdate) => {
         if (update.docChanged) emit('update:modelValue', update.state.doc.toString())
       })
     ]

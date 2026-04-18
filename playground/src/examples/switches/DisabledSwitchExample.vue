@@ -6,6 +6,14 @@ const checked = ref(true)
 </script>
 
 <template>
-    <TSwitch v-model="checked" disabled label="Disabled ON" />
-    <TSwitch :model-value="false" disabled label="Disabled OFF" />
+  <TSwitch
+    v-model="checked"
+    disabled
+    label="Disabled ON"
+  />
+  <TSwitch
+    :model-value="false"
+    disabled
+    label="Disabled OFF"
+  />
 </template>

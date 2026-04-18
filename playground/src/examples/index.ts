@@ -1,3 +1,5 @@
+import type { Component } from 'vue'
+
 // Button Examples
 import FilledButtonsExample from './buttons/FilledButtonsExample.vue'
 import PlainButtonsExample from './buttons/PlainButtonsExample.vue'
@@ -184,7 +186,7 @@ import SizeTabsExampleCode from './tabs/SizeTabsExample.vue?raw'
 import DisabledTabsExampleCode from './tabs/DisabledTabsExample.vue?raw'
 
 export interface ExampleComponent {
-  component: any
+  component: Component
   code: string
   label: string
 }

@@ -4,17 +4,17 @@
     <p>{{ message }}</p>
     <div class="content-actions">
       <TButton 
-        @click="$emit('action', 'ok')" 
         variant="info" 
-        size="small"
+        size="small" 
+        @click="$emit('action', 'ok')"
       >
         OK
       </TButton>
       <TButton 
-        @click="$emit('action', 'cancel')" 
         variant="neutral" 
-        size="small"
+        size="small" 
         style="margin-left: 10px;"
+        @click="$emit('action', 'cancel')"
       >
         Cancel
       </TButton>

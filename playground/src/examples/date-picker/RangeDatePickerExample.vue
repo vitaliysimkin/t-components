@@ -12,7 +12,10 @@ function format(d: Date | null | undefined) {
 
 <template>
   <div class="example-cnt">
-    <TDatePicker v-model="range" mode="range" />
+    <TDatePicker
+      v-model="range"
+      mode="range"
+    />
     <div class="example__preview">
       <span class="example__label">start:</span>
       <code>{{ format(range?.start) }}</code>

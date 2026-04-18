@@ -19,7 +19,7 @@
     <TCodeEditor
       v-if="showCode"
       :model-value="code"
-      :customLanguageExtension="vue()"
+      :custom-language-extension="vue()"
       :readonly="true"
       min-height="100px"
       max-height="600px"
@@ -29,12 +29,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, type Component } from 'vue'
 import { vue } from '@codemirror/lang-vue'
 import { TButton, TCodeEditor } from '@vitaliysimkin/t-components'
 
 defineProps<{
-  component: any
+  component: Component
   code: string
   label: string
 }>()

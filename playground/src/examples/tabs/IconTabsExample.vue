@@ -1,16 +1,27 @@
 <template>
-  <TTabs v-model="tab" :tabs="items">
+  <TTabs
+    v-model="tab"
+    :tabs="items"
+  >
     <template #panel-profile>
-      <div class="panel">Profile settings.</div>
+      <div class="panel">
+        Profile settings.
+      </div>
     </template>
     <template #panel-security>
-      <div class="panel">Password & 2FA.</div>
+      <div class="panel">
+        Password & 2FA.
+      </div>
     </template>
     <template #panel-tokens>
-      <div class="panel">API tokens.</div>
+      <div class="panel">
+        API tokens.
+      </div>
     </template>
     <template #panel-prefs>
-      <div class="panel">Preferences (theme, language).</div>
+      <div class="panel">
+        Preferences (theme, language).
+      </div>
     </template>
   </TTabs>
 </template>

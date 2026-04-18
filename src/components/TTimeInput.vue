@@ -102,7 +102,10 @@ function commitText() {
     style="display: block; width: 100%;"
   >
     <template #trigger>
-      <div class="t-time-input__trigger" @click="onTriggerClick">
+      <div
+        class="t-time-input__trigger"
+        @click="onTriggerClick"
+      >
         <TInput
           v-model="localText"
           :placeholder="placeholder"

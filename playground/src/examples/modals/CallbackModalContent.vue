@@ -1,18 +1,23 @@
 <template>
   <div class="callback-modal-content">
-
     <TButton 
-      @click="requestData" 
-      :disabled="isLoading"
+      :disabled="isLoading" 
+      @click="requestData"
     >
       Request Complex Data
     </TButton>
     
-    <div v-if="isLoading" class="loading">
+    <div
+      v-if="isLoading"
+      class="loading"
+    >
       Loading complex data...
     </div>
     
-    <div v-if="receivedData" class="result">
+    <div
+      v-if="receivedData"
+      class="result"
+    >
       <pre>{{ JSON.stringify(receivedData, null, 2) }}</pre>
     </div>
   </div>
@@ -23,10 +28,10 @@ import { ref } from 'vue'
 import { TButton } from '@vitaliysimkin/t-components'
 
 const props = defineProps<{
-  onDataRequest?: () => Promise<any> | any
+  onDataRequest?: () => Promise<unknown> | unknown
 }>()
 
-const receivedData = ref<any>(null)
+const receivedData = ref<unknown>(null)
 const isLoading = ref(false)
 
 const requestData = async () => {

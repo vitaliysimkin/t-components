@@ -37,8 +37,8 @@ const rootClass = computed(() => attrs.class)
 const rootStyle = computed(() => attrs.style)
 
 const inputAttrs = computed(() => {
-  const a = attrs as Record<string, unknown>
-  const { class: _class, style: _style, ...rest } = a
+  // Exclude class/style so they apply to the root label only, not the inner input
+  const { class: _class, style: _style, ...rest } = attrs as Record<string, unknown>
   return rest
 })
 
@@ -55,7 +55,10 @@ const inputAttrs = computed(() => {
     ]"
     :style="rootStyle as any"
   >
-    <span v-if="props.labelPosition === 'left'" class="t-switch__label">
+    <span
+      v-if="props.labelPosition === 'left'"
+      class="t-switch__label"
+    >
       <slot>{{ props.label }}</slot>
     </span>
 
@@ -68,13 +71,19 @@ const inputAttrs = computed(() => {
         :aria-invalid="hasError || undefined"
         v-bind="inputAttrs"
         @change="emit('update:modelValue', ($event.target as HTMLInputElement).checked)"
-      />
-      <span class="t-switch__track" aria-hidden="true">
+      >
+      <span
+        class="t-switch__track"
+        aria-hidden="true"
+      >
         <span class="t-switch__thumb" />
       </span>
     </span>
 
-    <span v-if="props.labelPosition === 'right'" class="t-switch__label">
+    <span
+      v-if="props.labelPosition === 'right'"
+      class="t-switch__label"
+    >
       <slot>{{ props.label }}</slot>
     </span>
   </label>

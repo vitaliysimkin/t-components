@@ -49,7 +49,12 @@ const handleClear = () => {
       :data-disabled="disabled ? '' : null"
       :data-readonly="readonly ? '' : null"
     >
-      <Icon v-if="prefixIcon" :icon="prefixIcon" class="t-input-icon t-input-icon--prefix" @mousedown.prevent="inputRef?.focus()" />
+      <Icon
+        v-if="prefixIcon"
+        :icon="prefixIcon"
+        class="t-input-icon t-input-icon--prefix"
+        @mousedown.prevent="inputRef?.focus()"
+      />
       <input
         ref="inputRef"
         class="t-input"
@@ -63,16 +68,26 @@ const handleClear = () => {
         :aria-invalid="hasError || undefined"
         v-bind="$attrs"
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-      />
+      >
       <Icon
         v-if="clearable && modelValue && !disabled && !readonly"
         icon="system-uicons:close"
         class="t-input-icon t-input-icon--clear"
         @click="handleClear"
       />
-      <Icon v-if="suffixIcon" :icon="suffixIcon" class="t-input-icon t-input-icon--suffix" @mousedown.prevent="inputRef?.focus()" />
+      <Icon
+        v-if="suffixIcon"
+        :icon="suffixIcon"
+        class="t-input-icon t-input-icon--suffix"
+        @mousedown.prevent="inputRef?.focus()"
+      />
     </div>
-    <div v-if="errorMessage" class="t-input__error">{{ errorMessage }}</div>
+    <div
+      v-if="errorMessage"
+      class="t-input__error"
+    >
+      {{ errorMessage }}
+    </div>
   </div>
 </template>
 

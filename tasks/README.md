@@ -22,7 +22,7 @@
 - [x] [08 — `TFormField` wrapper](./08-form-field-wrapper.md) — P1 · M · L
 - [x] [09 — `TTable` (мінімальна версія)](./09-table-component.md) — P2 · L · XL
 - [x] [10 — `publint` + `@arethetypeswrong/cli` + `size-limit`](./10-publint-attw-size-limit.md) — P2 · S · M
-- [ ] [11 — Розгребти lint-warnings після #01](./11-lint-warnings-cleanup.md) — P1 · M · M
+- [x] [11 — Розгребти lint-warnings після #01](./11-lint-warnings-cleanup.md) — P1 · M · M
 
 ## Batching
 

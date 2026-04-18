@@ -14,7 +14,10 @@ const timeStep5 = ref<string | null>('09:00')
     </div>
     <div class="example__row">
       <span class="example__label">TTimeInput :step="5"</span>
-      <TTimeInput v-model="timeStep5" :step="5" />
+      <TTimeInput
+        v-model="timeStep5"
+        :step="5"
+      />
     </div>
   </div>
 </template>

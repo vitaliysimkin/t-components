@@ -4,7 +4,7 @@
     v-if="showBackdrop"
     class="modal-backdrop"
     @click="handleBackdropClick"
-  ></div>
+  />
   
   <div 
     ref="modalRef"
@@ -27,8 +27,14 @@
       class="modal-box-header"
     >
       <div class="header-title">
-        <Icon v-if="icon" :icon="icon" class="header-icon" />
-        <slot name="title">{{ label || 'Modal' }}</slot>
+        <Icon
+          v-if="icon"
+          :icon="icon"
+          class="header-icon"
+        />
+        <slot name="title">
+          {{ label || 'Modal' }}
+        </slot>
       </div>
       
       <div class="header-actions">
@@ -38,9 +44,9 @@
           mode="text"
           size="mini"
           icon="system-uicons:scale-contract"
-          @click="handleToggleMinimize"
           class="header-btn minimize-btn"
           ignore-drag="true"
+          @click="handleToggleMinimize"
         />
         
         <TButton
@@ -49,9 +55,9 @@
           mode="text"
           size="mini"
           icon="system-uicons:scale-extend"
-          @click="handleToggleMinimize"
           class="header-btn maximize-btn"
           ignore-drag="true"
+          @click="handleToggleMinimize"
         />
         
         <TButton
@@ -60,23 +66,23 @@
           mode="text"
           size="mini"
           icon="material-symbols:close"
-          @click="handleClose"
           class="header-btn close-btn"
           ignore-drag="true"
+          @click="handleClose"
         />
       </div>
     </header>
     <div class="modal-box-content">
       <component 
-        v-if="contentComponent" 
-        :is="contentComponent"
+        :is="contentComponent" 
+        v-if="contentComponent"
         v-bind="componentProps"
       />
       <slot v-else>
         <!-- Default content slot -->
       </slot>
     </div>
-    <div class="modal-box-overlay"></div>
+    <div class="modal-box-overlay" />
   </div>
 </template>
 
@@ -223,7 +229,7 @@ function calculateAndSetPosition() {
 
 // Комбіновані стилі для позиціонування та розміру
 const combinedStyle = computed(() => {
-  const styles: Record<string, any> = {
+  const styles: Record<string, unknown> = {
     // Мінімізовані модалки не мають absolute positioning
     ...(!props.isMinimized && dragStyle.value),
     ...(!props.isMinimized && resizeStyle.value)

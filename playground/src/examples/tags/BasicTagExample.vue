@@ -5,12 +5,30 @@ import { TTag } from '@vitaliysimkin/t-components'
 <template>
   <div>
     <TTag label="Default" />
-    <TTag label="Gray" variant="gray" />
-    <TTag label="Blue" variant="blue" />
-    <TTag label="Red" variant="red" />
-    <TTag label="Green" variant="green" />
-    <TTag label="Yellow" variant="yellow" />
-    <TTag label="Orange" variant="orange" />
+    <TTag
+      label="Gray"
+      variant="gray"
+    />
+    <TTag
+      label="Blue"
+      variant="blue"
+    />
+    <TTag
+      label="Red"
+      variant="red"
+    />
+    <TTag
+      label="Green"
+      variant="green"
+    />
+    <TTag
+      label="Yellow"
+      variant="yellow"
+    />
+    <TTag
+      label="Orange"
+      variant="orange"
+    />
   </div>
 </template>
 

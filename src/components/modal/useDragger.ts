@@ -55,6 +55,7 @@ export function useDragger(
   }> = []
 
   // Throttle функція з правильною типізацією
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- generic throttle wraps arbitrary handler signatures (MouseEvent/TouchEvent/ResizeObserver); unknown[] breaks contravariant param check
   const throttle = <T extends (...args: any[]) => any>(
     func: T,
     delay: number
@@ -107,8 +108,8 @@ export function useDragger(
     
     // Враховуємо viewport з safe-area
     const viewPort = window.visualViewport || window
-    let viewportWidth = viewPort instanceof VisualViewport ? viewPort.width : window.innerWidth
-    let viewportHeight = viewPort instanceof VisualViewport ? viewPort.height : window.innerHeight
+    const viewportWidth = viewPort instanceof VisualViewport ? viewPort.width : window.innerWidth
+    const viewportHeight = viewPort instanceof VisualViewport ? viewPort.height : window.innerHeight
     
     // Мінімум видимої частини dragControl елемента
     const minVisiblePixels = options.minVisiblePixels ?? 20
