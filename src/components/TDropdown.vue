@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, type CSSProperties, type StyleValue } from 'vue'
 import { useEventListener, onClickOutside } from '@vueuse/core'
 
 /**
@@ -33,7 +33,7 @@ export interface TDropdownProps {
   /** If true, set panel width to match trigger width */
   matchTriggerWidth?: boolean
   /** Additional custom styles to apply to the panel */
-  customPanelStyle?: Record<string, unknown> | string
+  customPanelStyle?: StyleValue
 }
 
 const props = withDefaults(defineProps<TDropdownProps>(), {
@@ -233,8 +233,8 @@ const panelProps = computed(() => {
 })
 
 // Panel style for positioning
-const panelStyle = computed(() => {
-  const style: Record<string, unknown> = {
+const panelStyle = computed<StyleValue>(() => {
+  const style: CSSProperties = {
     position: 'fixed',
     top: `${panelPosition.value.top}px`,
     left: `${panelPosition.value.left}px`,
@@ -251,9 +251,8 @@ const panelStyle = computed(() => {
   if (props.customPanelStyle) {
     if (typeof props.customPanelStyle === 'string') {
       return [style, props.customPanelStyle]
-    } else {
-      Object.assign(style, props.customPanelStyle)
     }
+    return [style, props.customPanelStyle]
   }
   
   return style

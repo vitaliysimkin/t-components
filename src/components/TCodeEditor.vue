@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
+import { ref, onMounted, onUnmounted, watch, computed, type CSSProperties } from 'vue'
 import type { Extension } from '@codemirror/state'
 import type { EditorView as EditorViewT, ViewUpdate } from '@codemirror/view'
 import type { EditorState as EditorStateT, Compartment as CompartmentT } from '@codemirror/state'
@@ -41,7 +41,7 @@ const emit = defineEmits<{
 
 const editorRef = ref<HTMLElement | null>(null)
 
-const editorStyle = computed(() => ({
+const editorStyle = computed<CSSProperties>(() => ({
   height: props.height || 'auto',
   '--min-height': props.minHeight,
   '--max-height': props.maxHeight
@@ -74,6 +74,7 @@ let editorView: EditorViewT | null = null
 let themeCompartment: CompartmentT | null = null
 let gutterCompartment: CompartmentT | null = null
 let languageCompartment: CompartmentT | null = null
+let readonlyCompartment: CompartmentT | null = null
 
 let initPromise: Promise<void> | null = null
 
@@ -117,9 +118,15 @@ async function loadLanguageExtension(lang: Language | undefined): Promise<Extens
 
 function makeGutterHiddenExtension(hidden: boolean): ExtensionLike {
   if (!hidden) return []
+  if (!EditorView) return []
   return EditorView.theme({
     '.cm-gutters': { display: 'none' }
   })
+}
+
+function makeReadonlyExtension(readonly: boolean): ExtensionLike {
+  if (!EditorState) return []
+  return EditorState.readOnly.of(readonly)
 }
 
 async function ensureInitialized(): Promise<void> {
@@ -129,10 +136,12 @@ async function ensureInitialized(): Promise<void> {
     await loadCore()
     if (destroyed) return
     if (!editorRef.value) return
+    if (!EditorView || !EditorState || !Compartment || !basicSetup) return
 
     themeCompartment = new Compartment()
     gutterCompartment = new Compartment()
     languageCompartment = new Compartment()
+    readonlyCompartment = new Compartment()
 
     const [themeExt, gutterExt, languageExt] = await Promise.all([
       loadThemeExtension(),
@@ -146,12 +155,12 @@ async function ensureInitialized(): Promise<void> {
       themeCompartment.of(themeExt),
       gutterCompartment.of(gutterExt),
       languageCompartment.of(languageExt),
+      readonlyCompartment.of(makeReadonlyExtension(!!props.readonly)),
       EditorView.updateListener.of((update: ViewUpdate) => {
         if (update.docChanged) emit('update:modelValue', update.state.doc.toString())
       })
     ]
 
-    if (props.readonly) extensions.push(EditorState.readOnly.of(true))
     if (props.lineWrapping) extensions.push(EditorView.lineWrapping)
 
     const state = EditorState.create({ doc: props.modelValue || '', extensions })
@@ -191,6 +200,14 @@ async function applyGutter() {
   })
 }
 
+async function applyReadonly() {
+  await ensureInitialized()
+  if (!editorView || !readonlyCompartment) return
+  editorView.dispatch({
+    effects: readonlyCompartment.reconfigure(makeReadonlyExtension(!!props.readonly))
+  })
+}
+
 function applyDocValue(newValue: string) {
   if (!editorView) return
   const current = editorView.state.doc.toString()
@@ -220,14 +237,7 @@ watch(() => props.modelValue, (v) => { applyDocValue(v) })
 
 watch(isDark, () => { applyTheme() })
 watch(() => props.hideGutter, () => { applyGutter() })
-
-watch(() => props.readonly, async (v) => {
-  await ensureInitialized()
-  if (!editorView) return
-  editorView.dispatch({
-    effects: EditorState.readOnly.reconfigure(!!v)
-  })
-})
+watch(() => props.readonly, () => { applyReadonly() })
 </script>
 
 <style scoped>

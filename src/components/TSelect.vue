@@ -76,7 +76,7 @@ const currentOptions = computed(() => isAsyncMode.value ? internalOptions.value 
 const isLoading = computed(() => props.loading || internalLoading.value)
 
 // Helper to get value from option
-function getValue(option: T): string | number {
+function getValue(option: TOption): string | number {
   if (typeof option === 'string' || typeof option === 'number') {
     return option
   }
@@ -84,7 +84,7 @@ function getValue(option: T): string | number {
 }
 
 // Helper to get label from option
-function getLabel(option: T): string {
+function getLabel(option: TOption): string {
   if (typeof option === 'string' || typeof option === 'number') {
     return option.toString()
   }
@@ -95,7 +95,7 @@ function getLabel(option: T): string {
 }
 
 // Helper to get icon from option
-function getIcon(option: T): string | null {
+function getIcon(option: TOption): string | null {
   if (!props.iconKey) return null
   if (typeof option === 'string' || typeof option === 'number') {
     return null
@@ -104,15 +104,18 @@ function getIcon(option: T): string | null {
   return value == null ? null : String(value)
 }
 
+function isOptionLike(value: unknown): value is TOption {
+  return typeof value === 'string' || typeof value === 'number' || (typeof value === 'object' && value !== null)
+}
+
 // Get display label for selected value.
 // Use `== null` so falsy-but-valid values (`0`, `''`, `false`) are still rendered.
 const displayLabel = computed(() => {
   if (isOpen.value && (props.searchable || props.autocomplete)) {
-    return searchQuery.value || (props.modelValue == null ? '' : getLabel(props.modelValue))
+    return searchQuery.value || (isOptionLike(props.modelValue) ? getLabel(props.modelValue) : '')
   }
 
-  if (props.modelValue == null) return ''
-  return getLabel(props.modelValue)
+  return isOptionLike(props.modelValue) ? getLabel(props.modelValue) : ''
 })
 
 // Filter options based on search query
@@ -168,8 +171,8 @@ function isSelected(option: T): boolean {
   // In 'option' mode modelValue is an option object/primitive of type T.
   // Narrow via typeof so we don't rely on a lying cast.
   const mv = props.modelValue
-  if (typeof mv === 'string' || typeof mv === 'number' || (typeof mv === 'object' && mv !== null)) {
-    return getValue(option) === getValue(mv as TOption)
+  if (isOptionLike(mv)) {
+    return getValue(option) === getValue(mv)
   }
   return false
 }

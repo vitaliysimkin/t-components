@@ -87,7 +87,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, type PropType, type Component } from 'vue'
+import { computed, ref, onMounted, type PropType, type Component, type CSSProperties } from 'vue'
 import { DEFAULT_MODAL_BOX_CONFIG, type ModalBoxConfig } from './types'
 import { calculateModalPosition } from './position-utils'
 import { useDragger } from './useDragger'
@@ -228,8 +228,8 @@ function calculateAndSetPosition() {
 }
 
 // Комбіновані стилі для позиціонування та розміру
-const combinedStyle = computed(() => {
-  const styles: Record<string, unknown> = {
+const combinedStyle = computed<CSSProperties>(() => {
+  const styles: CSSProperties = {
     // Мінімізовані модалки не мають absolute positioning
     ...(!props.isMinimized && dragStyle.value),
     ...(!props.isMinimized && resizeStyle.value)

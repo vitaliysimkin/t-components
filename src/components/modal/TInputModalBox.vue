@@ -39,6 +39,21 @@ const handleSubmit = () => {
 const handleCancel = () => {
   props.onCancel?.()
 }
+
+const getTextValue = (code: string): string => {
+  const value = values.value[code]
+  return typeof value === 'string' || typeof value === 'number' ? String(value) : ''
+}
+
+const setTextValue = (code: string, value: string | number) => {
+  values.value[code] = value
+}
+
+const getBooleanValue = (code: string): boolean => values.value[code] === true
+
+const setBooleanValue = (code: string, value: boolean) => {
+  values.value[code] = value
+}
 </script>
 
 <template>
@@ -52,24 +67,28 @@ const handleCancel = () => {
         <label class="t-input-modal-label">{{ input.label }}</label>
         <TTextarea 
           v-if="input.type === 'textarea'"
-          v-model="values[input.code]"
+          :model-value="getTextValue(input.code)"
+          @update:model-value="setTextValue(input.code, $event)"
           :placeholder="input.placeholder"
           v-bind="input.attrs"
         />
         <TSwitch
           v-else-if="input.type === 'swtich'"
-          v-model="values[input.code]"
+          :model-value="getBooleanValue(input.code)"
+          @update:model-value="setBooleanValue(input.code, $event)"
           :label="input.label"
           v-bind="input.attrs"
         />
         <TCodeEditor
           v-else-if="input.type === 'code'"
-          v-model="values[input.code]"
+          :model-value="getTextValue(input.code)"
+          @update:model-value="setTextValue(input.code, $event)"
           v-bind="input.attrs"
         />
         <TInput 
           v-else
-          v-model="values[input.code]"
+          :model-value="values[input.code] as string | number | undefined"
+          @update:model-value="setTextValue(input.code, $event)"
           :type="input.type"
           :placeholder="input.placeholder"
           v-bind="input.attrs"

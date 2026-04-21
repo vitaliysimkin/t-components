@@ -6,6 +6,7 @@ import TDropdown from './TDropdown.vue'
 import TTimePicker from './TTimePicker.vue'
 import TDatePicker from './TDatePicker.vue'
 import { isRealDate } from './date-utils'
+import type { TDatePickerValue } from './TDatePicker.vue'
 
 export interface TDateTimeInputProps {
   modelValue: string | null
@@ -75,8 +76,8 @@ function emitCurrent() {
   )
 }
 
-function onDateSelect(date: Date | null) {
-  if (!date) return
+function onDateSelect(date: TDatePickerValue) {
+  if (!(date instanceof Date)) return
   pickedDate.value = new Date(date.getFullYear(), date.getMonth(), date.getDate())
   localText.value = buildDisplay()
   emitCurrent()

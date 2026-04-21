@@ -4,6 +4,7 @@ import TInput from './TInput.vue'
 import TDropdown from './TDropdown.vue'
 import TDatePicker from './TDatePicker.vue'
 import { isRealDate } from './date-utils'
+import type { TDatePickerValue } from './TDatePicker.vue'
 
 export interface TDateInputProps {
   modelValue: string | null
@@ -89,8 +90,8 @@ function commitText() {
   }
 }
 
-function onDateSelect(date: Date | null) {
-  if (!date) return
+function onDateSelect(date: TDatePickerValue) {
+  if (!(date instanceof Date)) return
   const p = (n: number) => String(n).padStart(2, '0')
   const val = `${date.getFullYear()}-${p(date.getMonth() + 1)}-${p(date.getDate())}`
   localText.value = formatDate(val)
