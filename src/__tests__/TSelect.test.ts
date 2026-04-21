@@ -54,12 +54,7 @@ describe('TSelect', () => {
     expect(captured[0]).toBe('b')
   })
 
-  // Falsy-value bug: `isSelected` starts with `if (!props.modelValue) return false`,
-  // which short-circuits valid falsy values (0, '', false). The selected option
-  // won't get the `t-select__item--selected` class even though its value matches.
-  // Scope of fix: task #05. Here we only document the current (buggy) behavior via
-  // `it.fails` so the test turns green the moment #05 lands.
-  it.fails('marks option with value 0 as selected (falsy-bug, fixed in #05)', async () => {
+  it('marks option with value 0 as selected', async () => {
     const options = [
       { value: 0, label: 'Zero' },
       { value: 1, label: 'One' },

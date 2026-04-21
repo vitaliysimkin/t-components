@@ -39,19 +39,32 @@ describe('TTable', () => {
   })
 
   it('emits update:sort when clicking a sortable header', async () => {
+    let sort = null
     const wrapper = mount(TTable, {
-      props: { columns, rows, rowKey: 'id' },
+      props: {
+        columns,
+        rows,
+        rowKey: 'id',
+        sort,
+        'onUpdate:sort': (value) => {
+          sort = value
+          wrapper.setProps({ sort })
+        },
+      },
     })
     const nameHeader = wrapper.findAll('thead th')[1]
     await nameHeader.trigger('click')
+    await wrapper.vm.$nextTick()
     const emitted = wrapper.emitted('update:sort')
     expect(emitted).toBeTruthy()
     expect(emitted![0][0]).toEqual({ key: 'name', direction: 'asc' })
 
     await nameHeader.trigger('click')
+    await wrapper.vm.$nextTick()
     expect(wrapper.emitted('update:sort')![1][0]).toEqual({ key: 'name', direction: 'desc' })
 
     await nameHeader.trigger('click')
+    await wrapper.vm.$nextTick()
     expect(wrapper.emitted('update:sort')![2][0]).toEqual(null)
   })
 

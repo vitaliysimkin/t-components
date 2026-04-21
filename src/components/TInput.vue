@@ -70,7 +70,7 @@ const handleClear = () => {
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
       >
       <Icon
-        v-if="clearable && modelValue && !disabled && !readonly"
+        v-if="clearable && modelValue && !disabled"
         icon="system-uicons:close"
         class="t-input-icon t-input-icon--clear"
         @click="handleClear"
