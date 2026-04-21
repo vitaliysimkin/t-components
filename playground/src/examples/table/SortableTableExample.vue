@@ -29,11 +29,11 @@ const sort = ref<TTableSort | null>({ key: 'price', direction: 'asc' })
 
 <template>
   <TTable
+    v-model:sort="sort"
     :columns="columns"
     :rows="rows"
     row-key="id"
     client-side-sort
-    v-model:sort="sort"
   />
   <div class="hint">
     Current sort: {{ sort ? `${sort.key} / ${sort.direction}` : 'none' }}

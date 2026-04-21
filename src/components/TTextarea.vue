@@ -44,7 +44,12 @@ const errorMessage = computed(() => (typeof props.error === 'string' ? props.err
       :aria-invalid="hasError || undefined"
       @input="$emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)"
     />
-    <div v-if="errorMessage" class="t-textarea__error">{{ errorMessage }}</div>
+    <div
+      v-if="errorMessage"
+      class="t-textarea__error"
+    >
+      {{ errorMessage }}
+    </div>
   </div>
 </template>
 

@@ -34,6 +34,8 @@
     "test:watch": "vitest",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
+    "check:fast": "npm run lint && npm run test && npm run build",
+    "check": "npm run lint && npm run test && npm run build && npm run check:pack && npm run check:types && npm run check:size",
     "check:pack": "publint",
     "check:types": "attw --pack .",
     "check:size": "size-limit",

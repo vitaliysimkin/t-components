@@ -26,12 +26,20 @@ const acceptError = computed(() => !accept.value)
   <div class="error-examples">
     <label>
       Email (string error → message under the field)
-      <TInput v-model="email" placeholder="name@example.com" :error="emailError" />
+      <TInput
+        v-model="email"
+        placeholder="name@example.com"
+        :error="emailError"
+      />
     </label>
 
     <label>
       Description (≥10 chars)
-      <TTextarea v-model="description" :error="descriptionError" placeholder="Tell us more..." />
+      <TTextarea
+        v-model="description"
+        :error="descriptionError"
+        placeholder="Tell us more..."
+      />
     </label>
 
     <label>

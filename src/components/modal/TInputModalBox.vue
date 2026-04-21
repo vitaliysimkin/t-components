@@ -45,6 +45,11 @@ const getTextValue = (code: string): string => {
   return typeof value === 'string' || typeof value === 'number' ? String(value) : ''
 }
 
+const getInputValue = (code: string): string | number | undefined => {
+  const value = values.value[code]
+  return typeof value === 'string' || typeof value === 'number' ? value : undefined
+}
+
 const setTextValue = (code: string, value: string | number) => {
   values.value[code] = value
 }
@@ -68,30 +73,30 @@ const setBooleanValue = (code: string, value: boolean) => {
         <TTextarea 
           v-if="input.type === 'textarea'"
           :model-value="getTextValue(input.code)"
-          @update:model-value="setTextValue(input.code, $event)"
           :placeholder="input.placeholder"
           v-bind="input.attrs"
+          @update:model-value="setTextValue(input.code, $event)"
         />
         <TSwitch
           v-else-if="input.type === 'swtich'"
           :model-value="getBooleanValue(input.code)"
-          @update:model-value="setBooleanValue(input.code, $event)"
           :label="input.label"
           v-bind="input.attrs"
+          @update:model-value="setBooleanValue(input.code, $event)"
         />
         <TCodeEditor
           v-else-if="input.type === 'code'"
           :model-value="getTextValue(input.code)"
-          @update:model-value="setTextValue(input.code, $event)"
           v-bind="input.attrs"
+          @update:model-value="setTextValue(input.code, $event)"
         />
         <TInput 
           v-else
-          :model-value="values[input.code] as string | number | undefined"
-          @update:model-value="setTextValue(input.code, $event)"
+          :model-value="getInputValue(input.code)"
           :type="input.type"
           :placeholder="input.placeholder"
           v-bind="input.attrs"
+          @update:model-value="setTextValue(input.code, $event)"
         />
       </div>
     </div>

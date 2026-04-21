@@ -203,16 +203,25 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
 </script>
 
 <template>
-  <div class="t-table" :class="[`size-${props.size}`]">
+  <div
+    class="t-table"
+    :class="[`size-${props.size}`]"
+  >
     <div class="t-table__scroll">
-      <table class="t-table__el" role="table">
+      <table
+        class="t-table__el"
+        role="table"
+      >
         <colgroup>
-          <col v-if="props.selectable" class="t-table__col--select" />
+          <col
+            v-if="props.selectable"
+            class="t-table__col--select"
+          >
           <col
             v-for="column in props.columns"
             :key="column.key"
             :style="column.width ? { width: column.width } : undefined"
-          />
+          >
         </colgroup>
         <thead>
           <tr>
@@ -228,7 +237,7 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
                 :checked="allSelected"
                 :aria-label="allSelected ? 'Deselect all rows' : 'Select all rows'"
                 @change="toggleAll(($event.target as HTMLInputElement).checked)"
-              />
+              >
             </th>
             <th
               v-for="column in props.columns"
@@ -243,7 +252,10 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
               :aria-sort="ariaSort(column)"
               @click="onHeaderClick(column)"
             >
-              <slot :name="`header-${column.key}`" :column="column">
+              <slot
+                :name="`header-${column.key}`"
+                :column="column"
+              >
                 <span class="t-table__th-content">
                   <span class="t-table__th-label">{{ column.label }}</span>
                   <Icon
@@ -261,7 +273,10 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
         <tbody>
           <template v-if="props.loading">
             <tr class="t-table__state-row">
-              <td :colspan="props.columns.length + (props.selectable ? 1 : 0)" class="t-table__state-cell">
+              <td
+                :colspan="props.columns.length + (props.selectable ? 1 : 0)"
+                class="t-table__state-cell"
+              >
                 <slot name="loading">
                   <span class="t-table__state-text">Loading…</span>
                 </slot>
@@ -270,7 +285,10 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
           </template>
           <template v-else-if="isEmpty">
             <tr class="t-table__state-row">
-              <td :colspan="props.columns.length + (props.selectable ? 1 : 0)" class="t-table__state-cell">
+              <td
+                :colspan="props.columns.length + (props.selectable ? 1 : 0)"
+                class="t-table__state-cell"
+              >
                 <slot name="empty">
                   <span class="t-table__state-text">No data</span>
                 </slot>
@@ -296,7 +314,7 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
                   :checked="isRowSelected(row)"
                   :aria-label="`Select row ${index + 1}`"
                   @change="toggleRow(row, ($event.target as HTMLInputElement).checked)"
-                />
+                >
               </td>
               <td
                 v-for="column in props.columns"

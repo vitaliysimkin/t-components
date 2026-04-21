@@ -19,4 +19,4 @@ export interface TFormFieldProps {
 }
 
 // Base option type for TSelect and similar choosers.
-export type TOption = string | number | Record<string, any>
+export type TOption = string | number | Record<string, unknown>

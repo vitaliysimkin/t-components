@@ -24,5 +24,9 @@ const rows: User[] = [
 </script>
 
 <template>
-  <TTable :columns="columns" :rows="rows" row-key="id" />
+  <TTable
+    :columns="columns"
+    :rows="rows"
+    row-key="id"
+  />
 </template>

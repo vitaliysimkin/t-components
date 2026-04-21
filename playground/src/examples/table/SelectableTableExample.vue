@@ -27,13 +27,15 @@ const selection = ref<(string | number)[]>(['A-101'])
 
 <template>
   <TTable
+    v-model:selection="selection"
     :columns="columns"
     :rows="rows"
     row-key="id"
     selectable
-    v-model:selection="selection"
   />
-  <div class="hint">Selected: {{ selection.join(', ') || 'none' }}</div>
+  <div class="hint">
+    Selected: {{ selection.join(', ') || 'none' }}
+  </div>
 </template>
 
 <style scoped>

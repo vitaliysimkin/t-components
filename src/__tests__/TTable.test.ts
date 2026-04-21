@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Smoke tests for TTable.
  *

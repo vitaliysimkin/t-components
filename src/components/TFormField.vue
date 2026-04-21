@@ -135,9 +135,9 @@ defineSlots<{
 
     <slot
       v-if="hasError && errorText"
+      :id="errorId"
       name="error"
       :error="errorText"
-      :id="errorId"
     >
       <p
         :id="errorId"
@@ -150,9 +150,9 @@ defineSlots<{
 
     <slot
       v-else-if="showHint"
+      :id="hintId"
       name="hint"
       :hint="props.hint"
-      :id="hintId"
     >
       <p
         :id="hintId"

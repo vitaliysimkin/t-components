@@ -27,14 +27,24 @@ const priorityVariant = (p: Task['priority']) =>
 </script>
 
 <template>
-  <TTable :columns="columns" :rows="rows" row-key="id">
+  <TTable
+    :columns="columns"
+    :rows="rows"
+    row-key="id"
+  >
     <template #cell-priority="{ row }">
-      <TTag :variant="priorityVariant(row.priority)" size="small">
+      <TTag
+        :variant="priorityVariant(row.priority)"
+        size="small"
+      >
         {{ row.priority }}
       </TTag>
     </template>
     <template #cell-status="{ row }">
-      <TTag :variant="row.active ? 'green' : 'gray'" size="small">
+      <TTag
+        :variant="row.active ? 'green' : 'gray'"
+        size="small"
+      >
         {{ row.active ? 'Active' : 'Off' }}
       </TTag>
     </template>

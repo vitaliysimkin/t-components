@@ -10,13 +10,22 @@ const fullName = ref('')
   <div class="form-grid">
     <TFormField label="Full name">
       <template #default="{ id }">
-        <TInput :id="id" v-model="fullName" placeholder="Jane Doe" />
+        <TInput
+          :id="id"
+          v-model="fullName"
+          placeholder="Jane Doe"
+        />
       </template>
     </TFormField>
 
     <TFormField label="Email">
       <template #default="{ id }">
-        <TInput :id="id" v-model="email" type="email" placeholder="you@example.com" />
+        <TInput
+          :id="id"
+          v-model="email"
+          type="email"
+          placeholder="you@example.com"
+        />
       </template>
     </TFormField>
   </div>

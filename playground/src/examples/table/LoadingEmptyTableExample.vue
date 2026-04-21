@@ -34,15 +34,36 @@ function reset() {
 
 <template>
   <div class="toolbar">
-    <TButton size="small" @click="load">Load</TButton>
-    <TButton size="small" variant="neutral" mode="plain" @click="reset">Clear</TButton>
+    <TButton
+      size="small"
+      @click="load"
+    >
+      Load
+    </TButton>
+    <TButton
+      size="small"
+      variant="neutral"
+      mode="plain"
+      @click="reset"
+    >
+      Clear
+    </TButton>
   </div>
-  <TTable :columns="columns" :rows="rows" row-key="id" :loading="loading">
+  <TTable
+    :columns="columns"
+    :rows="rows"
+    row-key="id"
+    :loading="loading"
+  >
     <template #empty>
-      <div class="empty">Nothing here yet — click “Load” to fetch rows.</div>
+      <div class="empty">
+        Nothing here yet — click “Load” to fetch rows.
+      </div>
     </template>
     <template #loading>
-      <div class="loading">Fetching data…</div>
+      <div class="loading">
+        Fetching data…
+      </div>
     </template>
   </TTable>
 </template>

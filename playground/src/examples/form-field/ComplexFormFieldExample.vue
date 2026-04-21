@@ -23,22 +23,50 @@ const onSubmit = () => {
 </script>
 
 <template>
-  <form class="form-grid" @submit.prevent="onSubmit">
-    <TFormField label="Name" required :error="nameError">
+  <form
+    class="form-grid"
+    @submit.prevent="onSubmit"
+  >
+    <TFormField
+      label="Name"
+      required
+      :error="nameError"
+    >
       <template #default="{ id }">
-        <TInput :id="id" v-model="name" placeholder="Your name" />
+        <TInput
+          :id="id"
+          v-model="name"
+          placeholder="Your name"
+        />
       </template>
     </TFormField>
 
-    <TFormField label="Country" required :error="countryError" hint="Used for regional pricing.">
+    <TFormField
+      label="Country"
+      required
+      :error="countryError"
+      hint="Used for regional pricing."
+    >
       <template #default="{ id }">
-        <TSelect :id="id" v-model="country" :options="countries" placeholder="Select country" />
+        <TSelect
+          :id="id"
+          v-model="country"
+          :options="countries"
+          placeholder="Select country"
+        />
       </template>
     </TFormField>
 
-    <TFormField label="Bio" hint="A few words about yourself.">
+    <TFormField
+      label="Bio"
+      hint="A few words about yourself."
+    >
       <template #default>
-        <TTextarea v-model="bio" :rows="4" placeholder="Tell us more..." />
+        <TTextarea
+          v-model="bio"
+          :rows="4"
+          placeholder="Tell us more..."
+        />
       </template>
     </TFormField>
 
@@ -48,7 +76,12 @@ const onSubmit = () => {
       </template>
     </TFormField>
 
-    <button type="submit" class="submit-btn">Submit</button>
+    <button
+      type="submit"
+      class="submit-btn"
+    >
+      Submit
+    </button>
   </form>
 </template>
 
