@@ -9,6 +9,7 @@ import TTag from './TTag.vue'
 import TDropdown from './TDropdown.vue'
 import TTooltip from './TTooltip.vue'
 import TSidebar from './TSidebar.vue'
+import TBottomNav from './TBottomNav.vue'
 import TDateInput from './TDateInput.vue'
 import TTimeInput from './TTimeInput.vue'
 import TDateTimeInput from './TDateTimeInput.vue'
@@ -35,6 +36,7 @@ export {
   TDropdown,
   TTooltip,
   TSidebar,
+  TBottomNav,
   TDateInput,
   TTimeInput,
   TDateTimeInput,
@@ -65,6 +67,7 @@ export const componentRegistry: Record<string, Component> = {
   TDropdown,
   TTooltip,
   TSidebar,
+  TBottomNav,
   TDateInput,
   TTimeInput,
   TDateTimeInput,

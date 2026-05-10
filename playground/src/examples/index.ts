@@ -96,6 +96,10 @@ import CustomTimeoutNotificationExample from './notifications/CustomTimeoutNotif
 import BasicSidebarExample from './sidebars/BasicSidebarExample.vue'
 import FooterSlotSidebarExample from './sidebars/FooterSlotSidebarExample.vue'
 
+// BottomNav Examples
+import BasicBottomNavExample from './bottom-nav/BasicBottomNavExample.vue'
+import BasicBottomNavExampleCode from './bottom-nav/BasicBottomNavExample.vue?raw'
+
 // TCodeEditor Examples
 import BasicCodeEditorExample from './code-editor/BasicCodeEditorExample.vue'
 import LanguagesCodeEditorExample from './code-editor/LanguagesCodeEditorExample.vue'
@@ -558,6 +562,18 @@ export const elements: Element[] = [
         component: FooterSlotSidebarExample,
         code: FooterSlotSidebarExampleCode,
         label: 'With Footer Slot'
+      }
+    ]
+  },
+  {
+    label: 'TBottomNav',
+    slug: 'bottom-nav',
+    icon: 'material-symbols-light:bottom-navigation-outline',
+    components: [
+      {
+        component: BasicBottomNavExample,
+        code: BasicBottomNavExampleCode,
+        label: 'Mobile bottom nav with sheet'
       }
     ]
   },

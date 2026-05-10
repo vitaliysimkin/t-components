@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     TDropdown: typeof import('./components/TDropdown.vue')['default']
     TTooltip: typeof import('./components/TTooltip.vue')['default']
     TSidebar: typeof import('./components/TSidebar.vue')['default']
+    TBottomNav: typeof import('./components/TBottomNav.vue')['default']
     TDateInput: typeof import('./components/TDateInput.vue')['default']
     TTimeInput: typeof import('./components/TTimeInput.vue')['default']
     TDateTimeInput: typeof import('./components/TDateTimeInput.vue')['default']

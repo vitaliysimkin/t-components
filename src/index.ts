@@ -45,6 +45,7 @@ export {
   TDropdown,
   TTooltip,
   TSidebar,
+  TBottomNav,
   TDateInput,
   TTimeInput,
   TDateTimeInput,
