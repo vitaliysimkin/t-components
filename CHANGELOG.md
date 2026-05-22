@@ -6,6 +6,8 @@
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-05-22
+
 ### Added
 - `useDialog` — composable з Promise-based API для confirm/alert/prompt-діалогів, побудований на `modalManager`; внутрішні компоненти `TConfirmDialog` і `TPromptDialog`.
 - `useLoading` — singleton-composable для показу/приховування fullscreen та element-scoped індикаторів завантаження; компонент `TLoadingOverlay` із SVG-спінером і scroll-locking.
