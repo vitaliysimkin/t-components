@@ -60,15 +60,34 @@ const handleKeydown = (event: KeyboardEvent) => {
 <template>
   <div class="t-prompt-dialog">
     <div class="t-prompt-dialog-body">
-      <div v-if="variantIcon || title" class="t-prompt-dialog-header" :class="`t-prompt-dialog-header--${variant}`">
-        <Icon v-if="variantIcon" :icon="variantIcon" class="t-prompt-dialog-icon" />
-        <span v-if="title" class="t-prompt-dialog-title">{{ title }}</span>
+      <div
+        v-if="variantIcon || title"
+        class="t-prompt-dialog-header"
+        :class="`t-prompt-dialog-header--${variant}`"
+      >
+        <Icon
+          v-if="variantIcon"
+          :icon="variantIcon"
+          class="t-prompt-dialog-icon"
+        />
+        <span
+          v-if="title"
+          class="t-prompt-dialog-title"
+        >{{ title }}</span>
       </div>
 
-      <p v-if="message" class="t-prompt-dialog-message">{{ message }}</p>
+      <p
+        v-if="message"
+        class="t-prompt-dialog-message"
+      >
+        {{ message }}
+      </p>
 
       <div class="t-prompt-dialog-input-wrap">
-        <label v-if="inputLabel" class="t-prompt-dialog-label">{{ inputLabel }}</label>
+        <label
+          v-if="inputLabel"
+          class="t-prompt-dialog-label"
+        >{{ inputLabel }}</label>
         <component
           :is="contentComponent"
           v-if="contentComponent"

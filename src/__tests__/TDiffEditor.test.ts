@@ -21,12 +21,6 @@ const mockEditorB = {
   dispatch: mockDispatch,
 }
 
-const mockMergeViewInstance = {
-  a: mockEditorA,
-  b: mockEditorB,
-  destroy: mockDestroy,
-}
-
 vi.mock('@codemirror/merge', () => ({
   MergeView: class {
     a = mockEditorA

@@ -15,7 +15,10 @@ function startFullscreen() {
   <TLoadingOverlay />
 
   <div class="demo">
-    <TButton label="Fullscreen overlay (2s)" @click="startFullscreen" />
+    <TButton
+      label="Fullscreen overlay (2s)"
+      @click="startFullscreen"
+    />
     <p class="hint">
       Clicking the button shows a fullscreen loading overlay with scroll-lock
       for 2 seconds, then closes automatically.

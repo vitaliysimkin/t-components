@@ -1,5 +1,9 @@
 <template>
-  <div ref="containerRef" class="diff-editor" :style="containerStyle" />
+  <div
+    ref="containerRef"
+    class="diff-editor"
+    :style="containerStyle"
+  />
 </template>
 
 <script setup lang="ts">

@@ -21,9 +21,18 @@ function startScoped() {
   <TLoadingOverlay />
 
   <div class="demo">
-    <div ref="containerRef" class="card">
-      <p class="card__body">This is the target container.</p>
-      <TButton label="Overlay this card (2s)" size="small" @click="startScoped" />
+    <div
+      ref="containerRef"
+      class="card"
+    >
+      <p class="card__body">
+        This is the target container.
+      </p>
+      <TButton
+        label="Overlay this card (2s)"
+        size="small"
+        @click="startScoped"
+      />
     </div>
     <p class="hint">
       The overlay is confined to the card above, not the whole page.

@@ -11,12 +11,21 @@ const hasNotification = ref(true)
       <TButton label="Notifications" />
     </TBadge>
 
-    <TBadge dot variant="success">
+    <TBadge
+      dot
+      variant="success"
+    >
       <TButton label="Online" />
     </TBadge>
 
-    <TBadge dot :hidden="!hasNotification">
-      <TButton label="Toggle dot" @click="hasNotification = !hasNotification" />
+    <TBadge
+      dot
+      :hidden="!hasNotification"
+    >
+      <TButton
+        label="Toggle dot"
+        @click="hasNotification = !hasNotification"
+      />
     </TBadge>
   </div>
 </template>

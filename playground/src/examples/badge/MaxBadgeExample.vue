@@ -4,19 +4,31 @@ import { TBadge, TButton } from '@vitaliysimkin/t-components'
 
 <template>
   <div class="examples">
-    <TBadge :value="5" :max="99">
+    <TBadge
+      :value="5"
+      :max="99"
+    >
       <TButton label="5 / max 99" />
     </TBadge>
 
-    <TBadge :value="100" :max="99">
+    <TBadge
+      :value="100"
+      :max="99"
+    >
       <TButton label="100 / max 99 → 99+" />
     </TBadge>
 
-    <TBadge :value="999" :max="99">
+    <TBadge
+      :value="999"
+      :max="99"
+    >
       <TButton label="999 / max 99 → 99+" />
     </TBadge>
 
-    <TBadge :value="999" :max="9">
+    <TBadge
+      :value="999"
+      :max="9"
+    >
       <TButton label="999 / max 9 → 9+" />
     </TBadge>
   </div>

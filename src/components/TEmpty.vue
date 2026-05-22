@@ -15,11 +15,22 @@ withDefaults(defineProps<TEmptyProps>(), {
   <div class="t-empty">
     <div class="t-empty__icon">
       <slot name="icon">
-        <Icon :icon="icon" class="t-empty__icon-svg" />
+        <Icon
+          :icon="icon"
+          class="t-empty__icon-svg"
+        />
       </slot>
     </div>
-    <p v-if="description" class="t-empty__description">{{ description }}</p>
-    <div v-if="$slots.default" class="t-empty__content">
+    <p
+      v-if="description"
+      class="t-empty__description"
+    >
+      {{ description }}
+    </p>
+    <div
+      v-if="$slots.default"
+      class="t-empty__content"
+    >
       <slot />
     </div>
   </div>

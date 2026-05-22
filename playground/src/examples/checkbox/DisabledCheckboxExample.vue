@@ -8,7 +8,15 @@ const unchecked = ref(false)
 
 <template>
   <div style="display: flex; flex-direction: column; gap: 12px;">
-    <TCheckbox v-model="unchecked" disabled label="Disabled unchecked" />
-    <TCheckbox v-model="checked"   disabled label="Disabled checked" />
+    <TCheckbox
+      v-model="unchecked"
+      disabled
+      label="Disabled unchecked"
+    />
+    <TCheckbox
+      v-model="checked"
+      disabled
+      label="Disabled checked"
+    />
   </div>
 </template>

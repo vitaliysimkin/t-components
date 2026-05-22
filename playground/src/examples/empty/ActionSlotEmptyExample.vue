@@ -15,7 +15,10 @@ function clear() {
 
 <template>
   <div class="demo">
-    <div v-if="items.length" class="item-list">
+    <div
+      v-if="items.length"
+      class="item-list"
+    >
       <div
         v-for="item in items"
         :key="item"

@@ -40,11 +40,29 @@ const handleInfo = async () => {
 <template>
   <div class="example">
     <div class="example-actions">
-      <TButton variant="danger" @click="handleBasic">Підтвердження (danger)</TButton>
-      <TButton variant="neutral" @click="handleWarning">Підтвердження (warning)</TButton>
-      <TButton variant="accent" @click="handleInfo">Підтвердження (info)</TButton>
+      <TButton
+        variant="danger"
+        @click="handleBasic"
+      >
+        Підтвердження (danger)
+      </TButton>
+      <TButton
+        variant="neutral"
+        @click="handleWarning"
+      >
+        Підтвердження (warning)
+      </TButton>
+      <TButton
+        variant="accent"
+        @click="handleInfo"
+      >
+        Підтвердження (info)
+      </TButton>
     </div>
-    <p v-if="lastResult !== null" class="example-result">
+    <p
+      v-if="lastResult !== null"
+      class="example-result"
+    >
       Результат: <strong>{{ lastResult }}</strong>
     </p>
   </div>

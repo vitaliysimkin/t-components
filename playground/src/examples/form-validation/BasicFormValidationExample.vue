@@ -74,11 +74,21 @@ async function onSubmit() {
 
 <template>
   <div class="fv-wrapper">
-    <h3 class="fv-title">Registration Form</h3>
+    <h3 class="fv-title">
+      Registration Form
+    </h3>
 
-    <form class="fv-form" novalidate @submit.prevent="onSubmit">
+    <form
+      class="fv-form"
+      novalidate
+      @submit.prevent="onSubmit"
+    >
       <!-- Username -->
-      <TFormField label="Username" required :error="errors.username">
+      <TFormField
+        label="Username"
+        required
+        :error="errors.username"
+      >
         <template #default="{ id, ariaDescribedby, ariaInvalid, ariaRequired }">
           <TInput
             :id="id"
@@ -94,7 +104,12 @@ async function onSubmit() {
       </TFormField>
 
       <!-- Email -->
-      <TFormField label="Email" required :error="errors.email" hint="Try typing taken@example.com to see async validation.">
+      <TFormField
+        label="Email"
+        required
+        :error="errors.email"
+        hint="Try typing taken@example.com to see async validation."
+      >
         <template #default="{ id, ariaDescribedby, ariaInvalid, ariaRequired }">
           <TInput
             :id="id"
@@ -110,7 +125,11 @@ async function onSubmit() {
       </TFormField>
 
       <!-- Password -->
-      <TFormField label="Password" required :error="errors.password">
+      <TFormField
+        label="Password"
+        required
+        :error="errors.password"
+      >
         <template #default="{ id, ariaDescribedby, ariaInvalid, ariaRequired }">
           <TInput
             :id="id"
@@ -127,7 +146,11 @@ async function onSubmit() {
       </TFormField>
 
       <!-- Confirm Password -->
-      <TFormField label="Confirm Password" required :error="errors.confirmPassword">
+      <TFormField
+        label="Confirm Password"
+        required
+        :error="errors.confirmPassword"
+      >
         <template #default="{ id, ariaDescribedby, ariaInvalid, ariaRequired }">
           <TInput
             :id="id"
@@ -144,14 +167,31 @@ async function onSubmit() {
 
       <!-- Actions -->
       <div class="fv-actions">
-        <button type="submit" class="fv-btn fv-btn--primary">Register</button>
-        <button type="button" class="fv-btn" @click="clearErrors">Clear errors</button>
+        <button
+          type="submit"
+          class="fv-btn fv-btn--primary"
+        >
+          Register
+        </button>
+        <button
+          type="button"
+          class="fv-btn"
+          @click="clearErrors"
+        >
+          Clear errors
+        </button>
       </div>
 
-      <p v-if="submitResult === 'success'" class="fv-result fv-result--success">
+      <p
+        v-if="submitResult === 'success'"
+        class="fv-result fv-result--success"
+      >
         Form is valid — ready to submit!
       </p>
-      <p v-else-if="submitResult === 'error'" class="fv-result fv-result--error">
+      <p
+        v-else-if="submitResult === 'error'"
+        class="fv-result fv-result--error"
+      >
         Please fix the errors above.
       </p>
     </form>

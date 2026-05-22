@@ -7,10 +7,30 @@ const checked = ref(true)
 
 <template>
   <div style="display: flex; flex-direction: column; gap: 12px;">
-    <TCheckbox v-model="checked" size="mini"    label="mini" />
-    <TCheckbox v-model="checked" size="small"   label="small" />
-    <TCheckbox v-model="checked" size="default" label="default" />
-    <TCheckbox v-model="checked" size="medium"  label="medium" />
-    <TCheckbox v-model="checked" size="large"   label="large" />
+    <TCheckbox
+      v-model="checked"
+      size="mini"
+      label="mini"
+    />
+    <TCheckbox
+      v-model="checked"
+      size="small"
+      label="small"
+    />
+    <TCheckbox
+      v-model="checked"
+      size="default"
+      label="default"
+    />
+    <TCheckbox
+      v-model="checked"
+      size="medium"
+      label="medium"
+    />
+    <TCheckbox
+      v-model="checked"
+      size="large"
+      label="large"
+    />
   </div>
 </template>

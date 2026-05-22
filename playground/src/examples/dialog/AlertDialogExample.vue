@@ -33,9 +33,24 @@ const handleNeutral = async () => {
 <template>
   <div class="example">
     <div class="example-actions">
-      <TButton variant="success" @click="handleSuccess">Сповіщення про успіх</TButton>
-      <TButton variant="danger" @click="handleError">Сповіщення про помилку</TButton>
-      <TButton variant="accent" @click="handleNeutral">Інформаційне сповіщення</TButton>
+      <TButton
+        variant="success"
+        @click="handleSuccess"
+      >
+        Сповіщення про успіх
+      </TButton>
+      <TButton
+        variant="danger"
+        @click="handleError"
+      >
+        Сповіщення про помилку
+      </TButton>
+      <TButton
+        variant="accent"
+        @click="handleNeutral"
+      >
+        Інформаційне сповіщення
+      </TButton>
     </div>
   </div>
 </template>

@@ -93,10 +93,10 @@ function onChange(event: Event) {
   >
     <span class="t-checkbox__control">
       <input
+        :id="resolvedId || undefined"
         ref="inputEl"
         class="t-checkbox__input"
         type="checkbox"
-        :id="resolvedId || undefined"
         :checked="props.modelValue"
         :disabled="props.disabled"
         :required="resolvedRequired || undefined"

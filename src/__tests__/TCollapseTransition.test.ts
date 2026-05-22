@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, fireEvent } from '@testing-library/vue'
-import { ref, h, nextTick, Transition } from 'vue'
+import { describe, it, expect } from 'vitest'
+import { render } from '@testing-library/vue'
+import { ref, h, nextTick } from 'vue'
 import TCollapseTransition from '../components/TCollapseTransition.vue'
 
 // jsdom does not run CSS transitions, so transitionend never fires automatically.
@@ -54,8 +54,6 @@ describe('TCollapseTransition', () => {
   })
 
   it('restores height:auto and clears overflow after enter transition ends', async () => {
-    const visible = ref(true)
-
     // Mount with v-show so Vue runs the enter hooks when the component first renders visible.
     const { container } = render({
       setup() {

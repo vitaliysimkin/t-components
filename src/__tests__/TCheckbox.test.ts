@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { render, fireEvent } from '@testing-library/vue'
 import { ref, h, nextTick, defineComponent } from 'vue'
 import TCheckbox from '../components/TCheckbox.vue'
@@ -169,6 +169,7 @@ describe('TCheckbox', () => {
   // ── TFormField context injection ──────────────────────────────────────────
 
   it('picks up id from TFormField context', () => {
+    // eslint-disable-next-line vue/one-component-per-file
     const wrapper = defineComponent({
       components: { TFormField, TCheckbox },
       template: `
@@ -187,6 +188,7 @@ describe('TCheckbox', () => {
 
   it('inherits error state from TFormField context via inject', () => {
     // TCheckbox inside TFormField: error on field propagates via inject
+    // eslint-disable-next-line vue/one-component-per-file
     const wrapper = defineComponent({
       components: { TFormField, TCheckbox },
       template: `
@@ -200,6 +202,7 @@ describe('TCheckbox', () => {
   })
 
   it('prop error takes precedence over context error when both set', () => {
+    // eslint-disable-next-line vue/one-component-per-file
     const wrapper = defineComponent({
       components: { TFormField, TCheckbox },
       template: `

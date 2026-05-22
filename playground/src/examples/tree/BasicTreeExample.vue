@@ -46,7 +46,7 @@ const expandedKeys = ref<(string | number)[]>(['/src', '/src/components'])
 <template>
   <div style="max-width: 360px; border: 1px solid var(--t-color-border); border-radius: var(--t-radius-medium); padding: 8px;">
     <TTree
-      v-model:expandedKeys="expandedKeys"
+      v-model:expanded-keys="expandedKeys"
       :data="data"
       node-key="fullPath"
       children-key="children"

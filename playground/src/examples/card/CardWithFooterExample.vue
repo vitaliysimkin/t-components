@@ -7,8 +7,14 @@ import { TCard, TButton } from '@vitaliysimkin/t-components'
     <p>Are you sure you want to proceed? This operation cannot be undone.</p>
     <template #footer>
       <div style="display: flex; justify-content: flex-end; gap: 8px;">
-        <TButton mode="plain" label="Cancel" />
-        <TButton variant="danger" label="Delete" />
+        <TButton
+          mode="plain"
+          label="Cancel"
+        />
+        <TButton
+          variant="danger"
+          label="Delete"
+        />
       </div>
     </template>
   </TCard>

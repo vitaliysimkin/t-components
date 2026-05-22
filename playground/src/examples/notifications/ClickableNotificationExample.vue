@@ -31,15 +31,36 @@ function showPlain() {
 <template>
   <div class="demo">
     <div class="buttons">
-      <TButton label="Clickable info (persistent)" @click="showClickable" />
-      <TButton label="Clickable error (persistent)" variant="danger" @click="showClickableError" />
-      <TButton label="Plain (no onClick)" mode="plain" @click="showPlain" />
+      <TButton
+        label="Clickable info (persistent)"
+        @click="showClickable"
+      />
+      <TButton
+        label="Clickable error (persistent)"
+        variant="danger"
+        @click="showClickableError"
+      />
+      <TButton
+        label="Plain (no onClick)"
+        mode="plain"
+        @click="showPlain"
+      />
     </div>
 
-    <div v-if="clickLog.length" class="log">
-      <p class="log__title">Click events:</p>
+    <div
+      v-if="clickLog.length"
+      class="log"
+    >
+      <p class="log__title">
+        Click events:
+      </p>
       <ul>
-        <li v-for="(entry, i) in clickLog" :key="i">{{ entry }}</li>
+        <li
+          v-for="(entry, i) in clickLog"
+          :key="i"
+        >
+          {{ entry }}
+        </li>
       </ul>
     </div>
   </div>

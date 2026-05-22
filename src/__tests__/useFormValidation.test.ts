@@ -87,7 +87,7 @@ describe('min / max length', () => {
 
   it('passes when string length equals min', async () => {
     const model = reactive({ code: 'abcde' })
-    const { validate, errors } = useFormValidation(model, {
+    const { validate } = useFormValidation(model, {
       code: { min: 5 },
     })
     const ok = await validate()
@@ -130,7 +130,7 @@ describe('pattern rule', () => {
 
   it('passes when value matches pattern', async () => {
     const model = reactive({ email: 'a@b.com' })
-    const { validate, errors } = useFormValidation(model, {
+    const { validate } = useFormValidation(model, {
       email: { pattern: /^[^@]+@[^@]+$/ },
     })
     const ok = await validate()

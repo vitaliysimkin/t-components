@@ -51,9 +51,20 @@ const handleCancel = () => {
 <template>
   <div class="t-confirm-dialog">
     <div class="t-confirm-dialog-body">
-      <div v-if="variantIcon || title" class="t-confirm-dialog-header" :class="`t-confirm-dialog-header--${variant}`">
-        <Icon v-if="variantIcon" :icon="variantIcon" class="t-confirm-dialog-icon" />
-        <span v-if="title" class="t-confirm-dialog-title">{{ title }}</span>
+      <div
+        v-if="variantIcon || title"
+        class="t-confirm-dialog-header"
+        :class="`t-confirm-dialog-header--${variant}`"
+      >
+        <Icon
+          v-if="variantIcon"
+          :icon="variantIcon"
+          class="t-confirm-dialog-icon"
+        />
+        <span
+          v-if="title"
+          class="t-confirm-dialog-title"
+        >{{ title }}</span>
       </div>
 
       <div class="t-confirm-dialog-content">
@@ -62,7 +73,12 @@ const handleCancel = () => {
           v-if="contentComponent"
           v-bind="componentProps"
         />
-        <p v-else-if="message" class="t-confirm-dialog-message">{{ message }}</p>
+        <p
+          v-else-if="message"
+          class="t-confirm-dialog-message"
+        >
+          {{ message }}
+        </p>
       </div>
     </div>
 

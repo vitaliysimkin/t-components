@@ -25,8 +25,8 @@ describe('useNotifications — push API', () => {
 
   it('positional form: push(kind, text, timeoutMs) accepts numeric third arg', () => {
     vi.useFakeTimers()
-    const { push, items, dismiss } = useNotifications()
-    const id = push('success', 'saved', 3000)
+    const { push, items } = useNotifications()
+    push('success', 'saved', 3000)
     expect(items.value).toHaveLength(1)
     vi.advanceTimersByTime(3001)
     expect(items.value).toHaveLength(0)

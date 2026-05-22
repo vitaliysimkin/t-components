@@ -12,32 +12,47 @@
         aria-busy="true"
       >
         <div class="t-loading-overlay__box">
-          <svg class="t-loading-spinner" viewBox="0 0 50 50" aria-hidden="true">
+          <svg
+            class="t-loading-spinner"
+            viewBox="0 0 50 50"
+            aria-hidden="true"
+          >
             <circle
               class="t-loading-spinner__track"
-              cx="25" cy="25" r="20"
+              cx="25"
+              cy="25"
+              r="20"
               fill="none"
               stroke-width="4"
             />
             <circle
               class="t-loading-spinner__arc"
-              cx="25" cy="25" r="20"
+              cx="25"
+              cy="25"
+              r="20"
               fill="none"
               stroke-width="4"
               stroke-linecap="round"
             />
           </svg>
-          <span v-if="inst.text" class="t-loading-overlay__text">{{ inst.text }}</span>
+          <span
+            v-if="inst.text"
+            class="t-loading-overlay__text"
+          >{{ inst.text }}</span>
         </div>
       </div>
     </TransitionGroup>
   </Teleport>
 
   <!-- Element-scoped overlays — rendered into their target via Teleport -->
-  <template v-for="inst in scopedInstances" :key="inst.id">
+  <template
+    v-for="inst in scopedInstances"
+    :key="inst.id"
+  >
     <Teleport :to="inst.target!">
       <Transition name="t-loading-fade">
         <div
+          v-if="!!inst.target"
           class="t-loading-overlay t-loading-overlay--scoped"
           role="status"
           :aria-label="inst.text || 'Loading'"
@@ -45,22 +60,33 @@
           aria-busy="true"
         >
           <div class="t-loading-overlay__box">
-            <svg class="t-loading-spinner" viewBox="0 0 50 50" aria-hidden="true">
+            <svg
+              class="t-loading-spinner"
+              viewBox="0 0 50 50"
+              aria-hidden="true"
+            >
               <circle
                 class="t-loading-spinner__track"
-                cx="25" cy="25" r="20"
+                cx="25"
+                cy="25"
+                r="20"
                 fill="none"
                 stroke-width="4"
               />
               <circle
                 class="t-loading-spinner__arc"
-                cx="25" cy="25" r="20"
+                cx="25"
+                cy="25"
+                r="20"
                 fill="none"
                 stroke-width="4"
                 stroke-linecap="round"
               />
             </svg>
-            <span v-if="inst.text" class="t-loading-overlay__text">{{ inst.text }}</span>
+            <span
+              v-if="inst.text"
+              class="t-loading-overlay__text"
+            >{{ inst.text }}</span>
           </div>
         </div>
       </Transition>

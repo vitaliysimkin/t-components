@@ -20,7 +20,10 @@ const errorMsg = computed(() => agreed.value ? false : 'You must accept the term
       label="Agreement (via TFormField)"
       :error="errorMsg"
     >
-      <TCheckbox v-model="agreed" label="I accept the terms and conditions" />
+      <TCheckbox
+        v-model="agreed"
+        label="I accept the terms and conditions"
+      />
     </TFormField>
   </div>
 </template>

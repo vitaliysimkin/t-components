@@ -58,9 +58,15 @@ const statusColor: Record<Environment['status'], string> = {
       <!-- option scoped slot: receives { option, selected, active } -->
       <template #option="{ option, selected }">
         <span class="env-option">
-          <Icon :icon="option.icon" class="env-icon" />
+          <Icon
+            :icon="option.icon"
+            class="env-icon"
+          />
           <span class="env-text">
-            <span class="env-label" :class="{ 'env-label--selected': selected }">
+            <span
+              class="env-label"
+              :class="{ 'env-label--selected': selected }"
+            >
               {{ option.label }}
             </span>
             <span class="env-desc">{{ option.description }}</span>
@@ -74,7 +80,10 @@ const statusColor: Record<Environment['status'], string> = {
       </template>
     </TSelect>
 
-    <p v-if="selectedEnv" class="result">
+    <p
+      v-if="selectedEnv"
+      class="result"
+    >
       Selected: <strong>{{ selectedEnv.label }}</strong>
       &mdash; status: <em>{{ selectedEnv.status }}</em>
     </p>

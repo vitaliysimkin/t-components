@@ -16,7 +16,10 @@ const variants = ['danger', 'accent', 'success', 'warning', 'info', 'neutral'] a
     </TBadge>
   </div>
 
-  <div class="examples" style="margin-top: 1.5rem;">
+  <div
+    class="examples"
+    style="margin-top: 1.5rem;"
+  >
     <TBadge
       v-for="v in variants"
       :key="v"

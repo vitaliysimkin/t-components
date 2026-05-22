@@ -35,10 +35,23 @@ const handleApiKey = async () => {
 <template>
   <div class="example">
     <div class="example-actions">
-      <TButton variant="accent" @click="handleRename">Запит на введення імені</TButton>
-      <TButton variant="neutral" @click="handleApiKey">Запит API-ключа</TButton>
+      <TButton
+        variant="accent"
+        @click="handleRename"
+      >
+        Запит на введення імені
+      </TButton>
+      <TButton
+        variant="neutral"
+        @click="handleApiKey"
+      >
+        Запит API-ключа
+      </TButton>
     </div>
-    <p v-if="lastValue !== undefined" class="example-result">
+    <p
+      v-if="lastValue !== undefined"
+      class="example-result"
+    >
       <template v-if="lastValue !== null">
         Введено: <strong>{{ lastValue || '(порожньо)' }}</strong>
       </template>

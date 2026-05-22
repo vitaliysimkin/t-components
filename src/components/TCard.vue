@@ -1,12 +1,20 @@
 <template>
   <div class="t-card">
-    <div v-if="hasHeader" class="t-card__header">
-      <slot name="header">{{ header }}</slot>
+    <div
+      v-if="hasHeader"
+      class="t-card__header"
+    >
+      <slot name="header">
+        {{ header }}
+      </slot>
     </div>
     <div class="t-card__body">
       <slot />
     </div>
-    <div v-if="hasFooter" class="t-card__footer">
+    <div
+      v-if="hasFooter"
+      class="t-card__footer"
+    >
       <slot name="footer" />
     </div>
   </div>
