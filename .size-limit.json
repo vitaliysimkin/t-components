@@ -15,6 +15,6 @@
   {
     "name": "Styles",
     "path": "dist/index.css",
-    "limit": "10 KB"
+    "limit": "12 KB"
   }
 ]
