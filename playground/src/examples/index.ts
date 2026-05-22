@@ -91,6 +91,82 @@ import BasicNotificationExample from './notifications/BasicNotificationExample.v
 import KindsNotificationExample from './notifications/KindsNotificationExample.vue'
 import PersistentNotificationExample from './notifications/PersistentNotificationExample.vue'
 import CustomTimeoutNotificationExample from './notifications/CustomTimeoutNotificationExample.vue'
+import ClickableNotificationExample from './notifications/ClickableNotificationExample.vue'
+import ClickableNotificationExampleCode from './notifications/ClickableNotificationExample.vue?raw'
+
+// Select new Examples
+import CustomOptionSelectExample from './select/CustomOptionSelectExample.vue'
+import CustomOptionSelectExampleCode from './select/CustomOptionSelectExample.vue?raw'
+
+// Dialog Examples
+import ConfirmDialogExample from './dialog/ConfirmDialogExample.vue'
+import ConfirmDialogExampleCode from './dialog/ConfirmDialogExample.vue?raw'
+import AlertDialogExample from './dialog/AlertDialogExample.vue'
+import AlertDialogExampleCode from './dialog/AlertDialogExample.vue?raw'
+import PromptDialogExample from './dialog/PromptDialogExample.vue'
+import PromptDialogExampleCode from './dialog/PromptDialogExample.vue?raw'
+
+// Loading Examples
+import FullscreenLoadingExample from './loading/FullscreenLoadingExample.vue'
+import FullscreenLoadingExampleCode from './loading/FullscreenLoadingExample.vue?raw'
+import ElementScopedLoadingExample from './loading/ElementScopedLoadingExample.vue'
+import ElementScopedLoadingExampleCode from './loading/ElementScopedLoadingExample.vue?raw'
+
+// Tree Examples
+import BasicTreeExample from './tree/BasicTreeExample.vue'
+import BasicTreeExampleCode from './tree/BasicTreeExample.vue?raw'
+import CustomNodeTreeExample from './tree/CustomNodeTreeExample.vue'
+import CustomNodeTreeExampleCode from './tree/CustomNodeTreeExample.vue?raw'
+
+// Empty Examples
+import BasicEmptyExample from './empty/BasicEmptyExample.vue'
+import BasicEmptyExampleCode from './empty/BasicEmptyExample.vue?raw'
+import ActionSlotEmptyExample from './empty/ActionSlotEmptyExample.vue'
+import ActionSlotEmptyExampleCode from './empty/ActionSlotEmptyExample.vue?raw'
+
+// Badge Examples
+import BasicBadgeExample from './badge/BasicBadgeExample.vue'
+import BasicBadgeExampleCode from './badge/BasicBadgeExample.vue?raw'
+import DotBadgeExample from './badge/DotBadgeExample.vue'
+import DotBadgeExampleCode from './badge/DotBadgeExample.vue?raw'
+import MaxBadgeExample from './badge/MaxBadgeExample.vue'
+import MaxBadgeExampleCode from './badge/MaxBadgeExample.vue?raw'
+import VariantsBadgeExample from './badge/VariantsBadgeExample.vue'
+import VariantsBadgeExampleCode from './badge/VariantsBadgeExample.vue?raw'
+
+// CollapseTransition Examples
+import CollapseTransitionExample from './collapse-transition/CollapseTransitionExample.vue'
+import CollapseTransitionExampleCode from './collapse-transition/CollapseTransitionExample.vue?raw'
+
+// Card Examples
+import CardHeaderPropExample from './card/CardHeaderPropExample.vue'
+import CardHeaderPropExampleCode from './card/CardHeaderPropExample.vue?raw'
+import CardHeaderSlotExample from './card/CardHeaderSlotExample.vue'
+import CardHeaderSlotExampleCode from './card/CardHeaderSlotExample.vue?raw'
+import CardWithFooterExample from './card/CardWithFooterExample.vue'
+import CardWithFooterExampleCode from './card/CardWithFooterExample.vue?raw'
+
+// Checkbox Examples
+import BasicCheckboxExample from './checkbox/BasicCheckboxExample.vue'
+import BasicCheckboxExampleCode from './checkbox/BasicCheckboxExample.vue?raw'
+import SizesCheckboxExample from './checkbox/SizesCheckboxExample.vue'
+import SizesCheckboxExampleCode from './checkbox/SizesCheckboxExample.vue?raw'
+import DisabledCheckboxExample from './checkbox/DisabledCheckboxExample.vue'
+import DisabledCheckboxExampleCode from './checkbox/DisabledCheckboxExample.vue?raw'
+import ErrorCheckboxExample from './checkbox/ErrorCheckboxExample.vue'
+import ErrorCheckboxExampleCode from './checkbox/ErrorCheckboxExample.vue?raw'
+import IndeterminateCheckboxExample from './checkbox/IndeterminateCheckboxExample.vue'
+import IndeterminateCheckboxExampleCode from './checkbox/IndeterminateCheckboxExample.vue?raw'
+
+// FormValidation Examples
+import BasicFormValidationExample from './form-validation/BasicFormValidationExample.vue'
+import BasicFormValidationExampleCode from './form-validation/BasicFormValidationExample.vue?raw'
+
+// DiffEditor Examples
+import BasicDiffEditorExample from './diff-editor/BasicDiffEditorExample.vue'
+import BasicDiffEditorExampleCode from './diff-editor/BasicDiffEditorExample.vue?raw'
+import ReadonlyDiffEditorExample from './diff-editor/ReadonlyDiffEditorExample.vue'
+import ReadonlyDiffEditorExampleCode from './diff-editor/ReadonlyDiffEditorExample.vue?raw'
 
 // Sidebar Examples
 import BasicSidebarExample from './sidebars/BasicSidebarExample.vue'
@@ -513,6 +589,11 @@ export const elements: Element[] = [
         component: SelectLlmModelAutocomplete,
         code: SelectLlmModelAutocompleteCode,
         label: 'LLM Model Autocomplete'
+      },
+      {
+        component: CustomOptionSelectExample,
+        code: CustomOptionSelectExampleCode,
+        label: 'Custom Option Slot'
       }
     ]
   },
@@ -709,6 +790,206 @@ export const elements: Element[] = [
         component: PersistentNotificationExample,
         code: PersistentNotificationExampleCode,
         label: 'Persistent + Clear All'
+      },
+      {
+        component: ClickableNotificationExample,
+        code: ClickableNotificationExampleCode,
+        label: 'Clickable Notification'
+      }
+    ]
+  },
+  {
+    label: 'useDialog',
+    slug: 'dialog',
+    icon: 'material-symbols-light:chat-bubble-outline',
+    components: [
+      {
+        component: ConfirmDialogExample,
+        code: ConfirmDialogExampleCode,
+        label: 'Confirm Dialog'
+      },
+      {
+        component: AlertDialogExample,
+        code: AlertDialogExampleCode,
+        label: 'Alert Dialog'
+      },
+      {
+        component: PromptDialogExample,
+        code: PromptDialogExampleCode,
+        label: 'Prompt Dialog'
+      }
+    ]
+  },
+  {
+    label: 'useLoading',
+    slug: 'loading',
+    icon: 'material-symbols-light:progress-activity',
+    components: [
+      {
+        component: FullscreenLoadingExample,
+        code: FullscreenLoadingExampleCode,
+        label: 'Fullscreen Loading'
+      },
+      {
+        component: ElementScopedLoadingExample,
+        code: ElementScopedLoadingExampleCode,
+        label: 'Element-Scoped Loading'
+      }
+    ]
+  },
+  {
+    label: 'TTree',
+    slug: 'tree',
+    icon: 'material-symbols-light:account-tree-outline',
+    components: [
+      {
+        component: BasicTreeExample,
+        code: BasicTreeExampleCode,
+        label: 'Basic Tree'
+      },
+      {
+        component: CustomNodeTreeExample,
+        code: CustomNodeTreeExampleCode,
+        label: 'Custom Node Slot'
+      }
+    ]
+  },
+  {
+    label: 'TEmpty',
+    slug: 'empty',
+    icon: 'material-symbols-light:inbox-outline',
+    components: [
+      {
+        component: BasicEmptyExample,
+        code: BasicEmptyExampleCode,
+        label: 'Basic Empty State'
+      },
+      {
+        component: ActionSlotEmptyExample,
+        code: ActionSlotEmptyExampleCode,
+        label: 'With Action Slot'
+      }
+    ]
+  },
+  {
+    label: 'TBadge',
+    slug: 'badge',
+    icon: 'material-symbols-light:counter-1-outline',
+    components: [
+      {
+        component: BasicBadgeExample,
+        code: BasicBadgeExampleCode,
+        label: 'Basic Badge'
+      },
+      {
+        component: DotBadgeExample,
+        code: DotBadgeExampleCode,
+        label: 'Dot Mode'
+      },
+      {
+        component: MaxBadgeExample,
+        code: MaxBadgeExampleCode,
+        label: 'Max Value'
+      },
+      {
+        component: VariantsBadgeExample,
+        code: VariantsBadgeExampleCode,
+        label: 'Variants'
+      }
+    ]
+  },
+  {
+    label: 'TCollapseTransition',
+    slug: 'collapse-transition',
+    icon: 'material-symbols-light:expand-content',
+    components: [
+      {
+        component: CollapseTransitionExample,
+        code: CollapseTransitionExampleCode,
+        label: 'Collapse / Expand'
+      }
+    ]
+  },
+  {
+    label: 'TCard',
+    slug: 'card',
+    icon: 'material-symbols-light:id-card-outline',
+    components: [
+      {
+        component: CardHeaderPropExample,
+        code: CardHeaderPropExampleCode,
+        label: 'Header via Prop'
+      },
+      {
+        component: CardHeaderSlotExample,
+        code: CardHeaderSlotExampleCode,
+        label: 'Header via Slot'
+      },
+      {
+        component: CardWithFooterExample,
+        code: CardWithFooterExampleCode,
+        label: 'With Footer'
+      }
+    ]
+  },
+  {
+    label: 'TCheckbox',
+    slug: 'checkbox',
+    icon: 'material-symbols-light:check-box-outline',
+    components: [
+      {
+        component: BasicCheckboxExample,
+        code: BasicCheckboxExampleCode,
+        label: 'Basic Usage'
+      },
+      {
+        component: SizesCheckboxExample,
+        code: SizesCheckboxExampleCode,
+        label: 'Sizes'
+      },
+      {
+        component: DisabledCheckboxExample,
+        code: DisabledCheckboxExampleCode,
+        label: 'Disabled State'
+      },
+      {
+        component: ErrorCheckboxExample,
+        code: ErrorCheckboxExampleCode,
+        label: 'Error State'
+      },
+      {
+        component: IndeterminateCheckboxExample,
+        code: IndeterminateCheckboxExampleCode,
+        label: 'Indeterminate State'
+      }
+    ]
+  },
+  {
+    label: 'useFormValidation',
+    slug: 'form-validation',
+    icon: 'material-symbols-light:fact-check-outline',
+    components: [
+      {
+        component: BasicFormValidationExample,
+        code: BasicFormValidationExampleCode,
+        label: 'Basic Form Validation'
+      }
+    ]
+  },
+  {
+    label: 'TDiffEditor',
+    slug: 'diff-editor',
+    icon: 'material-symbols-light:difference-outline',
+    components: [
+      {
+        component: BasicDiffEditorExample,
+        code: BasicDiffEditorExampleCode,
+        label: 'Basic Diff Editor'
+      },
+      {
+        component: ReadonlyDiffEditorExample,
+        code: ReadonlyDiffEditorExampleCode,
+        label: 'Read-only Diff'
       }
     ]
   }
@@ -748,6 +1029,7 @@ export {
   SelectObjectExample,
   SelectSearchableExample,
   SelectLoadingExample,
+  CustomOptionSelectExample,
   ModalBoxExample,
   BlockingModalExample,
   CallbackModalExample,
@@ -757,6 +1039,7 @@ export {
   KindsNotificationExample,
   PersistentNotificationExample,
   CustomTimeoutNotificationExample,
+  ClickableNotificationExample,
   BasicCodeEditorExample,
   LanguagesCodeEditorExample,
   ReadonlyCodeEditorExample,
@@ -768,4 +1051,29 @@ export {
   SelectableTableExample,
   LoadingEmptyTableExample,
   CustomCellTableExample,
+  ConfirmDialogExample,
+  AlertDialogExample,
+  PromptDialogExample,
+  FullscreenLoadingExample,
+  ElementScopedLoadingExample,
+  BasicTreeExample,
+  CustomNodeTreeExample,
+  BasicEmptyExample,
+  ActionSlotEmptyExample,
+  BasicBadgeExample,
+  DotBadgeExample,
+  MaxBadgeExample,
+  VariantsBadgeExample,
+  CollapseTransitionExample,
+  CardHeaderPropExample,
+  CardHeaderSlotExample,
+  CardWithFooterExample,
+  BasicCheckboxExample,
+  SizesCheckboxExample,
+  DisabledCheckboxExample,
+  ErrorCheckboxExample,
+  IndeterminateCheckboxExample,
+  BasicFormValidationExample,
+  BasicDiffEditorExample,
+  ReadonlyDiffEditorExample,
 }

@@ -6,6 +6,13 @@ export interface Notification {
   id: number
   kind: NotificationKind
   text: string
+  onClick?: () => void
+}
+
+/** Options object accepted by `push` and the shorthand helpers. */
+export interface NotificationOptions {
+  timeoutMs?: number
+  onClick?: () => void
 }
 
 const DEFAULT_TIMEOUT_MS = 5000
@@ -13,9 +20,31 @@ const DEFAULT_TIMEOUT_MS = 5000
 const items = ref<Notification[]>([])
 let nextId = 1
 
-function push(kind: NotificationKind, text: string, timeoutMs: number = DEFAULT_TIMEOUT_MS): number {
+/**
+ * Add a notification.
+ *
+ * Overloads:
+ *   push(kind, text)
+ *   push(kind, text, timeoutMs)
+ *   push(kind, text, options)
+ */
+function push(kind: NotificationKind, text: string, timeoutMsOrOptions?: number | NotificationOptions): number {
   const id = nextId++
-  items.value.push({ id, kind, text })
+
+  let timeoutMs = DEFAULT_TIMEOUT_MS
+  let onClick: (() => void) | undefined
+
+  if (typeof timeoutMsOrOptions === 'number') {
+    timeoutMs = timeoutMsOrOptions
+  } else if (timeoutMsOrOptions != null) {
+    if (timeoutMsOrOptions.timeoutMs !== undefined) {
+      timeoutMs = timeoutMsOrOptions.timeoutMs
+    }
+    onClick = timeoutMsOrOptions.onClick
+  }
+
+  items.value.push({ id, kind, text, onClick })
+
   if (timeoutMs > 0) {
     setTimeout(() => dismiss(id), timeoutMs)
   }
@@ -36,9 +65,9 @@ export function useNotifications() {
     push,
     dismiss,
     clear,
-    info:    (text: string, timeoutMs?: number) => push('info',    text, timeoutMs),
-    success: (text: string, timeoutMs?: number) => push('success', text, timeoutMs),
-    warning: (text: string, timeoutMs?: number) => push('warning', text, timeoutMs),
-    error:   (text: string, timeoutMs?: number) => push('error',   text, timeoutMs),
+    info:    (text: string, timeoutMsOrOptions?: number | NotificationOptions) => push('info',    text, timeoutMsOrOptions),
+    success: (text: string, timeoutMsOrOptions?: number | NotificationOptions) => push('success', text, timeoutMsOrOptions),
+    warning: (text: string, timeoutMsOrOptions?: number | NotificationOptions) => push('warning', text, timeoutMsOrOptions),
+    error:   (text: string, timeoutMsOrOptions?: number | NotificationOptions) => push('error',   text, timeoutMsOrOptions),
   }
 }

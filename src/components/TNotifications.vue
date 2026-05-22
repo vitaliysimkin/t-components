@@ -10,9 +10,12 @@
           v-for="n in items"
           :key="n.id"
           class="t-notification"
-          :class="`t-notification--${n.kind}`"
-          role="status"
-          @click="dismiss(n.id)"
+          :class="[`t-notification--${n.kind}`, { 't-notification--clickable': !!n.onClick }]"
+          :role="n.onClick ? 'button' : 'status'"
+          :tabindex="n.onClick ? 0 : undefined"
+          :aria-label="n.onClick ? n.text : undefined"
+          @click="handleClick(n)"
+          @keydown.enter.space.prevent="n.onClick && handleClick(n)"
         >
           <span class="t-notification__text">{{ n.text }}</span>
           <button
@@ -32,6 +35,7 @@
 
 <script setup lang="ts">
 import { useNotifications } from '../composables/useNotifications'
+import type { Notification } from '../composables/useNotifications'
 
 type Placement = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 
@@ -44,6 +48,14 @@ withDefaults(defineProps<{
 })
 
 const { items, dismiss } = useNotifications()
+
+function handleClick(n: Notification): void {
+  if (n.onClick) {
+    n.onClick()
+  } else {
+    dismiss(n.id)
+  }
+}
 </script>
 
 <style scoped>
@@ -76,7 +88,20 @@ const { items, dismiss } = useNotifications()
   border: 1px solid var(--t-color-border);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-    backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+
+.t-notification--clickable {
+  cursor: pointer;
+}
+
+.t-notification--clickable:hover {
+  filter: brightness(0.95);
+}
+
+.t-notification--clickable:focus-visible {
+  outline: 2px solid var(--t-color-accent, #4a90e2);
+  outline-offset: 2px;
 }
 
 .t-notification--info {

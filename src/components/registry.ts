@@ -23,6 +23,14 @@ import TInputModalBox from './modal/TInputModalBox.vue'
 import TNotifications from './TNotifications.vue'
 import TFormField from './TFormField.vue'
 import TTable from './TTable.vue'
+import TLoadingOverlay from './TLoadingOverlay.vue'
+import TTree from './TTree.vue'
+import TEmpty from './TEmpty.vue'
+import TBadge from './TBadge.vue'
+import TCollapseTransition from './TCollapseTransition.vue'
+import TCard from './TCard.vue'
+import TCheckbox from './TCheckbox.vue'
+import TDiffEditor from './TDiffEditor.vue'
 
 export {
   TButton,
@@ -49,6 +57,14 @@ export {
   TNotifications,
   TFormField,
   TTable,
+  TLoadingOverlay,
+  TTree,
+  TEmpty,
+  TBadge,
+  TCollapseTransition,
+  TCard,
+  TCheckbox,
+  TDiffEditor,
 }
 
 // Plugin registration source of truth. Types are intentionally erased to
@@ -80,4 +96,12 @@ export const componentRegistry: Record<string, Component> = {
   TNotifications,
   TFormField,
   TTable,
+  TLoadingOverlay,
+  TTree,
+  TEmpty,
+  TBadge,
+  TCollapseTransition,
+  TCard,
+  TCheckbox,
+  TDiffEditor,
 }

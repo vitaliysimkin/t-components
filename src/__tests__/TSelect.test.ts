@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render, fireEvent } from '@testing-library/vue'
-import { nextTick } from 'vue'
+import { nextTick, defineComponent, h } from 'vue'
 import TSelect from '../components/TSelect.vue'
 
 // Helper: open the dropdown by clicking on the trigger wrapper. TDropdown uses a
@@ -70,6 +70,51 @@ describe('TSelect', () => {
     const items = document.querySelectorAll('.t-select__item')
     // Expectation once the bug is fixed: first item (value 0) is marked as selected.
     expect(items[0].classList.contains('t-select__item--selected')).toBe(true)
+  })
+
+  it('option scoped slot renders custom content and receives correct slot props', async () => {
+    const options = [
+      { value: 'a', label: 'Alpha' },
+      { value: 'b', label: 'Beta' },
+    ]
+    // Build a wrapper component that uses the #option slot to render a data-testid
+    // attribute exposing the slot props so we can assert on them.
+    const Wrapper = defineComponent({
+      components: { TSelect },
+      setup() {
+        return { options }
+      },
+      render() {
+        return h(TSelect, {
+          options: this.options,
+          modelValue: { value: 'a', label: 'Alpha' },
+          valueMode: 'option' as const,
+        }, {
+          option: ({ option, selected, active }: { option: { value: string; label: string }, selected: boolean, active: boolean }) =>
+            h('span', {
+              'data-testid': 'custom-option',
+              'data-selected': String(selected),
+              'data-active': String(active),
+            }, `custom:${option.label}`),
+        })
+      },
+    })
+
+    const { container } = render(Wrapper)
+    const trigger = container.querySelector('.t-select__trigger') as HTMLElement
+    await fireEvent.click(trigger)
+    await nextTick()
+
+    const customItems = document.querySelectorAll('[data-testid="custom-option"]')
+    // Both options should be rendered through the slot
+    expect(customItems.length).toBe(2)
+    expect(customItems[0].textContent).toBe('custom:Alpha')
+    expect(customItems[1].textContent).toBe('custom:Beta')
+    // First option (value 'a') matches modelValue — selected should be true
+    expect(customItems[0].getAttribute('data-selected')).toBe('true')
+    expect(customItems[1].getAttribute('data-selected')).toBe('false')
+    // Default fallback (Icon + span) must NOT be present
+    expect(container.querySelector('.t-select__icon')).toBeNull()
   })
 
   it('clicking clear resets modelValue to null and emits clear', async () => {

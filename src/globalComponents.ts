@@ -26,6 +26,14 @@ declare module '@vue/runtime-core' {
     TNotifications: typeof import('./components/TNotifications.vue')['default']
     TFormField: typeof import('./components/TFormField.vue')['default']
     TTable: typeof import('./components/TTable.vue')['default']
+    TLoadingOverlay: typeof import('./components/TLoadingOverlay.vue')['default']
+    TTree: typeof import('./components/TTree.vue')['default']
+    TEmpty: typeof import('./components/TEmpty.vue')['default']
+    TBadge: typeof import('./components/TBadge.vue')['default']
+    TCollapseTransition: typeof import('./components/TCollapseTransition.vue')['default']
+    TCard: typeof import('./components/TCard.vue')['default']
+    TCheckbox: typeof import('./components/TCheckbox.vue')['default']
+    TDiffEditor: typeof import('./components/TDiffEditor.vue')['default']
   }
 }
 

@@ -6,6 +6,20 @@
 
 ## [Unreleased]
 
+### Added
+- `useDialog` — composable з Promise-based API для confirm/alert/prompt-діалогів, побудований на `modalManager`; внутрішні компоненти `TConfirmDialog` і `TPromptDialog`.
+- `useLoading` — singleton-composable для показу/приховування fullscreen та element-scoped індикаторів завантаження; компонент `TLoadingOverlay` із SVG-спінером і scroll-locking.
+- `TTree` — рекурсивний деревовидний компонент з підтримкою controlled/uncontrolled expandedKeys, слотом `#node` і ARIA-атрибутами.
+- `TEmpty` — компонент порожнього стану з іконкою, описом і слотами для кастомізації.
+- `TBadge` — badge-компонент з варіантами (`neutral`, `accent`, `danger`, `success`, `warning`, `info`), dot-режимом і обмеженням `max`.
+- `TCollapseTransition` — компонент-обгортка `<Transition>` з JS-хуками для плавної анімації height 0 ↔ auto та opacity.
+- `TCard` — картка з опційними header/footer слотами та prop `header`.
+- `TCheckbox` — checkbox-компонент з підтримкою розмірів, indeterminate-стану, error-стану та інтеграцією з `TFormField`.
+- `useFormValidation` — composable для валідації форм із синхронними та асинхронними правилами, тригерами `blur`/`change`/`submit`.
+- `TDiffEditor` — diff-редактор на основі CodeMirror MergeView з підтримкою кастомних мовних розширень, тем і readonly-режиму.
+- `NotificationOptions` тип до `useNotifications` — опції `timeoutMs` та `onClick` для сповіщень із підтримкою клікабельності.
+- `CustomOptionSelectExample` — приклад кастомних опцій у `TSelect` через слот `#option`.
+
 ## [0.7.0] - 2025
 
 ### Added

@@ -385,24 +385,33 @@ function handleMouseEnter(index: number) {
         </li>
         
         <!-- Options list -->
-        <li 
+        <li
           v-for="(option, index) in filteredOptions"
-          v-else 
+          v-else
           :key="getValue(option)"
           class="t-select__item"
-          :class="{ 
+          :class="{
             't-select__item--selected': isSelected(option),
             't-select__item--active': index === activeIndex
           }"
           @click="selectOption(option)"
           @mouseenter="handleMouseEnter(index)"
         >
-          <Icon
-            v-if="iconKey && getIcon(option)"
-            :icon="getIcon(option)!"
-            class="t-select__icon"
+          <slot
+            v-if="$slots.option"
+            name="option"
+            :option="option"
+            :selected="isSelected(option)"
+            :active="index === activeIndex"
           />
-          <span>{{ getLabel(option) }}</span>
+          <template v-else>
+            <Icon
+              v-if="iconKey && getIcon(option)"
+              :icon="getIcon(option)!"
+              class="t-select__icon"
+            />
+            <span>{{ getLabel(option) }}</span>
+          </template>
         </li>
       </ul>
     </template>
