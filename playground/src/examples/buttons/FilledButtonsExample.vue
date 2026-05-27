@@ -11,6 +11,9 @@
   <TButton variant="success">
     Success
   </TButton>
+  <TButton variant="warning">
+    Warning
+  </TButton>
   <TButton variant="info">
     Info
   </TButton>

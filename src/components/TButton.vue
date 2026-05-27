@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
 
-export type TButtonVariant = 'neutral' | 'accent' | 'danger' | 'success' | 'info'
+export type TButtonVariant = 'neutral' | 'accent' | 'danger' | 'success' | 'warning' | 'info'
 export type TButtonMode = 'filled' | 'plain' | 'ghost' | 'text'
 export type TButtonSize = 'mini' | 'small' | 'default' | 'medium' | 'large' | 'fit'
 
@@ -120,18 +120,34 @@ withDefaults(
    Set token values only, no mode logic
    ======================================== */
 
-/* Neutral variant */
+/* Neutral variant — Element Plus "default" button:
+   resting state stays neutral; hover/active tint toward accent so the
+   button reads as the catch-all action without competing with info. */
 .t-button[variant="neutral"] {
   --t-btn-color-primary: var(--t-color-neutral);
   --t-btn-color-contrast: var(--t-color-neutral-contrast);
-  --t-btn-color-primary-hover: var(--t-color-neutral-hover);
-  --t-btn-color-primary-active: var(--t-color-neutral-active);
+  --t-btn-color-primary-hover: var(--t-color-accent-plain-bg);
+  --t-btn-color-primary-active: var(--t-color-accent);
   --t-btn-color-plain-primary: var(--t-color-neutral);
-  --t-btn-color-plain-background: var(--t-color-neutral-plain-bg);
+  --t-btn-color-plain-background: transparent;
   --t-btn-color-plain-text: var(--t-color-neutral-contrast);
-  --t-btn-color-border: var(--t-color-neutral-contrast);
-  --t-btn-color-border-hover: var(--t-color-neutral-contrast);
-  --t-btn-color-border-active: var(--t-color-neutral-contrast);
+  --t-btn-color-border: var(--t-color-border);
+  --t-btn-color-border-hover: var(--t-color-accent);
+  --t-btn-color-border-active: var(--t-color-accent);
+  --t-btn-color-plain-border: var(--t-color-border);
+  --t-btn-color-plain-border-hover: var(--t-color-accent);
+}
+
+.t-button[variant="neutral"][mode="filled"]:hover:not(:disabled),
+.t-button[variant="neutral"][mode="filled"][active=true],
+.t-button[variant="neutral"][mode="plain"]:hover:not(:disabled),
+.t-button[variant="neutral"][mode="plain"][active=true] {
+  color: var(--t-color-accent);
+}
+
+.t-button[variant="neutral"][mode="filled"]:active:not(:disabled),
+.t-button[variant="neutral"][mode="plain"]:active:not(:disabled) {
+  color: var(--t-color-accent-contrast);
 }
 
 /* Accent variant */
@@ -176,6 +192,20 @@ withDefaults(
   --t-btn-color-border-active: var(--t-color-success-active);
 }
 
+/* Warning variant */
+.t-button[variant="warning"] {
+  --t-btn-color-primary: var(--t-color-warning);
+  --t-btn-color-contrast: var(--t-color-warning-contrast);
+  --t-btn-color-primary-hover: var(--t-color-warning-hover);
+  --t-btn-color-primary-active: var(--t-color-warning-active);
+  --t-btn-color-plain-primary: var(--t-color-warning);
+  --t-btn-color-plain-background: var(--t-color-warning-plain-bg);
+  --t-btn-color-plain-text: var(--t-color-warning);
+  --t-btn-color-border: var(--t-color-warning);
+  --t-btn-color-border-hover: var(--t-color-warning-hover);
+  --t-btn-color-border-active: var(--t-color-warning-active);
+}
+
 /* Info variant */
 .t-button[variant="info"] {
   --t-btn-color-primary: var(--t-color-info);
@@ -216,17 +246,19 @@ withDefaults(
 .t-button[mode="plain"] {
   background-color: var(--t-btn-color-plain-background);
   color: var(--t-btn-color-plain-text);
-  border-color: var(--t-btn-color-border);
+  border-color: var(--t-btn-color-plain-border, var(--t-btn-color-border));
 }
 
 .t-button[mode="plain"]:hover:not(:disabled), .t-button[mode="plain"][active=true]  {
   background-color: var(--t-btn-color-primary-hover);
   color: var(--t-btn-color-contrast);
+  border-color: var(--t-btn-color-plain-border-hover, var(--t-btn-color-border-hover));
 }
 
 .t-button[mode="plain"]:active:not(:disabled) {
   background-color: var(--t-btn-color-primary-active);
   color: var(--t-btn-color-contrast);
+  border-color: var(--t-btn-color-plain-border-hover, var(--t-btn-color-border-active));
 }
 
 /* Ghost mode */

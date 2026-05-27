@@ -24,6 +24,12 @@
     Success
   </TButton>
   <TButton
+    variant="warning"
+    mode="ghost"
+  >
+    Warning
+  </TButton>
+  <TButton
     variant="info"
     mode="ghost"
   >

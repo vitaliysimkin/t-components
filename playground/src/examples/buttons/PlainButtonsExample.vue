@@ -24,6 +24,12 @@
     Success
   </TButton>
   <TButton
+    variant="warning"
+    mode="plain"
+  >
+    Warning
+  </TButton>
+  <TButton
     variant="info"
     mode="plain"
   >

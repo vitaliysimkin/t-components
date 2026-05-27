@@ -20,6 +20,11 @@
     icon="system-uicons:check"
   />
   <TButton
+    variant="warning"
+    mode="text"
+    icon="system-uicons:warning"
+  />
+  <TButton
     variant="info"
     mode="text"
     icon="system-uicons:tag"
