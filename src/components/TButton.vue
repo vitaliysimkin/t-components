@@ -145,9 +145,18 @@ withDefaults(
   color: var(--t-color-accent);
 }
 
+.t-button[variant="neutral"][mode="plain"]:hover:not(:disabled),
+.t-button[variant="neutral"][mode="plain"][active=true] {
+  background-color: var(--t-color-accent-plain-bg);
+}
+
 .t-button[variant="neutral"][mode="filled"]:active:not(:disabled),
 .t-button[variant="neutral"][mode="plain"]:active:not(:disabled) {
   color: var(--t-color-accent-contrast);
+}
+
+.t-button[variant="neutral"][mode="plain"]:active:not(:disabled) {
+  background-color: var(--t-color-accent);
 }
 
 /* Accent variant */
@@ -250,13 +259,13 @@ withDefaults(
 }
 
 .t-button[mode="plain"]:hover:not(:disabled), .t-button[mode="plain"][active=true]  {
-  background-color: var(--t-btn-color-primary-hover);
-  color: var(--t-btn-color-contrast);
+  background-color: color-mix(in srgb, var(--t-btn-color-plain-primary) 20%, transparent);
+  color: var(--t-btn-color-plain-text);
   border-color: var(--t-btn-color-plain-border-hover, var(--t-btn-color-border-hover));
 }
 
 .t-button[mode="plain"]:active:not(:disabled) {
-  background-color: var(--t-btn-color-primary-active);
+  background-color: var(--t-btn-color-primary);
   color: var(--t-btn-color-contrast);
   border-color: var(--t-btn-color-plain-border-hover, var(--t-btn-color-border-active));
 }
