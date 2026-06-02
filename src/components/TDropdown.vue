@@ -56,6 +56,11 @@ const panelRef = ref<HTMLElement | null>(null)
 
 // State
 const isOpen = ref(false)
+// Timestamp of the last open(). Used to ignore the `pointerdown` that opened the
+// dropdown: on touch (iOS), onClickOutside listens on `pointerdown` and the
+// opening tap can fire before the teleported panel is mounted, which would
+// immediately close the dropdown ("opens and instantly closes").
+const openedAt = ref(0)
 const panelPosition = ref({ top: 0, left: 0 })
 const panelWidth = ref<number | undefined>(undefined)
 
@@ -137,6 +142,7 @@ const updatePosition = () => {
 // Core methods
 const open = () => {
   if (props.disabled) return
+  openedAt.value = Date.now()
   isOpen.value = true
   // Calculate position after opening
   requestAnimationFrame(() => {
@@ -162,6 +168,7 @@ const toggle = () => {
   if (props.disabled) return
   isOpen.value = !isOpen.value
   if (isOpen.value) {
+    openedAt.value = Date.now()
     requestAnimationFrame(() => {
       updatePosition()
     })
@@ -269,9 +276,12 @@ useEventListener('keydown', (event: KeyboardEvent) => {
 onClickOutside(
   triggerRef,
   () => {
-    if (isOpen.value) {
-      close()
-    }
+    if (!isOpen.value) return
+    // Grace window: ignore the opening tap's pointerdown, which on touch can
+    // arrive before the teleported panel is mounted (and thus before `ignore`
+    // can match it), causing an immediate close.
+    if (Date.now() - openedAt.value < 300) return
+    close()
   },
   {
     ignore: [panelRef],
