@@ -6,14 +6,16 @@
         type="button"
         class="t-date-picker__nav"
         aria-label="Previous"
-        @click="onPrev"
+        @click="activate(onPrev, $event)"
+        @pointerup="activate(onPrev, $event)"
       >
         <span class="t-date-picker__chev t-date-picker__chev--left" />
       </button>
       <button
         type="button"
         class="t-date-picker__title"
-        @click="onTitleClick"
+        @click="activate(onTitleClick, $event)"
+        @pointerup="activate(onTitleClick, $event)"
       >
         {{ headerTitle }}
       </button>
@@ -21,7 +23,8 @@
         type="button"
         class="t-date-picker__nav"
         aria-label="Next"
-        @click="onNext"
+        @click="activate(onNext, $event)"
+        @pointerup="activate(onNext, $event)"
       >
         <span class="t-date-picker__chev t-date-picker__chev--right" />
       </button>
@@ -68,7 +71,8 @@
                 't-date-picker__cell--range-end': isRangeEdge(cell.date, 'end') || isPendingEdge(cell.date, 'end'),
                 't-date-picker__cell--pending': isHoverPending(cell.date),
               }"
-              @click="onDayClick(cell.date)"
+              @click="activate(() => onDayClick(cell.date), $event)"
+              @pointerup="activate(() => onDayClick(cell.date), $event)"
               @mouseenter="hoverDate = cell.date"
             >
               {{ cell.date.getDate() }}
@@ -96,7 +100,8 @@
           't-date-picker__grid-cell--current': mIdx === currentRealMonth && view.year === currentRealYear,
           't-date-picker__grid-cell--selected': isMonthSelected(mIdx, view.year),
         }"
-        @click="onMonthClick(mIdx)"
+        @click="activate(() => onMonthClick(mIdx), $event)"
+        @pointerup="activate(() => onMonthClick(mIdx), $event)"
       >
         {{ mName }}
       </button>
@@ -117,7 +122,8 @@
           't-date-picker__grid-cell--current': y === currentRealYear,
           't-date-picker__grid-cell--selected': isYearSelected(y),
         }"
-        @click="onYearClick(y)"
+        @click="activate(() => onYearClick(y), $event)"
+        @pointerup="activate(() => onYearClick(y), $event)"
       >
         {{ y }}
       </button>
@@ -400,7 +406,30 @@ function isPendingEdge(date: Date, edge: 'start' | 'end'): boolean {
 
 // ---------------------------------------------------------------------------
 // Click handlers.
+//
+// Touch fix: buttons bind both `@click` and `@pointerup` so selection works on
+// touch devices where the synthetic `click` is unreliable / delayed. `activate`
+// runs the action on `pointerup` and suppresses the following synthetic `click`
+// for a short window so the action does not fire twice. Mouse-only flows (no
+// preceding `pointerup` in the suppression window) still run on `click`.
+// We intentionally do NOT act on `touchstart` so scrolls are not mistaken for
+// taps.
 // ---------------------------------------------------------------------------
+let suppressClickUntil = 0;
+
+function activate(fn: () => void, ev: Event) {
+  if (ev.type === 'pointerup') {
+    suppressClickUntil = Date.now() + 400;
+    fn();
+  } else {
+    if (Date.now() < suppressClickUntil) {
+      suppressClickUntil = 0;
+      return;
+    }
+    fn();
+  }
+}
+
 function onDayClick(date: Date) {
   if (date.getMonth() !== view.value.month || date.getFullYear() !== view.value.year) {
     view.value = { type: 'day', month: date.getMonth(), year: date.getFullYear() };

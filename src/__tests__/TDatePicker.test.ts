@@ -39,6 +39,48 @@ describe('TDatePicker', () => {
     expect(d.getDate()).toBe(10)
   })
 
+  it('single mode: pointerup on a day emits update:modelValue (touch devices)', async () => {
+    // Touch fix: day cells bind @pointerup in addition to @click so selection
+    // works on touch devices where the synthetic click is unreliable.
+    const initial = new Date(2024, 5, 15)
+    const emitted: unknown[] = []
+    const { container } = render(TDatePicker, {
+      props: {
+        modelValue: initial,
+        mode: 'single',
+        'onUpdate:modelValue': (v: unknown) => emitted.push(v),
+      },
+    })
+    await nextTick()
+    const target = findDayCell(container, 10)
+    await fireEvent.pointerUp(target)
+    expect(emitted.length).toBe(1)
+    const d = emitted[0] as Date
+    expect(d instanceof Date).toBe(true)
+    expect(d.getFullYear()).toBe(2024)
+    expect(d.getMonth()).toBe(5)
+    expect(d.getDate()).toBe(10)
+  })
+
+  it('single mode: pointerup followed by synthetic click emits only once', async () => {
+    // The activate() guard suppresses the synthetic click that follows a
+    // pointerup so selection is not emitted twice on touch devices.
+    const initial = new Date(2024, 5, 15)
+    const emitted: unknown[] = []
+    const { container } = render(TDatePicker, {
+      props: {
+        modelValue: initial,
+        mode: 'single',
+        'onUpdate:modelValue': (v: unknown) => emitted.push(v),
+      },
+    })
+    await nextTick()
+    const target = findDayCell(container, 10)
+    await fireEvent.pointerUp(target)
+    await fireEvent.click(target)
+    expect(emitted.length).toBe(1)
+  })
+
   it('range mode: two clicks produce {start, end}', async () => {
     const model = ref<{ start: Date | null; end: Date | null }>({ start: null, end: null })
     const { container } = render({
