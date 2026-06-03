@@ -119,7 +119,7 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { Icon } from '@iconify/vue'
+import Icon from './TIcon.vue'
 
 interface MenuItem {
   route: string

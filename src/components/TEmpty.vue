@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Icon } from '@iconify/vue'
+import Icon from './TIcon.vue'
 
 export interface TEmptyProps {
   description?: string
@@ -7,7 +7,7 @@ export interface TEmptyProps {
 }
 
 withDefaults(defineProps<TEmptyProps>(), {
-  icon: 'material-symbols-light:inbox-outline',
+  icon: 'ticon:inbox',
 })
 </script>
 

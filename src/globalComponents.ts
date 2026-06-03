@@ -2,6 +2,7 @@
 // Keep this list in sync with `componentRegistry` in `./components/registry.ts`.
 declare module '@vue/runtime-core' {
   interface GlobalComponents {
+    TIcon: typeof import('./components/TIcon.vue')['default']
     TButton: typeof import('./components/TButton.vue')['default']
     TButtonGroup: typeof import('./components/TButtonGroup.vue')['default']
     TInput: typeof import('./components/TInput.vue')['default']

@@ -65,7 +65,7 @@
           variant="danger"
           mode="text"
           size="mini"
-          icon="material-symbols:close"
+          icon="ticon:close"
           class="header-btn close-btn"
           ignore-drag="true"
           @click="handleClose"
@@ -93,7 +93,7 @@ import { calculateModalPosition } from './position-utils'
 import { useDragger } from './useDragger'
 import { useResizer } from './useResizer'
 import TButton from '../TButton.vue'
-import { Icon } from '@iconify/vue'
+import Icon from '../TIcon.vue'
 
 const props = defineProps({
   config: {

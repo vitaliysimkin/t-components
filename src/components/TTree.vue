@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
 import { computed, ref, watch } from 'vue'
-import { Icon } from '@iconify/vue'
+import Icon from './TIcon.vue'
 
 // ─── Public types ────────────────────────────────────────────────────────────
 

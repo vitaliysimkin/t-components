@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
 import { computed, ref, watch } from 'vue'
-import { Icon } from '@iconify/vue'
+import Icon from './TIcon.vue'
 import type { TElementSize } from './types'
 
 export type TTableSortDirection = 'asc' | 'desc'
@@ -183,10 +183,10 @@ function ariaSort(column: TTableColumn<T>): 'ascending' | 'descending' | 'none' 
 }
 
 function sortIcon(column: TTableColumn<T>): string {
-  if (props.sort?.key !== column.key) return 'material-symbols-light:unfold-more'
+  if (props.sort?.key !== column.key) return 'ticon:unfold'
   return props.sort.direction === 'asc'
-    ? 'material-symbols-light:arrow-upward'
-    : 'material-symbols-light:arrow-downward'
+    ? 'ticon:arrow-up'
+    : 'ticon:arrow-down'
 }
 
 // Indeterminate binding for master checkbox requires a ref.
