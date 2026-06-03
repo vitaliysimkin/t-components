@@ -2,6 +2,9 @@ import { describe, it, expect } from 'vitest'
 import { render } from '@testing-library/vue'
 import { h } from 'vue'
 import TEmpty from '../components/TEmpty.vue'
+// Register the optional system-uicons set so the custom-icon test below can
+// resolve `system-uicons:search` (components auto-register only `ticon:*`).
+import '../icons/index'
 
 describe('TEmpty', () => {
   it('renders description prop', () => {

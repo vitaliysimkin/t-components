@@ -11,7 +11,9 @@ export default defineConfig({
       beforeWriteFile(filePath, content) {
         // Ensure the consumer auto-loads the GlobalComponents augmentation
         // (Volar template typings) when they import from the package entry.
-        if (filePath.endsWith('index.d.ts')) {
+        // Only the root `dist/index.d.ts` — NOT the `/icons` subpath types
+        // (its directory has no globalComponents.d.ts to reference).
+        if (/[\\/]index\.d\.ts$/.test(filePath) && !/[\\/]icons[\\/]index\.d\.ts$/.test(filePath)) {
           return {
             filePath,
             content: `/// <reference path="./globalComponents.d.ts" />\n${content}`,
@@ -22,10 +24,15 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'TComponents',
+      entry: {
+        index: resolve(__dirname, 'src/index.ts'),
+        icons: resolve(__dirname, 'src/icons/index.ts'),
+      },
       formats: ['es', 'cjs'],
-      fileName: 'index',
+      fileName: (format, entryName) => `${entryName}.${format === 'es' ? 'js' : 'cjs'}`,
+      // Keep the CSS bundle name stable across the single→multi entry switch so
+      // the `./style.css` export and size-limit path stay `dist/index.css`.
+      cssFileName: 'index',
     },
     rollupOptions: {
       external: ['vue', '@iconify/vue', '@vueuse/core', 'vue-router', 'codemirror', /^@codemirror\//],

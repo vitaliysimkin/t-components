@@ -2,9 +2,10 @@ import { defineComponent, h } from 'vue'
 import { vi } from 'vitest'
 
 // Registry of icon names known to the stubbed Iconify runtime. TIcon relies on
-// `iconLoaded` to decide between the real icon and the `local:missing`
-// fallback, and `offline-icons` registers the whole system-uicons set plus the
-// fallback via addCollection/addIcon — so the stub must model all three.
+// `iconLoaded` to decide between the real icon and the `ticon:missing`
+// fallback. `ticon-set` registers the curated set via addIcon and the optional
+// `icons` entry registers the whole system-uicons set via addCollection — so
+// the stub must model both addIcon and addCollection.
 const registered = new Set<string>()
 
 vi.mock('@iconify/vue', () => ({

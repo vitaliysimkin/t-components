@@ -4,13 +4,19 @@
     "path": "dist/index.js",
     "import": "{ TButton, TInput }",
     "ignore": ["vue", "@iconify/vue", "@vueuse/core", "vue-router", "codemirror"],
-    "limit": "195 KB"
+    "limit": "180 KB"
   },
   {
     "name": "Full bundle",
     "path": "dist/index.js",
     "ignore": ["vue", "@iconify/vue", "@vueuse/core", "vue-router", "codemirror"],
-    "limit": "220 KB"
+    "limit": "195 KB"
+  },
+  {
+    "name": "Icons (system-uicons, opt-in)",
+    "path": "dist/icons.js",
+    "ignore": ["vue", "@iconify/vue", "@vueuse/core", "vue-router", "codemirror"],
+    "limit": "30 KB"
   },
   {
     "name": "Styles",

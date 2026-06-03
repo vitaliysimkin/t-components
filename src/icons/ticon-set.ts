@@ -1,17 +1,11 @@
-import { addCollection, addIcon } from '@iconify/vue'
-import { icons as systemUicons } from '@iconify-json/system-uicons'
+import { addIcon } from '@iconify/vue'
 
 // ---------------------------------------------------------------------------
-// Offline icon registration. Imported as a side-effect by <TIcon> so the
-// library (and its consumers) never need a network call to api.iconify.design.
-//
-// Developer model:
-//   - `system-uicons:*` — the whole system-uicons set, bundled wholesale.
-//   - `ticon:*`         — the library's curated, hand-picked offline set
-//                         (inlined below). These are the glyphs the components
-//                         use as their defaults.
-//   - anything else     — unknown / unregistered → loud `ticon:missing`
-//                         fallback rendered by <TIcon>.
+// Curated `ticon:*` offline set — always bundled (a few KB), registered as a
+// side-effect by <TIcon>. These are the glyphs the library's own components
+// use as defaults, plus the `ticon:missing` fallback <TIcon> renders for
+// unknown icon names. Registering them inline means the library never needs a
+// network call for its own defaults.
 //
 // Curated `ticon:*` set:
 //   ticon:missing        (fallback bug glyph)
@@ -29,15 +23,11 @@ import { icons as systemUicons } from '@iconify-json/system-uicons'
 //   ticon:arrow-down
 //
 // Licensing:
-//   - system-uicons: bundled wholesale under its own licence.
 //   - ticon:* glyphs are Material Symbols (Apache-2.0,
 //     https://www.apache.org/licenses/LICENSE-2.0) inlined as literals,
 //     EXCEPT ticon:missing which is a Solar icon (CC BY 4.0,
 //     https://creativecommons.org/licenses/by/4.0/) recoloured to #e11d48.
 // ---------------------------------------------------------------------------
-
-// Whole system-uicons set, bundled offline.
-addCollection(systemUicons)
 
 // Fallback glyph shown by <TIcon> for unknown icon names. Hard-coded bright
 // colour (NOT currentColor) so a missing icon is immediately obvious and never

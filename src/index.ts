@@ -1,6 +1,5 @@
 import type { App, Plugin } from 'vue'
 import './styles/index.css'
-import './icons/offline-icons'
 import './globalComponents'
 
 import { componentRegistry } from './components/registry'

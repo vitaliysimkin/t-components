@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest'
 import { render } from '@testing-library/vue'
 import TIcon from '../components/TIcon.vue'
+// Register the optional system-uicons set so the known-icon test below can
+// resolve `system-uicons:cross` (TIcon itself only auto-registers `ticon:*`).
+import '../icons/index'
 
 describe('TIcon', () => {
   it('renders a registered icon as-is (not the fallback)', () => {
