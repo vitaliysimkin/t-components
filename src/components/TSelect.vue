@@ -2,7 +2,7 @@
 // Select: choose from options (strings/numbers/objects)
 // Autocomplete: free text input with string suggestions
 import { ref, computed, watch } from 'vue'
-import { Icon } from '@iconify/vue'
+import Icon from './TIcon.vue'
 import TInput from './TInput.vue'
 import TDropdown from './TDropdown.vue'
 import type { TElementSize, TOption } from './types'

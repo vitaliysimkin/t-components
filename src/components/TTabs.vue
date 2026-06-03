@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, useSlots, watch } from 'vue'
-import { Icon } from '@iconify/vue'
+import Icon from './TIcon.vue'
 
 export type TTabsVariant = 'underline' | 'pills' | 'segmented'
 export type TTabsSize = 'small' | 'default' | 'medium'

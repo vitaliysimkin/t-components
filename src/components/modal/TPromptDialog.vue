@@ -2,7 +2,7 @@
 import { ref, type Component } from 'vue'
 import TButton from '../TButton.vue'
 import TInput from '../TInput.vue'
-import { Icon } from '@iconify/vue'
+import Icon from '../TIcon.vue'
 import type { DialogVariant } from './TConfirmDialog.vue'
 
 const props = withDefaults(
@@ -32,10 +32,10 @@ const props = withDefaults(
 
 const VARIANT_ICONS: Record<DialogVariant, string> = {
   neutral: '',
-  info: 'material-symbols:info-outline',
-  success: 'material-symbols:check-circle-outline',
-  warning: 'material-symbols:warning-outline',
-  danger: 'material-symbols:error-outline',
+  info: 'ticon:info',
+  success: 'ticon:check-circle',
+  warning: 'ticon:warning',
+  danger: 'ticon:error',
 }
 
 const variantIcon = props.variant !== 'neutral' ? VARIANT_ICONS[props.variant] : ''

@@ -115,7 +115,7 @@ function onDateSelect(date: TDatePickerValue) {
         <TInput
           v-model="localText"
           :placeholder="placeholder"
-          suffix-icon="material-symbols:calendar-month-outline"
+          suffix-icon="ticon:calendar"
           :readonly="!editable"
           @focus="onFocus"
           @blur="onBlur"

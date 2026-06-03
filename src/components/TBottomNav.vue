@@ -223,7 +223,7 @@
 <script setup lang="ts">
 import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
-import { Icon } from '@iconify/vue'
+import Icon from './TIcon.vue'
 
 /** Menu item shape — mirrors TSidebar. */
 interface MenuItem {

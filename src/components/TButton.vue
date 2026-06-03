@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Icon } from '@iconify/vue'
+import Icon from './TIcon.vue'
 
 export type TButtonVariant = 'neutral' | 'accent' | 'danger' | 'success' | 'warning' | 'info'
 export type TButtonMode = 'filled' | 'plain' | 'ghost' | 'text'

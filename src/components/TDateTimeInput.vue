@@ -165,7 +165,7 @@ function commitText() {
         <TInput
           v-model="localText"
           :placeholder="placeholder"
-          suffix-icon="material-symbols:calendar-clock-outline"
+          suffix-icon="ticon:calendar-clock"
           :readonly="!editable"
           @focus="onFocus"
           @blur="onBlur"

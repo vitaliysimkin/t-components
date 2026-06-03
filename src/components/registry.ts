@@ -1,4 +1,5 @@
 import type { Component } from 'vue'
+import TIcon from './TIcon.vue'
 import TButton from './TButton.vue'
 import TButtonGroup from './TButtonGroup.vue'
 import TInput from './TInput.vue'
@@ -33,6 +34,7 @@ import TCheckbox from './TCheckbox.vue'
 import TDiffEditor from './TDiffEditor.vue'
 
 export {
+  TIcon,
   TButton,
   TButtonGroup,
   TInput,
@@ -72,6 +74,7 @@ export {
 // types — that avoids a circular type reference when `GlobalComponents` is
 // augmented from this same list (see `../globalComponents.ts`).
 export const componentRegistry: Record<string, Component> = {
+  TIcon,
   TButton,
   TButtonGroup,
   TInput,

@@ -1,5 +1,6 @@
 import type { App, Plugin } from 'vue'
 import './styles/index.css'
+import './icons/offline-icons'
 import './globalComponents'
 
 import { componentRegistry } from './components/registry'
@@ -34,6 +35,7 @@ export type {
 
 // Named component exports (tree-shakeable) — single source of truth lives in registry.ts
 export {
+  TIcon,
   TButton,
   TButtonGroup,
   TInput,

@@ -18,7 +18,10 @@ describe('TEmpty', () => {
     const { container } = render(TEmpty)
     const iconEl = container.querySelector('[data-icon]')
     expect(iconEl).not.toBeNull()
-    expect(iconEl?.getAttribute('data-icon')).toBe('material-symbols-light:inbox-outline')
+    // TEmpty's default icon is `ticon:inbox`, part of the library's curated
+    // `ticon:*` set which is bundled offline. So it passes straight through
+    // via TIcon (it is NOT the `ticon:missing` fallback).
+    expect(iconEl?.getAttribute('data-icon')).toBe('ticon:inbox')
   })
 
   it('renders a custom icon via icon prop', () => {

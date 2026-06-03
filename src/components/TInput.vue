@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { Icon } from '@iconify/vue'
+import Icon from './TIcon.vue'
 import type { TElementSize } from './types'
 
 const props = withDefaults(
