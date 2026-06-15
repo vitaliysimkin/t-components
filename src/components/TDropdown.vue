@@ -34,6 +34,13 @@ export interface TDropdownProps {
   matchTriggerWidth?: boolean
   /** Additional custom styles to apply to the panel */
   customPanelStyle?: StyleValue
+  /**
+   * Stacking order for the teleported panel. The panel is teleported to <body>,
+   * so it must out-rank whatever it opens over. The default sits above modal
+   * dialogs (TModalBox blocking layer is 4010) while staying below global
+   * notifications / loading overlays (9998–9999).
+   */
+  zIndex?: number
 }
 
 const props = withDefaults(defineProps<TDropdownProps>(), {
@@ -43,6 +50,7 @@ const props = withDefaults(defineProps<TDropdownProps>(), {
   placement: 'bottom-start',
   offset: 4,
   matchTriggerWidth: false,
+  zIndex: 5000,
 })
 
 const emit = defineEmits<{
@@ -245,7 +253,7 @@ const panelStyle = computed<StyleValue>(() => {
     position: 'fixed',
     top: `${panelPosition.value.top}px`,
     left: `${panelPosition.value.left}px`,
-    zIndex: 1000,
+    zIndex: props.zIndex,
     maxHeight: `calc(100vh - 16px)`,
     overflow: 'auto',
   }

@@ -108,14 +108,30 @@ function isOptionLike(value: unknown): value is TOption {
   return typeof value === 'string' || typeof value === 'number' || (typeof value === 'object' && value !== null)
 }
 
+// Resolve the current modelValue to a concrete option so we can render its label.
+// In `valueMode: 'value'` the modelValue is a primitive (the option's valueKey), so we
+// look the matching option up in the available list and render its labelKey. If it
+// isn't there yet (e.g. async options not loaded), fall back to the raw primitive.
+// In `valueMode: 'option'` the modelValue already is the option.
+const selectedOption = computed<TOption | null>(() => {
+  const mv = props.modelValue
+  if (mv == null) return null
+  if (props.valueMode === 'value') {
+    const match = currentOptions.value.find(option => getValue(option) === mv)
+    if (match) return match
+    return isOptionLike(mv) ? mv : null
+  }
+  return isOptionLike(mv) ? mv : null
+})
+
 // Get display label for selected value.
-// Use `== null` so falsy-but-valid values (`0`, `''`, `false`) are still rendered.
+// Use `!= null` so falsy-but-valid values (`0`, `''`, `false`) are still rendered.
 const displayLabel = computed(() => {
   if (isOpen.value && (props.searchable || props.autocomplete)) {
-    return searchQuery.value || (isOptionLike(props.modelValue) ? getLabel(props.modelValue) : '')
+    return searchQuery.value || (selectedOption.value != null ? getLabel(selectedOption.value) : '')
   }
 
-  return isOptionLike(props.modelValue) ? getLabel(props.modelValue) : ''
+  return selectedOption.value != null ? getLabel(selectedOption.value) : ''
 })
 
 // Filter options based on search query
