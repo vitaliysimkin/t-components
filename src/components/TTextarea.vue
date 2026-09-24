@@ -77,7 +77,7 @@ const errorMessage = computed(() => (typeof props.error === 'string' ? props.err
   cursor: text;
   transition: all 0.15s ease;
   display: block;
-  font-weight: 500;
+  font-weight: var(--t-font-weight-regular);
   background-color: var(--t-color-surface);
   color: var(--t-color-text);
   box-sizing: border-box;
@@ -89,6 +89,7 @@ const errorMessage = computed(() => (typeof props.error === 'string' ? props.err
 .t-textarea:focus-visible {
   outline: none;
   border-color: var(--t-color-accent);
+  box-shadow: 0 0 0 3px var(--t-color-focus-ring);
 }
 
 .t-textarea:disabled {
@@ -107,6 +108,7 @@ const errorMessage = computed(() => (typeof props.error === 'string' ? props.err
 
 .t-textarea[data-error]:focus-visible {
   border-color: var(--t-color-danger);
+  box-shadow: 0 0 0 3px var(--t-color-danger-plain-bg);
 }
 
 .t-textarea::placeholder {

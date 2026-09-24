@@ -126,6 +126,7 @@ const handleClear = () => {
 
 .t-input-wrapper:focus-within {
   border-color: var(--t-color-accent);
+  box-shadow: 0 0 0 3px var(--t-color-focus-ring);
 }
 
 .t-input-wrapper:has(.t-input:disabled),
@@ -141,6 +142,7 @@ const handleClear = () => {
 
 .t-input-wrapper[data-error]:focus-within {
   border-color: var(--t-color-danger);
+  box-shadow: 0 0 0 3px var(--t-color-danger-plain-bg);
 }
 
 /* ========================================
@@ -155,7 +157,7 @@ const handleClear = () => {
   border: none;
   background: transparent;
   font-size: var(--t-input-font-size);
-  font-weight: 500;
+  font-weight: var(--t-font-weight-regular);
   color: var(--t-color-text);
   outline: none;
   box-sizing: border-box;

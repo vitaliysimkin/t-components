@@ -1,13 +1,53 @@
 /**
- * Open Color Palette
- * Raw palette variables prefixed with --t-oc-
- * Source: https://yeun.github.io/open-color/
+ * Raw Color Palette
+ * Palette variables prefixed with --t-oc-* (Open Color) and --t-warm-* / --t-terra-* (house palette).
+ * This is the ONLY file where hex colors are allowed.
  *
- * Components should NOT use these directly.
- * Use role-based variables from theme.css instead.
+ * Components must NOT use these directly.
+ * Use role-based variables from theme.css instead (--t-color-*).
  */
 
 :root {
+  /* ------------------------------------------------------------------
+     House palette — warm neutrals ("sand") used for bg/surface/text/line.
+     Ordered light → dark. See DESIGN.md §Colors.
+     ------------------------------------------------------------------ */
+  --t-warm-0: #faf9f6;  /* light bg */
+  --t-warm-1: #ecebe7;  /* dark text */
+  --t-warm-2: #e6e3dc;  /* light line */
+  --t-warm-3: #cfcbc2;  /* light line-strong */
+  --t-warm-4: #a09d95;  /* dark muted */
+  --t-warm-5: #6b6963;  /* light muted */
+  --t-warm-6: #4f4d48;  /* dark line-strong */
+  --t-warm-7: #3a3834;  /* dark line */
+  --t-warm-8: #262522;  /* dark surface */
+  --t-warm-9: #1c1b19;  /* dark bg / light text */
+
+  /* Terracotta — accent */
+  --t-terra-0: #fbf1ec;
+  --t-terra-1: #f5dccf;
+  --t-terra-2: #ecbba3;
+  --t-terra-3: #e39d7a;
+  --t-terra-4: #e0855a;  /* dark accent */
+  --t-terra-5: #c96a3f;  /* light accent */
+  --t-terra-6: #b55c34;
+  --t-terra-7: #9f4f2c;
+  --t-terra-8: #874324;
+  --t-terra-9: #6e371d;
+
+  /* Muted semantic hues (light: -5, dark: -4) */
+  --t-ok-4: #5fae7e;
+  --t-ok-5: #3f8f5f;
+  --t-warn-4: #d9a64a;
+  --t-warn-5: #c08a2a;
+  --t-bad-4: #dd6a62;
+  --t-bad-5: #c4453c;
+
+  /* ------------------------------------------------------------------
+     Open Color — kept for tag hues (blue/red/green/teal/yellow/orange).
+     Source: https://yeun.github.io/open-color/
+     ------------------------------------------------------------------ */
+
   /* Gray scale (neutral) */
   --t-oc-gray-0: #f8f9fa;
   --t-oc-gray-1: #f1f3f5;
@@ -20,7 +60,7 @@
   --t-oc-gray-8: #343a40;
   --t-oc-gray-9: #212529;
 
-  /* Blue (accent color) */
+  /* Blue */
   --t-oc-blue-0: #e7f5ff;
   --t-oc-blue-1: #d0ebff;
   --t-oc-blue-2: #a5d8ff;
@@ -32,7 +72,7 @@
   --t-oc-blue-8: #1971c2;
   --t-oc-blue-9: #1864ab;
 
-  /* Red (danger/error) */
+  /* Red */
   --t-oc-red-0: #fff5f5;
   --t-oc-red-1: #ffe3e3;
   --t-oc-red-2: #ffc9c9;
@@ -44,7 +84,7 @@
   --t-oc-red-8: #e03131;
   --t-oc-red-9: #c92a2a;
 
-  /* Teal (success/confirm) */
+  /* Teal */
   --t-oc-teal-0: #e6fcf5;
   --t-oc-teal-1: #c3fae8;
   --t-oc-teal-2: #96f2d7;
@@ -56,7 +96,7 @@
   --t-oc-teal-8: #099268;
   --t-oc-teal-9: #087f5b;
 
-  /* Green (optional alt for success) */
+  /* Green */
   --t-oc-green-0: #ebfbee;
   --t-oc-green-1: #d3f9d8;
   --t-oc-green-2: #b2f2bb;
@@ -68,7 +108,7 @@
   --t-oc-green-8: #2f9e44;
   --t-oc-green-9: #2b8a3e;
 
-  /* Yellow (warning/attention) */
+  /* Yellow */
   --t-oc-yellow-0: #fff9db;
   --t-oc-yellow-1: #fff3bf;
   --t-oc-yellow-2: #ffec99;
@@ -80,7 +120,7 @@
   --t-oc-yellow-8: #f08c00;
   --t-oc-yellow-9: #e67700;
 
-  /* Orange (warning/destructive-confirm) */
+  /* Orange */
   --t-oc-orange-0: #fff4e6;
   --t-oc-orange-1: #ffe8cc;
   --t-oc-orange-2: #ffd8a8;

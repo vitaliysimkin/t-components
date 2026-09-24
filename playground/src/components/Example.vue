@@ -1,18 +1,20 @@
 <template>
-  <div class="example">
-    <div class="example-header">
-      <h3>{{ label }}</h3>
+  <section class="example">
+    <header class="example__head">
+      <h3 class="example__title">
+        {{ label }}
+      </h3>
       <TButton
         variant="info"
         size="mini"
-        :mode="showCode ? 'filled' : 'plain'"
+        :mode="showCode ? 'plain' : 'ghost'"
         icon="system-uicons:code"
-        class="code-toggle"
+        :title="showCode ? 'Hide code' : 'Show code'"
         @click="showCode = !showCode"
       />
-    </div>
+    </header>
 
-    <div class="example-preview">
+    <div class="example__preview">
       <component :is="component" />
     </div>
 
@@ -23,9 +25,9 @@
       :readonly="true"
       min-height="100px"
       max-height="600px"
-      class="code-block"
+      class="example__code"
     />
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -43,42 +45,40 @@ const showCode = ref(false)
 </script>
 
 <style scoped>
+/* Card: surface + hairline + large radius (same recipe as TCard) */
 .example {
-  border: solid 1px var(--t-color-border);
-  margin: var(--t-space-2);
+  background: var(--t-color-surface);
+  border: 1px solid var(--t-color-border);
+  border-radius: var(--t-radius-large);
+  overflow: hidden;
 }
 
-.example:hover {
-  border-color: var(--t-color-accent);
-}
-
-.example-header {
+.example__head {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--t-space-2);
-  background-color: var(--t-color-surface-2);
+  gap: var(--t-space-3);
+  padding: var(--t-space-2) var(--t-space-3) var(--t-space-2) var(--t-space-4);
+  border-bottom: 1px solid var(--t-color-border);
 }
 
-.example-header h3 {
+.example__title {
   margin: 0;
   color: var(--t-color-text);
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: var(--t-font-size-default);
+  font-weight: var(--t-font-weight-semibold);
 }
 
-.example-preview {
-  padding: var(--t-space-4);
-  background-color: var(--t-color-bg);
+.example__preview {
+  padding: var(--t-space-4) var(--t-space-4);
   display: flex;
-  gap: 10px;
+  gap: var(--t-space-3);
   flex-wrap: wrap;
+  align-items: center;
 }
 
-.code-block {
-  margin: var(--t-space-4) 0 0 0;
-  padding: var(--t-space-3);
-  background-color: var(--t-color-surface);
+.example__code {
   border-top: 1px solid var(--t-color-border);
+  background: var(--t-color-surface-2);
 }
 </style>

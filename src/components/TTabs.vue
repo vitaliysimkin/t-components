@@ -330,7 +330,7 @@ const hasPanelSlot = (value: TTabValue) =>
 }
 
 .t-tabs[variant='pills'] .t-tabs__tab:hover:not(.is-disabled):not(.is-active) {
-  background: color-mix(in srgb, var(--t-color-text) 6%, transparent);
+  background: var(--t-color-hover);
 }
 
 .t-tabs[variant='pills'] .t-tabs__tab.is-active {
@@ -344,7 +344,7 @@ const hasPanelSlot = (value: TTabValue) =>
 .t-tabs[variant='segmented'] .t-tabs__list {
   display: inline-flex;
   padding: var(--t-space-1);
-  background: color-mix(in srgb, var(--t-color-text) 6%, transparent);
+  background: var(--t-color-surface-2);
   border-radius: var(--t-radius-medium);
   gap: 2px;
   align-self: flex-start;
@@ -370,6 +370,6 @@ const hasPanelSlot = (value: TTabValue) =>
 .t-tabs[variant='segmented'] .t-tabs__tab.is-active {
   color: var(--t-color-text);
   background: var(--t-color-surface);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--t-color-border);
+  box-shadow: var(--t-shadow-1), 0 0 0 1px var(--t-color-border);
 }
 </style>

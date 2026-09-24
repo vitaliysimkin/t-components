@@ -4,6 +4,8 @@ Vue 3 бібліотека UI-компонентів із префіксом `T*
 
 **Live examples / playground:** [vitaliysimkin.github.io/t-components](https://vitaliysimkin.github.io/t-components/)
 
+**Design guidelines:** [DESIGN.md](DESIGN.md) — токени, ролі кольорів, рецепти компонентів. Живі значення: [/design](https://vitaliysimkin.github.io/t-components/design) у playground.
+
 ---
 
 ## Installation

@@ -6,6 +6,17 @@
 
 ## [Unreleased]
 
+### Changed
+- **Новий візуальний стиль** — тепла нейтральна палітра (`--t-warm-*`), теракотовий акцент замість синього, приглушені статусні кольори, радіуси 8/10/12 замість 4/6/8, тіні лише для «плаваючих» елементів. Імена ролей `--t-color-*` не змінились; сира палітра Open Color лишилась для тегів. Правила зафіксовано в [DESIGN.md](DESIGN.md), живі токени — на сторінці `/design` у playground.
+- Нові токени: `--t-color-hover`, `--t-color-backdrop`, `--t-shadow-color`, `--t-radius-pill`, `--t-font-mono`, `--t-font-size-h1..h3`, `--t-font-weight-*`, `--t-duration`, `--t-duration-slow`, `--t-ease`, `--t-line-height-tight`.
+- `TSidebar` — «flat» вигляд: панель на `--t-color-bg`, активний пункт — `surface` з хейрлайном та акцентною іконкою, пункти з радіусом. Додано опційне поле `group` у `menuItems`: сусідні пункти з однаковою групою рендеряться під секційним заголовком, який у згорнутому стані стає роздільником. Тип пункту експортовано як `TSidebarMenuItem`.
+- `TCard`, `TTable` — радіус `large`; заголовок таблиці прозорий, muted, вага 500.
+- `TTag`, `TBadge` — pill-радіус; `TTag variant="teal"` тепер справді бірюзовий (раніше помилково використовував gray-токени).
+- `TNotifications` — тост на `surface` із м'якою тінню `--t-shadow-2` і тонованою рамкою для статусних варіантів.
+- `TInput`, `TTextarea` — 3px кільце фокуса `--t-color-focus-ring`; вага тексту 400.
+- `TSelect`, `TTabs`, `TModalBox`, `TBottomNav`, `TFormField` — захардкоджені `rgba()`/`px`/hex замінено на токени.
+- `base.css` — `-webkit-font-smoothing: antialiased`, `code/kbd/pre` на `--t-font-mono`, focus outline з радіусом.
+
 ## [0.10.1] - 2026-06-15
 
 ### Fixed

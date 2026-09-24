@@ -347,7 +347,7 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
   font-size: var(--t-font-size-default);
   background: var(--t-color-surface);
   border: 1px solid var(--t-color-border);
-  border-radius: var(--t-radius-medium);
+  border-radius: var(--t-radius-large);
   overflow: hidden;
 }
 
@@ -378,9 +378,10 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
 
 .t-table__th {
   height: var(--t-table-row-h);
-  background: var(--t-color-surface-2);
-  color: var(--t-color-text);
-  font-weight: 600;
+  background: transparent;
+  color: var(--t-color-text-muted);
+  font-weight: var(--t-font-weight-medium);
+  font-size: 0.875em;
   border-bottom: 1px solid var(--t-color-border);
   user-select: none;
   white-space: nowrap;
@@ -391,7 +392,8 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
 }
 
 .t-table__th.is-sortable:hover {
-  background: color-mix(in srgb, var(--t-color-text) 6%, var(--t-color-surface-2));
+  color: var(--t-color-text);
+  background: var(--t-color-hover);
 }
 
 .t-table__th.align-left,
@@ -428,11 +430,11 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
 }
 
 .t-table__tr:hover {
-  background: color-mix(in srgb, var(--t-color-text) 4%, transparent);
+  background: var(--t-color-hover);
 }
 
 .t-table__tr.is-selected {
-  background: color-mix(in srgb, var(--t-color-accent) 10%, transparent);
+  background: var(--t-color-accent-plain-bg);
 }
 
 .t-table__th--select,

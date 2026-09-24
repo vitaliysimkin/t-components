@@ -78,28 +78,46 @@
 
       <div class="t-sidebar__content">
         <nav class="t-sidebar__nav">
-          <RouterLink
-            v-for="item in menuItems"
-            :key="item.route"
-            :to="item.route"
-            class="t-sidebar__nav-item"
-            :class="{ 't-sidebar__nav-item--active': isMenuItemActive(item) }"
-            :title="collapsed ? item.title : undefined"
-            :style="item.color ? { '--menu-item-color': item.color } : {}"
-            @click.stop
+          <template
+            v-for="(group, gi) in groups"
+            :key="gi"
           >
-            <Icon
-              :icon="item.icon"
-              class="t-sidebar__nav-icon"
-            />
-
-            <span
-              class="t-sidebar__nav-text t-sidebar__text"
-              :class="{ 't-sidebar__text--hidden': collapsed }"
+            <div
+              v-if="group.title"
+              class="t-sidebar__group-title"
+              :class="{ 't-sidebar__group-title--collapsed': collapsed }"
             >
-              {{ item.title }}
-            </span>
-          </RouterLink>
+              <span
+                class="t-sidebar__text"
+                :class="{ 't-sidebar__text--hidden': collapsed }"
+              >
+                {{ group.title }}
+              </span>
+            </div>
+
+            <RouterLink
+              v-for="item in group.items"
+              :key="item.route"
+              :to="item.route"
+              class="t-sidebar__nav-item"
+              :class="{ 't-sidebar__nav-item--active': isMenuItemActive(item) }"
+              :title="collapsed ? item.title : undefined"
+              :style="item.color ? { '--menu-item-color': item.color } : {}"
+              @click.stop
+            >
+              <Icon
+                :icon="item.icon"
+                class="t-sidebar__nav-icon"
+              />
+
+              <span
+                class="t-sidebar__nav-text t-sidebar__text"
+                :class="{ 't-sidebar__text--hidden': collapsed }"
+              >
+                {{ item.title }}
+              </span>
+            </RouterLink>
+          </template>
         </nav>
       </div>
 
@@ -121,13 +139,18 @@ import { ref, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import Icon from './TIcon.vue'
 
-interface MenuItem {
+export interface TSidebarMenuItem {
   route: string
   title: string
   icon: string
   activeRoutes?: string[]
   color?: string
+  /** Optional section label. Consecutive items sharing a group are rendered under one heading. */
+  group?: string
 }
+
+/** @deprecated use TSidebarMenuItem */
+type MenuItem = TSidebarMenuItem
 
 export interface TSidebarToggleLabel {
   expand: string
@@ -184,6 +207,24 @@ const toggleLabel = computed<TSidebarToggleLabel>(() => ({
   collapse: props.toggleLabel?.collapse ?? 'Згорнути'
 }))
 
+interface MenuGroup {
+  title?: string
+  items: MenuItem[]
+}
+
+const groups = computed<MenuGroup[]>(() => {
+  const out: MenuGroup[] = []
+  for (const item of props.menuItems) {
+    const last = out[out.length - 1]
+    if (last && last.title === item.group) {
+      last.items.push(item)
+    } else {
+      out.push({ title: item.group, items: [item] })
+    }
+  }
+  return out
+})
+
 const isMenuItemActive = (item: MenuItem) => {
   const currentPath = route.path
 
@@ -226,7 +267,7 @@ watch(
   flex-shrink: 0;
 
   /* fallback values if props are not passed */
-  --nav-icon-size: 24px;
+  --nav-icon-size: 20px;
   --header-icon-size: 30px;
 
 
@@ -261,7 +302,7 @@ watch(
   width: var(--t-sidebar-width);
   display: flex;
   flex-direction: column;
-  background: var(--t-color-surface);
+  background: var(--t-color-bg);
   border-right: var(--t-sidebar-border-w) solid var(--t-color-border);
   overflow: hidden;
   will-change: width;
@@ -414,7 +455,7 @@ watch(
 }
 
 .t-sidebar__collapse:hover {
-  background: color-mix(in srgb, var(--t-color-text) 8%, transparent);
+  background: var(--t-color-hover);
   color: var(--t-color-text);
   opacity: 1;
 }
@@ -431,8 +472,8 @@ watch(
 }
 
 .t-sidebar__header-label {
-  font-size: var(--t-font-size-medium);
-  font-weight: 600;
+  font-size: var(--t-font-size-default);
+  font-weight: var(--t-font-weight-semibold);
   color: var(--t-color-text);
   font-family: var(--t-font-ui);
 }
@@ -442,7 +483,7 @@ watch(
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  --t-sidebar-content-padding: var(--t-space-1);
+  --t-sidebar-content-padding: var(--t-space-2);
   padding: var(--t-sidebar-content-padding);
   transition: padding 280ms cubic-bezier(0.2, 0, 0, 1);
 }
@@ -451,7 +492,43 @@ watch(
 .t-sidebar__nav {
   display: flex;
   flex-direction: column;
-  gap: var(--t-space-1);
+  gap: 2px;
+}
+
+/* Group heading: small caps label; collapses into a short divider line */
+.t-sidebar__group-title {
+  display: flex;
+  align-items: center;
+  height: 1.75rem;
+  margin: var(--t-space-2) 0 2px;
+  padding: 0 calc(var(--t-sidebar-icon-center-left) - var(--t-sidebar-content-padding) - var(--nav-icon-size) / 2);
+  font-size: var(--t-font-size-mini);
+  font-weight: var(--t-font-weight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--t-color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  transition:
+    height var(--t-duration-slow) var(--t-ease),
+    margin var(--t-duration-slow) var(--t-ease),
+    padding var(--t-duration-slow) var(--t-ease);
+}
+
+.t-sidebar__group-title:first-child {
+  margin-top: 2px;
+}
+
+.t-sidebar__group-title--collapsed {
+  height: 1px;
+  margin: var(--t-space-2) auto;
+  padding: 0;
+  width: 22px;
+  background: var(--t-color-border);
+}
+
+.t-sidebar__group-title--collapsed:first-child {
+  display: none;
 }
 
 .t-sidebar__nav-item {
@@ -462,32 +539,41 @@ watch(
   min-width: 0;
 
   gap: var(--t-space-3);
-  padding: var(--t-space-3)
-      calc(var(--t-sidebar-icon-center-left) - var( --t-sidebar-content-padding) - var(--nav-icon-size) / 2);
+  padding: var(--t-space-2)
+      calc(var(--t-sidebar-icon-center-left) - var(--t-sidebar-content-padding) - var(--nav-icon-size) / 2);
 
   color: var(--t-color-text-muted);
   text-decoration: none;
-  border-radius: 0;
+  border-radius: var(--t-radius-default);
+  box-shadow: inset 0 0 0 1px transparent;
 
-  font-weight: 500;
+  font-weight: var(--t-font-weight-medium);
   font-family: var(--t-font-ui);
   font-size: var(--t-font-size-default);
 
   transition:
-    background-color 160ms ease,
-    color 160ms ease,
-    padding 280ms cubic-bezier(0.2, 0, 0, 1),
-    gap 280ms cubic-bezier(0.2, 0, 0, 1);
+    background-color var(--t-duration) ease,
+    color var(--t-duration) ease,
+    box-shadow var(--t-duration) ease,
+    padding var(--t-duration-slow) var(--t-ease),
+    gap var(--t-duration-slow) var(--t-ease);
 }
 
 .t-sidebar__nav-item:hover {
-  background: color-mix(in srgb, var(--t-color-text) 8%, transparent);
+  background: var(--t-color-hover);
   color: var(--t-color-text);
 }
 
+/* Active: a surface "card" with a hairline; icon takes the accent */
 .t-sidebar__nav-item.router-link-active,
 .t-sidebar__nav-item.t-sidebar__nav-item--active {
-  background: var(--t-color-accent-plain-bg);
+  background: var(--t-color-surface);
+  color: var(--t-color-text);
+  box-shadow: inset 0 0 0 1px var(--t-color-border);
+}
+
+.t-sidebar__nav-item.router-link-active .t-sidebar__nav-icon,
+.t-sidebar__nav-item.t-sidebar__nav-item--active .t-sidebar__nav-icon {
   color: var(--t-color-accent);
 }
 
@@ -503,7 +589,11 @@ watch(
 
 .t-sidebar__nav-item[style*="--menu-item-color"].router-link-active,
 .t-sidebar__nav-item[style*="--menu-item-color"].t-sidebar__nav-item--active {
-  background: color-mix(in srgb, var(--menu-item-color) 20%, transparent);
+  color: var(--menu-item-color);
+}
+
+.t-sidebar__nav-item[style*="--menu-item-color"].router-link-active .t-sidebar__nav-icon,
+.t-sidebar__nav-item[style*="--menu-item-color"].t-sidebar__nav-item--active .t-sidebar__nav-icon {
   color: var(--menu-item-color);
 }
 
@@ -592,6 +682,7 @@ watch(
   .t-sidebar__nav-item,
   .t-sidebar__nav-icon,
   .t-sidebar__text,
+  .t-sidebar__group-title,
   .t-sidebar__trigger-icon {
     transition: none !important;
   }

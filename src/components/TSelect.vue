@@ -456,9 +456,9 @@ function handleMouseEnter(index: number) {
   margin: 0;
   padding: 0;
   border: 1px solid var(--t-color-border);
-  border-radius: 4px;
-  background-color: var(--t-color-bg);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border-radius: var(--t-radius-medium);
+  background-color: var(--t-color-surface);
+  box-shadow: var(--t-shadow-2);
   max-height: 20em;
   overflow: auto;
 }
@@ -509,17 +509,17 @@ function handleMouseEnter(index: number) {
 }
 
 .t-select__item--selected {
-  background-color: var(--t-color-surface);
-  font-weight: 500;
+  background-color: var(--t-color-accent-plain-bg);
+  font-weight: var(--t-font-weight-medium);
 }
 
 .t-select__item--active {
-  background-color: var(--t-color-surface, rgba(0, 0, 0, 0.04));
+  background-color: var(--t-color-hover);
 }
 
 .t-select__state {
   padding: var(--t-space-2) var(--t-space-4);
-  color: var(--t-color-text-secondary, #999);
+  color: var(--t-color-text-muted);
   text-align: center;
   cursor: default;
   user-select: none;

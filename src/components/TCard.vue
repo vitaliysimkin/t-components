@@ -38,7 +38,7 @@ const hasFooter = computed(() => !!slots.footer)
 <style scoped>
 .t-card {
   border: 1px solid var(--t-color-border);
-  border-radius: var(--t-radius-medium);
+  border-radius: var(--t-radius-large);
   background: var(--t-color-surface);
   overflow: hidden;
 }
@@ -47,7 +47,7 @@ const hasFooter = computed(() => !!slots.footer)
   padding: var(--t-space-3) var(--t-space-4);
   border-bottom: 1px solid var(--t-color-border);
   font-size: var(--t-font-size-default);
-  font-weight: 600;
+  font-weight: var(--t-font-weight-semibold);
   color: var(--t-color-text);
   line-height: var(--t-line-height);
 }
@@ -63,7 +63,7 @@ const hasFooter = computed(() => !!slots.footer)
   padding: var(--t-space-3) var(--t-space-4);
   border-top: 1px solid var(--t-color-border);
   color: var(--t-color-text-muted);
-  font-size: var(--t-font-size-default);
+  font-size: var(--t-font-size-small);
   line-height: var(--t-line-height);
 }
 </style>

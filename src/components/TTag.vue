@@ -45,11 +45,11 @@ defineEmits<TTagEmits>()
 .t-tag {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  border-radius: 6px;
-  font-weight: 500;
+  gap: var(--t-space-1);
+  border-radius: var(--t-radius-pill);
+  font-weight: var(--t-font-weight-medium);
   white-space: nowrap;
-  transition: all 0.2s ease;
+  transition: background-color var(--t-duration) ease, color var(--t-duration) ease;
   cursor: default;
 }
 
@@ -94,12 +94,8 @@ defineEmits<TTagEmits>()
 }
 
 .t-tag--teal {
-  color: var(--t-color-tag-gray);
-  background: color-mix(
-  in srgb,
-  var(--t-color-tag-gray-bg) 50%,
-  transparent
-);
+  color: var(--t-color-tag-teal);
+  background: var(--t-color-tag-teal-bg);
 }
 
 .t-tag--yellow {

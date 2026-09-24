@@ -1,10 +1,14 @@
 /**
  * Base Styles
- * Minimal global resets and element defaults
+ * Minimal global resets and element defaults.
+ * Intentionally no heading/paragraph rules — consumers own their typography;
+ * use --t-font-size-h1..h3 tokens if you want the library scale.
  */
 
 /* Box sizing reset */
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -22,6 +26,8 @@ body {
   line-height: var(--t-line-height);
   background: var(--t-color-bg);
   color: var(--t-color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Form element font inheritance */
@@ -33,8 +39,18 @@ select {
   color: inherit;
 }
 
+/* Code uses the mono stack, slightly smaller than body */
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--t-font-mono);
+  font-size: 0.93em;
+}
+
 /* Focus styles using role tokens */
 :focus-visible {
   outline: var(--t-focus-ring) solid var(--t-color-accent);
   outline-offset: var(--t-focus-offset);
+  border-radius: var(--t-radius-small);
 }

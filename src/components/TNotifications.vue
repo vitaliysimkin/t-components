@@ -80,15 +80,14 @@ function handleClick(n: Notification): void {
   align-items: center;
   gap: 0.5rem;
   padding: 0.6rem 0.85rem;
-  border-radius: var(--t-radius-default, 6px);
-  font-size: var(--t-font-size-default, 0.9rem);
-  line-height: 1.35;
-  background: var(--t-color-surface-2);
+  border-radius: var(--t-radius-medium);
+  font-size: var(--t-font-size-small);
+  line-height: 1.4;
+  background: var(--t-color-surface);
   color: var(--t-color-text);
   border: 1px solid var(--t-color-border);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--t-shadow-2);
   cursor: pointer;
-  backdrop-filter: blur(2px);
 }
 
 .t-notification--clickable {
@@ -96,33 +95,29 @@ function handleClick(n: Notification): void {
 }
 
 .t-notification--clickable:hover {
-  filter: brightness(0.95);
+  border-color: var(--t-color-border-strong);
 }
 
 .t-notification--clickable:focus-visible {
-  outline: 2px solid var(--t-color-accent, #4a90e2);
+  outline: 2px solid var(--t-color-accent);
   outline-offset: 2px;
 }
 
 .t-notification--info {
-  background: var(--t-color-accent-plain-bg);
-  border-color: var(--t-color-accent);
-  color: var(--t-color-text);
+  background: color-mix(in srgb, var(--t-color-accent-plain-bg), var(--t-color-surface));
+  border-color: color-mix(in srgb, var(--t-color-accent) 35%, var(--t-color-border));
 }
 .t-notification--success {
-  background: var(--t-color-success-plain-bg);
-  border-color: var(--t-color-success);
-  color: var(--t-color-text);
+  background: color-mix(in srgb, var(--t-color-success-plain-bg), var(--t-color-surface));
+  border-color: color-mix(in srgb, var(--t-color-success) 35%, var(--t-color-border));
 }
 .t-notification--warning {
-  background: var(--t-color-warning-plain-bg, color-mix(in srgb, var(--t-color-warning) 12%, transparent));
-  border-color: var(--t-color-warning);
-  color: var(--t-color-text);
+  background: color-mix(in srgb, var(--t-color-warning-plain-bg), var(--t-color-surface));
+  border-color: color-mix(in srgb, var(--t-color-warning) 35%, var(--t-color-border));
 }
 .t-notification--error {
-  background: var(--t-color-danger-plain-bg);
-  border-color: var(--t-color-danger);
-  color: var(--t-color-text);
+  background: color-mix(in srgb, var(--t-color-danger-plain-bg), var(--t-color-surface));
+  border-color: color-mix(in srgb, var(--t-color-danger) 35%, var(--t-color-border));
 }
 
 .t-notification__text {

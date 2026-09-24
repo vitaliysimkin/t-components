@@ -63,7 +63,7 @@ const displayValue = computed(() => {
   min-width: 18px;
   height: 18px;
   padding: 0 var(--t-space-1);
-  border-radius: 9px;
+  border-radius: var(--t-radius-pill);
 
   font-size: var(--t-font-size-mini);
   font-weight: 600;
@@ -118,6 +118,6 @@ const displayValue = computed(() => {
 /* Variant: neutral */
 .t-badge--neutral {
   --t-badge-color: var(--t-color-text-muted);
-  --t-badge-color-contrast: var(--t-color-bg, #fff);
+  --t-badge-color-contrast: var(--t-color-surface);
 }
 </style>

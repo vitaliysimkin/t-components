@@ -566,7 +566,7 @@ defineExpose({ open: () => setOpen(true), close: closeSheet })
 .t-bottom-nav__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--t-color-backdrop);
 }
 
 .t-bottom-nav__sheet {

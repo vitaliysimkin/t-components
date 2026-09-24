@@ -181,7 +181,7 @@ defineSlots<{
 }
 
 .t-form-field__required {
-  color: var(--t-color-danger, #ef4444);
+  color: var(--t-color-danger);
   margin-left: 2px;
 }
 
@@ -201,7 +201,7 @@ defineSlots<{
 .t-form-field__error {
   margin: 0;
   font-size: var(--t-font-size-mini, 0.75rem);
-  color: var(--t-color-danger, #ef4444);
+  color: var(--t-color-danger);
   line-height: 1.3;
 }
 
