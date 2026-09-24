@@ -6,6 +6,8 @@
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-09-25
+
 ### Changed
 - **Новий візуальний стиль** — тепла нейтральна палітра (`--t-warm-*`), теракотовий акцент замість синього, приглушені статусні кольори, радіуси 8/10/12 замість 4/6/8, тіні лише для «плаваючих» елементів. Імена ролей `--t-color-*` не змінились; сира палітра Open Color лишилась для тегів. Правила зафіксовано в [DESIGN.md](DESIGN.md), живі токени — на сторінці `/design` у playground.
 - Нові токени: `--t-color-hover`, `--t-color-backdrop`, `--t-shadow-color`, `--t-radius-pill`, `--t-font-mono`, `--t-font-size-h1..h3`, `--t-font-weight-*`, `--t-duration`, `--t-duration-slow`, `--t-ease`, `--t-line-height-tight`.
