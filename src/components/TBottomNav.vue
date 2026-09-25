@@ -514,12 +514,16 @@ defineExpose({ open: () => setOpen(true), close: closeSheet })
   border-radius: var(--t-radius-mini);
 }
 
-.t-bottom-nav__slot--item:hover,
-.t-bottom-nav__slot--center:hover {
-  color: var(--t-color-text);
+/* Hover only on real pointers: on touch screens :hover sticks to the tapped slot
+   and would mask the active color until reload. */
+@media (hover: hover) {
+  .t-bottom-nav__slot--item:hover,
+  .t-bottom-nav__slot--center:hover {
+    color: var(--t-color-text);
+  }
 }
 
-.t-bottom-nav__slot--active {
+.t-bottom-nav__slot.t-bottom-nav__slot--active {
   color: var(--t-color-accent);
 }
 
