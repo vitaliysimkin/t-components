@@ -123,6 +123,15 @@ const { currentTheme, applyTheme } = useTheme()
 </template>
 ```
 
+### Колір акценту
+
+Незалежно від світлої/темної теми можна обрати колір акценту атрибутом `data-t-accent` на `<html>`:
+`terracotta` (за замовчуванням, коли атрибута немає), `blue`, `green`, `violet`, `amber`, `rose`.
+
+```ts
+document.documentElement.dataset.tAccent = 'blue'
+```
+
 За замовчанням режим `auto` — підхоплюється `prefers-color-scheme`. Вибір зберігається в `localStorage` під ключем `theme`.
 
 ### FOUC (flash of unstyled content)

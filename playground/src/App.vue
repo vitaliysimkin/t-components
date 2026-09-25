@@ -8,6 +8,24 @@
     >
       <template #footer>
         <div
+          v-if="!sidebarCollapsed"
+          class="accent-row"
+          role="radiogroup"
+          aria-label="Accent color"
+        >
+          <button
+            v-for="a in accentOrder"
+            :key="a"
+            type="button"
+            class="accent-row__dot"
+            role="radio"
+            :aria-checked="currentAccent === a"
+            :title="a"
+            :style="{ background: `var(--t-${a === 'terracotta' ? 'terra' : a}-5)` }"
+            @click.stop="setAccent(a)"
+          />
+        </div>
+        <div
           class="sidebar-foot"
           :class="{ 'sidebar-foot--collapsed': sidebarCollapsed }"
         >
@@ -140,6 +158,20 @@ function setTheme(t: Theme) {
   applyTheme(t)
 }
 
+const accentOrder = ['terracotta', 'blue', 'green', 'violet', 'amber', 'rose'] as const
+type Accent = (typeof accentOrder)[number]
+const currentAccent = ref<Accent>(
+  (localStorage.getItem('playground:accent') as Accent | null) ?? 'terracotta'
+)
+watchEffect(() => {
+  document.documentElement.dataset.tAccent = currentAccent.value
+  localStorage.setItem('playground:accent', currentAccent.value)
+})
+
+function setAccent(a: Accent) {
+  currentAccent.value = a
+}
+
 function cycleTheme() {
   const idx = themeOrder.indexOf(currentTheme.value)
   setTheme(themeOrder[(idx + 1) % themeOrder.length])
@@ -157,6 +189,26 @@ function cycleTheme() {
   min-width: 0;
   overflow: auto;
   background: var(--t-color-bg);
+}
+
+.accent-row {
+  display: flex;
+  gap: var(--t-space-2);
+  padding: var(--t-space-2) var(--t-space-3) 0;
+}
+
+.accent-row__dot {
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  outline-offset: 2px;
+}
+
+.accent-row__dot[aria-checked='true'] {
+  outline: 2px solid var(--t-color-text-muted);
 }
 
 .sidebar-foot {

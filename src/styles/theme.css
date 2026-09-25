@@ -182,3 +182,63 @@ html.dark {
   --t-color-tag-orange: color-mix(in srgb, var(--t-terra-4) 80%, var(--t-color-text));
   --t-color-tag-orange-bg: color-mix(in srgb, var(--t-terra-4) 18%, transparent);
 }
+
+/* ------------------------------------------------------------------
+   Accent variants — html[data-t-accent="<name>"], independent of light/dark.
+   No attribute (or "terracotta") = default terracotta above.
+   ------------------------------------------------------------------ */
+
+html[data-t-accent="blue"] {
+  --t-color-accent: var(--t-blue-5);
+  --t-color-accent-hover: var(--t-blue-6);
+  --t-color-accent-active: var(--t-blue-7);
+}
+html.dark[data-t-accent="blue"] {
+  --t-color-accent: var(--t-blue-4);
+  --t-color-accent-hover: var(--t-blue-3);
+  --t-color-accent-active: var(--t-blue-2);
+}
+
+html[data-t-accent="green"] {
+  --t-color-accent: var(--t-green-5);
+  --t-color-accent-hover: var(--t-green-6);
+  --t-color-accent-active: var(--t-green-7);
+}
+html.dark[data-t-accent="green"] {
+  --t-color-accent: var(--t-green-4);
+  --t-color-accent-hover: var(--t-green-3);
+  --t-color-accent-active: var(--t-green-2);
+}
+
+html[data-t-accent="violet"] {
+  --t-color-accent: var(--t-violet-5);
+  --t-color-accent-hover: var(--t-violet-6);
+  --t-color-accent-active: var(--t-violet-7);
+}
+html.dark[data-t-accent="violet"] {
+  --t-color-accent: var(--t-violet-4);
+  --t-color-accent-hover: var(--t-violet-3);
+  --t-color-accent-active: var(--t-violet-2);
+}
+
+html[data-t-accent="amber"] {
+  --t-color-accent: var(--t-amber-5);
+  --t-color-accent-hover: var(--t-amber-6);
+  --t-color-accent-active: var(--t-amber-7);
+}
+html.dark[data-t-accent="amber"] {
+  --t-color-accent: var(--t-amber-4);
+  --t-color-accent-hover: var(--t-amber-3);
+  --t-color-accent-active: var(--t-amber-2);
+}
+
+html[data-t-accent="rose"] {
+  --t-color-accent: var(--t-rose-5);
+  --t-color-accent-hover: var(--t-rose-6);
+  --t-color-accent-active: var(--t-rose-7);
+}
+html.dark[data-t-accent="rose"] {
+  --t-color-accent: var(--t-rose-4);
+  --t-color-accent-hover: var(--t-rose-3);
+  --t-color-accent-active: var(--t-rose-2);
+}

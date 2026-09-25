@@ -167,3 +167,5 @@ grep -nE "#[0-9a-fA-F]{3,8}\b|rgba?\(|border-radius:\s*[0-9]+px|box-shadow:\s*0 
 ```
 
 Тема перемикається класами `html.light` / `html.dark` (див. `useTheme()`); тонування `color-mix` підлаштується під нові значення само.
+
+Готові акценти — атрибут `data-t-accent` на `<html>`: `terracotta` (дефолт), `blue`, `green`, `violet`, `amber`, `rose`. Кожен має світлий (`-5/-6/-7`) і темний (`-4/-3/-2`) варіант у `colors.css`; контраст з текстом кнопки не гірший за теракоту.

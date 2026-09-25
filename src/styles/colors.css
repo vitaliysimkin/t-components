@@ -35,6 +35,42 @@
   --t-terra-8: #874324;
   --t-terra-9: #6e371d;
 
+  /* Alternative accents (html[data-t-accent]) — light: -5/-6/-7, dark: -4/-3/-2 */
+  --t-blue-2: #a9c4ec;
+  --t-blue-3: #7ea6e0;
+  --t-blue-4: #6b98dd;
+  --t-blue-5: #3b6fc4;
+  --t-blue-6: #325fa9;
+  --t-blue-7: #2a4f8d;
+
+  --t-green-2: #a6d1b6;
+  --t-green-3: #80bb97;
+  --t-green-4: #6bb088;
+  --t-green-5: #3c8558;
+  --t-green-6: #33724b;
+  --t-green-7: #2a5f3e;
+
+  --t-violet-2: #c9b8ec;
+  --t-violet-3: #b09ae3;
+  --t-violet-4: #a38ae0;
+  --t-violet-5: #7652c4;
+  --t-violet-6: #6546a9;
+  --t-violet-7: #553b8e;
+
+  --t-amber-2: #f0d39a;
+  --t-amber-3: #e8c16f;
+  --t-amber-4: #e3b04f;
+  --t-amber-5: #9e6b0c;
+  --t-amber-6: #875b0a;
+  --t-amber-7: #704b08;
+
+  --t-rose-2: #f0b3c0;
+  --t-rose-3: #e88ea1;
+  --t-rose-4: #e27a90;
+  --t-rose-5: #c4406a;
+  --t-rose-6: #aa3659;
+  --t-rose-7: #8f2d4b;
+
   /* Muted semantic hues (light: -5, dark: -4) */
   --t-ok-4: #5fae7e;
   --t-ok-5: #3f8f5f;
