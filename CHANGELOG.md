@@ -6,6 +6,11 @@
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-10-05
+
+### Added
+- `TDatePicker`, `TDateInput`, `TDateTimeInput` — проп `isDateDisabled?: (date: Date) => boolean`: дні, для яких функція повертає `true`, не можна обрати, вони відображаються приглушено. У playground — приклад «Disabled dates».
+
 ## [1.1.0] - 2026-09-25
 
 ### Added
