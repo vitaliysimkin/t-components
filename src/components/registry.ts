@@ -32,6 +32,7 @@ import TCollapseTransition from './TCollapseTransition.vue'
 import TCard from './TCard.vue'
 import TCheckbox from './TCheckbox.vue'
 import TDiffEditor from './TDiffEditor.vue'
+import TSplitPane from './TSplitPane.vue'
 
 export {
   TIcon,
@@ -67,6 +68,7 @@ export {
   TCard,
   TCheckbox,
   TDiffEditor,
+  TSplitPane,
 }
 
 // Plugin registration source of truth. Types are intentionally erased to
@@ -107,4 +109,5 @@ export const componentRegistry: Record<string, Component> = {
   TCard,
   TCheckbox,
   TDiffEditor,
+  TSplitPane,
 }

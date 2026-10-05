@@ -35,6 +35,7 @@ declare module '@vue/runtime-core' {
     TCard: typeof import('./components/TCard.vue')['default']
     TCheckbox: typeof import('./components/TCheckbox.vue')['default']
     TDiffEditor: typeof import('./components/TDiffEditor.vue')['default']
+    TSplitPane: typeof import('./components/TSplitPane.vue')['default']
   }
 }
 

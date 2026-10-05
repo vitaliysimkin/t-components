@@ -113,7 +113,7 @@ const groupBySlug: Record<string, (typeof groupOrder)[number]> = {
   'form-field': 'Forms', 'form-validation': 'Forms',
   table: 'Data', tag: 'Data', badge: 'Data', card: 'Data', tree: 'Data', empty: 'Data',
   icons: 'Data', tooltip: 'Data', 'code-editor': 'Data', 'diff-editor': 'Data',
-  sidebar: 'Navigation', 'bottom-nav': 'Navigation', tabs: 'Navigation',
+  sidebar: 'Navigation', 'bottom-nav': 'Navigation', tabs: 'Navigation', 'split-pane': 'Navigation',
   modal: 'Feedback', dialog: 'Feedback', notifications: 'Feedback', loading: 'Feedback',
   'collapse-transition': 'Feedback'
 }

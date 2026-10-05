@@ -160,6 +160,12 @@ import ErrorCheckboxExampleCode from './checkbox/ErrorCheckboxExample.vue?raw'
 import IndeterminateCheckboxExample from './checkbox/IndeterminateCheckboxExample.vue'
 import IndeterminateCheckboxExampleCode from './checkbox/IndeterminateCheckboxExample.vue?raw'
 
+// SplitPane Examples
+import BasicSplitPaneExample from './split-pane/BasicSplitPaneExample.vue'
+import BasicSplitPaneExampleCode from './split-pane/BasicSplitPaneExample.vue?raw'
+import VariantsSplitPaneExample from './split-pane/VariantsSplitPaneExample.vue'
+import VariantsSplitPaneExampleCode from './split-pane/VariantsSplitPaneExample.vue?raw'
+
 // FormValidation Examples
 import BasicFormValidationExample from './form-validation/BasicFormValidationExample.vue'
 import BasicFormValidationExampleCode from './form-validation/BasicFormValidationExample.vue?raw'
@@ -972,6 +978,23 @@ export const elements: Element[] = [
     ]
   },
   {
+    label: 'TSplitPane',
+    slug: 'split-pane',
+    icon: 'material-symbols-light:vertical-split-outline',
+    components: [
+      {
+        component: BasicSplitPaneExample,
+        code: BasicSplitPaneExampleCode,
+        label: 'Basic Usage'
+      },
+      {
+        component: VariantsSplitPaneExample,
+        code: VariantsSplitPaneExampleCode,
+        label: 'Variants'
+      }
+    ]
+  },
+  {
     label: 'useFormValidation',
     slug: 'form-validation',
     icon: 'material-symbols-light:fact-check-outline',
@@ -1083,4 +1106,6 @@ export {
   BasicFormValidationExample,
   BasicDiffEditorExample,
   ReadonlyDiffEditorExample,
+  BasicSplitPaneExample,
+  VariantsSplitPaneExample,
 }
