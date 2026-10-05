@@ -134,4 +134,27 @@ describe('TDatePicker', () => {
     expect(model.value.start!.getDate()).toBe(5)
     expect(model.value.end!.getDate()).toBe(20)
   })
+
+  it('isDateDisabled: disabled days are not selectable and marked', async () => {
+    const initial = new Date(2024, 5, 15)
+    const emitted: unknown[] = []
+    const { container } = render(TDatePicker, {
+      props: {
+        modelValue: initial,
+        isDateDisabled: (d: Date) => d.getDate() === 10,
+        'onUpdate:modelValue': (v: unknown) => emitted.push(v),
+      },
+    })
+    await nextTick()
+    const disabled = findDayCell(container, 10)
+    expect(disabled.classList.contains('t-date-picker__cell--disabled')).toBe(true)
+    expect((disabled as HTMLButtonElement).disabled).toBe(true)
+    await fireEvent.click(disabled)
+    await fireEvent.pointerUp(disabled)
+    expect(emitted.length).toBe(0)
+    const enabled = findDayCell(container, 11)
+    expect(enabled.classList.contains('t-date-picker__cell--disabled')).toBe(false)
+    await fireEvent.pointerUp(enabled)
+    expect(emitted.length).toBe(1)
+  })
 })

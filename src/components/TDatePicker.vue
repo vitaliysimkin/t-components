@@ -61,7 +61,9 @@
               v-if="cell && (showOtherMonths || cell.inMonth)"
               type="button"
               class="t-date-picker__cell"
+              :disabled="isDayDisabled(cell.date)"
               :class="{
+                't-date-picker__cell--disabled': isDayDisabled(cell.date),
                 't-date-picker__cell--other': !cell.inMonth,
                 't-date-picker__cell--weekend': highlightWeekend && isWeekendIndex(cIdx),
                 't-date-picker__cell--today': isSameDay(cell.date, today),
@@ -155,6 +157,8 @@ export interface TDatePickerProps {
   mode?: TDatePickerMode;
   weekdayNames?: string[];
   monthNames?: string[];
+  /** Days for which this returns `true` are not selectable and rendered muted. */
+  isDateDisabled?: (date: Date) => boolean;
 }
 
 export interface TDatePickerEmits {
@@ -430,7 +434,12 @@ function activate(fn: () => void, ev: Event) {
   }
 }
 
+function isDayDisabled(date: Date): boolean {
+  return props.isDateDisabled ? props.isDateDisabled(date) : false;
+}
+
 function onDayClick(date: Date) {
+  if (isDayDisabled(date)) return;
   if (date.getMonth() !== view.value.month || date.getFullYear() !== view.value.year) {
     view.value = { type: 'day', month: date.getMonth(), year: date.getFullYear() };
   }
@@ -633,7 +642,7 @@ const yearGrid = computed(() => {
   cursor: default;
 }
 
-.t-date-picker__cell:hover:not(.t-date-picker__cell--empty):not(.t-date-picker__cell--selected):not(.t-date-picker__cell--range-start):not(.t-date-picker__cell--range-end) {
+.t-date-picker__cell:hover:not(.t-date-picker__cell--empty):not(.t-date-picker__cell--disabled):not(.t-date-picker__cell--selected):not(.t-date-picker__cell--range-start):not(.t-date-picker__cell--range-end) {
   background: color-mix(in srgb, var(--t-color-text) 10%, transparent);
 }
 
@@ -643,6 +652,12 @@ const yearGrid = computed(() => {
 
 .t-date-picker__cell--weekend {
   color: var(--t-color-danger);
+}
+
+.t-date-picker__cell--disabled {
+  color: var(--t-color-text-muted);
+  opacity: 0.4;
+  cursor: default;
 }
 
 .t-date-picker__cell--today {

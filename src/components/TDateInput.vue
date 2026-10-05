@@ -10,6 +10,8 @@ export interface TDateInputProps {
   modelValue: string | null
   editable?: boolean
   placeholder?: string
+  /** Forwarded to TDatePicker: days for which this returns `true` are not selectable. */
+  isDateDisabled?: (date: Date) => boolean
 }
 
 const props = withDefaults(defineProps<TDateInputProps>(), {
@@ -127,6 +129,7 @@ function onDateSelect(date: TDatePickerValue) {
     <div class="t-date-input__panel">
       <TDatePicker
         :model-value="internalDate"
+        :is-date-disabled="isDateDisabled"
         @update:model-value="onDateSelect"
       />
     </div>

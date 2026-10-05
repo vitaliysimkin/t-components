@@ -50,6 +50,8 @@ import BasicDatePickerExample from './date-picker/BasicDatePickerExample.vue'
 import BasicDatePickerExampleCode from './date-picker/BasicDatePickerExample.vue?raw'
 import RangeDatePickerExample from './date-picker/RangeDatePickerExample.vue'
 import RangeDatePickerExampleCode from './date-picker/RangeDatePickerExample.vue?raw'
+import DisabledDatesDatePickerExample from './date-picker/DisabledDatesDatePickerExample.vue'
+import DisabledDatesDatePickerExampleCode from './date-picker/DisabledDatesDatePickerExample.vue?raw'
 
 // Input Examples
 import BasicInputExample from './inputs/BasicInputExample.vue'
@@ -413,6 +415,11 @@ export const elements: Element[] = [
         component: RangeDatePickerExample,
         code: RangeDatePickerExampleCode,
         label: 'Range',
+      },
+      {
+        component: DisabledDatesDatePickerExample,
+        code: DisabledDatesDatePickerExampleCode,
+        label: 'Disabled dates',
       },
     ],
   },

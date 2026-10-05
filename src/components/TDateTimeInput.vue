@@ -14,6 +14,8 @@ export interface TDateTimeInputProps {
   editable?: boolean
   placeholder?: string
   doneLabel?: string
+  /** Forwarded to TDatePicker: days for which this returns `true` are not selectable. */
+  isDateDisabled?: (date: Date) => boolean
 }
 
 const props = withDefaults(defineProps<TDateTimeInputProps>(), {
@@ -178,6 +180,7 @@ function commitText() {
       <div class="t-datetime-panel__body">
         <TDatePicker
           :model-value="pickedDate"
+          :is-date-disabled="isDateDisabled"
           @update:model-value="onDateSelect"
         />
         <TTimePicker
