@@ -58,6 +58,11 @@ const getLabel = (option: TButtonGroupOption) => {
   return option.label // 'always'
 }
 
+// Label is not rendered visibly (labelDisplay 'never'/'selected') — expose it as tooltip and accessible name
+const getHiddenLabel = (option: TButtonGroupOption) => {
+  return getLabel(option) === undefined ? option.label : undefined
+}
+
 // Provide context for child buttons if needed
 provide('buttonGroup', { isToggleMode })
 </script>
@@ -69,12 +74,15 @@ provide('buttonGroup', { isToggleMode })
       <TButton
         v-for="option in options"
         :key="option.value"
-        :variant="variant"
-        mode="plain"
-        :active="isSelected(option.value)"
+        type="button"
+        :variant="isSelected(option.value) ? variant : 'neutral'"
+        :mode="isSelected(option.value) ? 'filled' : 'plain'"
+        :aria-pressed="isSelected(option.value) ? 'true' : 'false'"
         :size="size"
         :icon="option.icon"
         :label="getLabel(option)"
+        :title="getHiddenLabel(option)"
+        :aria-label="getHiddenLabel(option)"
         :disabled="option.disabled"
         @click="handleClick(option.value)"
       />
