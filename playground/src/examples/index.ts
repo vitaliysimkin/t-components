@@ -165,6 +165,8 @@ import BasicSplitPaneExample from './split-pane/BasicSplitPaneExample.vue'
 import BasicSplitPaneExampleCode from './split-pane/BasicSplitPaneExample.vue?raw'
 import VariantsSplitPaneExample from './split-pane/VariantsSplitPaneExample.vue'
 import VariantsSplitPaneExampleCode from './split-pane/VariantsSplitPaneExample.vue?raw'
+import HorizontalSplitPaneExample from './split-pane/HorizontalSplitPaneExample.vue'
+import HorizontalSplitPaneExampleCode from './split-pane/HorizontalSplitPaneExample.vue?raw'
 
 // FormValidation Examples
 import BasicFormValidationExample from './form-validation/BasicFormValidationExample.vue'
@@ -991,6 +993,11 @@ export const elements: Element[] = [
         component: VariantsSplitPaneExample,
         code: VariantsSplitPaneExampleCode,
         label: 'Variants'
+      },
+      {
+        component: HorizontalSplitPaneExample,
+        code: HorizontalSplitPaneExampleCode,
+        label: 'Horizontal'
       }
     ]
   },
@@ -1108,4 +1115,5 @@ export {
   ReadonlyDiffEditorExample,
   BasicSplitPaneExample,
   VariantsSplitPaneExample,
+  HorizontalSplitPaneExample,
 }

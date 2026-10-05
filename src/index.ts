@@ -79,7 +79,7 @@ export type { TBadgeVariant, TBadgeProps } from './components/TBadge.vue'
 export type { TCardProps } from './components/TCard.vue'
 export type { TCheckboxProps } from './components/TCheckbox.vue'
 export type { TDiffEditorProps } from './components/TDiffEditor.vue'
-export type { TSplitPaneProps, TSplitPaneVariant } from './components/TSplitPane.vue'
+export type { TSplitPaneProps, TSplitPaneVariant, TSplitPaneOrientation } from './components/TSplitPane.vue'
 
 export { useDialog } from './composables/useDialog'
 export type { DialogVariant, DialogBaseOpts, ConfirmOpts, AlertOpts, PromptOpts } from './composables/useDialog'

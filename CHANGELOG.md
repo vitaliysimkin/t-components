@@ -6,6 +6,9 @@
 
 ## [Unreleased]
 
+### Added
+- `TSplitPane` — горизонтальний режим `orientation="horizontal"`: панелі згори й знизу, `v-model` — висота верхньої панелі, клавіші ↑/↓ замість ←/→, курсор `row-resize`, `aria-orientation="horizontal"`. Усі три вигляди (`gutter`, `flat`, `line`) працюють в обох орієнтаціях. За замовчуванням `orientation="vertical"` — як і раніше. У playground — приклад «Horizontal».
+
 ## [1.3.0] - 2026-10-05
 
 ### Added
