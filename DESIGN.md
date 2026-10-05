@@ -13,7 +13,7 @@
 3. **Один акцент.** Теракота позначає головну дію та активний стан. Семантичні кольори приглушені й слугують лише статусу, а не декору.
 4. **Ієрархія вагою, не розміром.** Body 14px. Заголовки 20 / 16 / 14 із вагою 600. Вторинний текст — `--t-color-text-muted`, а не менший кегль.
 5. **Радіус за роллю.** 8px — контроли, 12px — контейнери, pill — чипи. В межах однієї сім'ї елементів радіус не змішується.
-6. **Спокійні стани.** Hover — прозора плівка `--t-color-hover`, працює на будь-якій поверхні. Active/selected — м'який тінт `*-plain-bg` (12–16%), а не суцільна заливка.
+6. **Спокійні стани.** Hover — прозора плівка `--t-color-hover`, працює на будь-якій поверхні. Active/selected — м'який тінт `*-plain-bg` (12–16%), а не суцільна заливка. Виняток — обраний сегмент перемикача (`TButtonGroup` з `options`): суцільна заливка `variant`, бо там вибір має читатися з першого погляду.
 
 ---
 
@@ -35,7 +35,7 @@
 | `--t-color-hover` | hover-плівка на рядках, пунктах меню, ghost-кнопках | активний стан |
 | `--t-color-backdrop` | підкладка модалок/шитів | — |
 | `--t-color-accent` | primary-кнопка, лінки, активна іконка, фокус | статус, декор |
-| `--t-color-accent-plain-bg` | selected/active тінт: пункт списку, segmented, plain-кнопка | фон блоків |
+| `--t-color-accent-plain-bg` | selected/active тінт: пункт списку, plain-кнопка | фон блоків, обраний сегмент перемикача |
 | `--t-color-success/-warning/-danger` | статус, деструктивні дії | акцент |
 | `--t-color-*-plain-bg` | тінт статусу: теги, банери, тости | — |
 | `--t-color-info` | приглушена вторинна дія (`TButton variant="info"`) | статус «інфо» |
@@ -122,6 +122,8 @@ color: color-mix(in srgb, var(--t-color-success) 78%, var(--t-color-text));
 **Кнопка `neutral`:** `surface` + `border`, текст `--t-color-text`. Hover — акцентний тінт. Це «кнопка за замовчуванням»; `accent` — одна на екран.
 
 **Інпут:** `surface` + `border` + `radius-default`. Focus — рамка `accent` + `0 0 0 3px focus-ring`. Error — рамка `danger` + кільце `danger-plain-bg`.
+
+**Перемикач (`TButtonGroup` з `options`):** склеєні сегменти; обраний — `variant` + `mode="filled"` (суцільна заливка), решта — `neutral` + `plain`. Сегмент без видимого підпису — `title` і `aria-label` з `label`.
 
 **Пункт списку / меню:** `radius-default`, hover `--t-color-hover`, selected `accent-plain-bg`.
 
