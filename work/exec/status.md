@@ -5,3 +5,4 @@
 | 2 | PASS (2 кола) | PASS |
 | 3 | PASS (2 кола) | PASS |
 | 4 | PASS | PASS |
+| 5 | PASS | PASS |
