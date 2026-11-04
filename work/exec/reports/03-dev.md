@@ -15,3 +15,4 @@
 - `npm run check:size` — у межах: Full bundle 187.92 / 195 kB, Styles 11.94 / 12 kB (запас малий), Core 159.31 / 180 kB.
 - `npm run build:playground` — зібрано.
 - Ручний перегляд у `npm run dev` не виконувався (у середовищі немає браузера).
+- Рев'ю 3: з `TCopyChip` прибрано `:focus-visible` (є глобальний у base.css) і `vertical-align`; `color: inherit` лишено свідомо (інакше `button` бере системний колір тексту й у темній темі текст темний); `TCopyField` зберігає id таймера, `clearTimeout` перед новим і в `onBeforeUnmount`. `npm run check:fast` зелений (217 тестів), `check:size`: Full 188.1 / 195 kB, Styles 11.92 / 12 kB.

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onBeforeUnmount, ref } from 'vue'
 import Input from './TInput.vue'
 import Button from './TButton.vue'
 import { copyText } from './clipboard'
@@ -21,11 +21,15 @@ const emit = defineEmits<{
 }>()
 
 const copied = ref(false)
+let timer: ReturnType<typeof setTimeout> | undefined
+
+onBeforeUnmount(() => clearTimeout(timer))
 
 async function copy() {
   if (await copyText(props.value)) {
     copied.value = true
-    setTimeout(() => (copied.value = false), 1500)
+    clearTimeout(timer)
+    timer = setTimeout(() => (copied.value = false), 1500)
     emit('copy', props.value)
   } else {
     emit('copy-error', props.value)

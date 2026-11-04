@@ -48,7 +48,6 @@ async function copy() {
   font-family: var(--t-font-mono);
   font-size: var(--t-font-size-small);
   white-space: nowrap;
-  vertical-align: middle;
   cursor: pointer;
 }
 
@@ -65,10 +64,5 @@ async function copy() {
 
 .t-copy-chip:hover .t-copy-chip__icon {
   color: var(--t-color-accent);
-}
-
-.t-copy-chip:focus-visible {
-  outline: var(--t-focus-ring) solid var(--t-color-focus-ring);
-  outline-offset: var(--t-focus-offset);
 }
 </style>
