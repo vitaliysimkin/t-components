@@ -19,6 +19,7 @@
     }"
     :style="combinedStyle"
     :modal-box-id="mergedConfig.id"
+    tabindex="-1"
     @mousedown.capture="handleActivate"
     @touchstart.capture="handleActivate"
   >
@@ -72,7 +73,10 @@
         />
       </div>
     </header>
-    <div class="modal-box-content">
+    <div
+      ref="contentRef"
+      class="modal-box-content"
+    >
       <component 
         :is="contentComponent" 
         v-if="contentComponent"
@@ -87,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, type PropType, type Component, type CSSProperties } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount, nextTick, type PropType, type Component, type CSSProperties } from 'vue'
 import { DEFAULT_MODAL_BOX_CONFIG, type ModalBoxConfig } from './types'
 import { calculateModalPosition } from './position-utils'
 import { useDragger } from './useDragger'
@@ -152,6 +156,17 @@ const handleBackdropClick = () => {
 
 const modalRef = ref<HTMLElement>()
 const headerRef = ref<HTMLElement>()
+const contentRef = ref<HTMLElement>()
+
+// Фокус: перше поле вмісту, інакше перша кнопка, інакше вікно; при закритті — назад
+const opener = document.activeElement as HTMLElement | null
+onMounted(() => nextTick(() => {
+  const c = contentRef.value
+  const el = c?.querySelector<HTMLElement>('input:not([disabled]):not([readonly]), textarea:not([disabled]):not([readonly]), select:not([disabled])')
+    ?? c?.querySelector<HTMLElement>('button:not([disabled])')
+  ;(el ?? modalRef.value)?.focus()
+}))
+onBeforeUnmount(() => opener?.focus())
 
 // Активація модалки
 const handleActivate = () => {

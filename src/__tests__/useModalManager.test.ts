@@ -1,4 +1,7 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { render } from '@testing-library/vue'
+import { h, nextTick } from 'vue'
+import TModalBox from '../components/modal/TModalBox.vue'
 import { useModalManager } from '../components/modal/useModalManager'
 
 // NOTE: useModalManager() returns a *new* closure over the shared module-level
@@ -63,5 +66,25 @@ describe('useModalManager', () => {
     mgr.setActiveModal(a)
     expect(mgr.isModalActive(a)).toBe(true)
     expect(mgr.isModalActive(b)).toBe(false)
+  })
+})
+
+describe('TModalBox focus', () => {
+  it('focuses the first field and returns focus to the opener on close', async () => {
+    vi.stubGlobal('VisualViewport', class {}) // happy-dom has no VisualViewport (useDragger)
+    const opener = document.createElement('button')
+    document.body.appendChild(opener)
+    opener.focus()
+    const { unmount } = render(TModalBox, {
+      props: { config: { id: 'f' } },
+      slots: { default: () => [h('button', 'Ok'), h('input', { id: 'field' })] },
+    })
+    await nextTick()
+    await nextTick()
+    expect(document.activeElement?.id).toBe('field')
+    unmount()
+    expect(document.activeElement).toBe(opener)
+    opener.remove()
+    vi.unstubAllGlobals()
   })
 })
