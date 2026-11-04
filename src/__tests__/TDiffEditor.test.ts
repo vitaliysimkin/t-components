@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { mount, flushPromises } from '@vue/test-utils'
 import { nextTick } from 'vue'
 
 // ---------------------------------------------------------------------------
@@ -21,6 +21,12 @@ const mockEditorB = {
   dispatch: mockDispatch,
 }
 
+const mockXml = vi.fn(() => [])
+const mockPanel = vi.fn((create: () => { dom: HTMLElement }) => create().dom.textContent)
+const readOnlyOf = vi.fn((v: unknown) => v)
+
+vi.mock('@codemirror/lang-xml', () => ({ xml: mockXml }))
+
 vi.mock('@codemirror/merge', () => ({
   MergeView: class {
     a = mockEditorA
@@ -39,11 +45,12 @@ vi.mock('@codemirror/view', () => ({
     static theme = () => []
     dispatch = mockDispatch
   },
+  showPanel: { of: mockPanel },
 }))
 
 vi.mock('@codemirror/state', () => ({
   EditorState: {
-    readOnly: { of: (v: unknown) => v },
+    readOnly: { of: readOnlyOf },
     create: vi.fn(() => ({ doc: { toString: () => '' } })),
   },
   Compartment: class {
@@ -150,5 +157,33 @@ describe('TDiffEditor', () => {
       })
       wrapper.unmount()
     }).not.toThrow()
+  })
+
+  it('vertical orientation stacks the sides', () => {
+    const wrapper = mount(TDiffEditor, {
+      props: { modelValue: '', original: '', orientation: 'vertical' },
+    })
+    expect(wrapper.classes()).toContain('diff-editor--vertical')
+    wrapper.unmount()
+  })
+
+  it('loads language, adds side labels and keeps original read-only by default', async () => {
+    const wrapper = mount(TDiffEditor, {
+      props: { modelValue: '', original: '', language: 'xml', originalLabel: 'Backup', modifiedLabel: 'Current' },
+    })
+    await flushPromises()
+    expect(mockXml).toHaveBeenCalled()
+    expect(mockPanel.mock.results.map((r) => r.value)).toEqual(['Backup', 'Current'])
+    expect(readOnlyOf).toHaveBeenNthCalledWith(1, true)
+    wrapper.unmount()
+  })
+
+  it('readonlyOriginal=false makes the original side editable', async () => {
+    const wrapper = mount(TDiffEditor, {
+      props: { modelValue: '', original: '', readonlyOriginal: false },
+    })
+    await flushPromises()
+    expect(readOnlyOf).toHaveBeenNthCalledWith(1, false)
+    wrapper.unmount()
   })
 })

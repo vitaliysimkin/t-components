@@ -2,6 +2,7 @@
   <div
     ref="containerRef"
     class="diff-editor"
+    :class="{ 'diff-editor--vertical': orientation === 'vertical' }"
     :style="containerStyle"
   />
 </template>
@@ -11,14 +12,25 @@ import { ref, onMounted, onUnmounted, watch, computed, type CSSProperties } from
 import type { Extension } from '@codemirror/state'
 import type { MergeView as MergeViewT } from '@codemirror/merge'
 import { useTheme } from '../composables/useTheme'
+import { loadLanguage, type CodeLanguage } from './code-language'
 
 export interface TDiffEditorProps {
   /** Editable side content (v-model) */
   modelValue: string
   /** Read-only (original/left) side content */
   original: string
+  /** Built-in language (ignored when customLanguageExtension is set) */
+  language?: CodeLanguage
   /** Any CodeMirror language extension, e.g. from @codemirror/lang-xml */
   customLanguageExtension?: Extension
+  /** Sides next to each other (default) or one above the other */
+  orientation?: 'horizontal' | 'vertical'
+  /** Original side is read-only (default true); false — editable via v-model:original */
+  readonlyOriginal?: boolean
+  /** Label above the original side */
+  originalLabel?: string
+  /** Label above the modified side */
+  modifiedLabel?: string
   /** CSS height of the diff editor container */
   height?: string
   /** CSS max-height of the diff editor container */
@@ -29,10 +41,11 @@ export interface TDiffEditorProps {
   lineWrapping?: boolean
 }
 
-const props = defineProps<TDiffEditorProps>()
+const props = withDefaults(defineProps<TDiffEditorProps>(), { readonlyOriginal: true })
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
+  (e: 'update:original', value: string): void
 }>()
 
 const containerRef = ref<HTMLElement | null>(null)
@@ -72,6 +85,7 @@ let EditorView: EditorViewCtor | null = null
 let EditorState: EditorStateCtor | null = null
 let Compartment: CompartmentCtor | null = null
 let MergeViewClass: MergeViewCtor | null = null
+let showPanel: typeof import('@codemirror/view').showPanel | null = null
 let basicSetup: Extension | null = null
 
 // Per-instance state
@@ -85,6 +99,9 @@ let bThemeCompartment: InstanceType<CompartmentCtor> | null = null
 let aLangCompartment: InstanceType<CompartmentCtor> | null = null
 let bLangCompartment: InstanceType<CompartmentCtor> | null = null
 let readonlyCompartment: InstanceType<CompartmentCtor> | null = null
+let aReadonlyCompartment: InstanceType<CompartmentCtor> | null = null
+let aLabelCompartment: InstanceType<CompartmentCtor> | null = null
+let bLabelCompartment: InstanceType<CompartmentCtor> | null = null
 
 // --- helpers ---
 
@@ -102,6 +119,7 @@ async function loadCore(): Promise<void> {
   EditorState = stateMod.EditorState
   Compartment = stateMod.Compartment
   MergeViewClass = mergeMod.MergeView
+  showPanel = viewMod.showPanel
   basicSetup = coreMod.basicSetup
 }
 
@@ -114,6 +132,20 @@ async function loadThemeExtension(): Promise<Extension> {
 function makeReadonlyExt(readonly: boolean): Extension {
   if (!EditorState) return []
   return EditorState.readOnly.of(readonly)
+}
+
+function makeLabelExt(text: string | undefined): Extension {
+  if (!text || !showPanel) return []
+  return showPanel.of(() => {
+    const dom = document.createElement('div')
+    dom.className = 'diff-editor__label'
+    dom.textContent = text
+    return { dom, top: true }
+  })
+}
+
+function loadLanguageExt(): Promise<Extension> | Extension {
+  return props.customLanguageExtension ?? loadLanguage(props.language)
 }
 
 // --- initialization ---
@@ -134,20 +166,27 @@ async function ensureInitialized(): Promise<void> {
     aLangCompartment = new Compartment()
     bLangCompartment = new Compartment()
     readonlyCompartment = new Compartment()
+    aReadonlyCompartment = new Compartment()
+    aLabelCompartment = new Compartment()
+    bLabelCompartment = new Compartment()
 
-    const themeExt = await loadThemeExtension()
+    const [themeExt, langExt] = await Promise.all([loadThemeExtension(), loadLanguageExt()])
     if (destroyed) return
 
-    const langExt: Extension = props.customLanguageExtension ?? []
     const wrapExt: Extension = props.lineWrapping ? EditorView.lineWrapping : []
 
     const originalExtensions: Extension[] = [
       basicSetup,
       wrapExt,
-      // Original side is always read-only
-      EditorState.readOnly.of(true),
+      aReadonlyCompartment.of(makeReadonlyExt(props.readonlyOriginal)),
       aLangCompartment.of(langExt),
       aThemeCompartment.of(themeExt),
+      aLabelCompartment.of(makeLabelExt(props.originalLabel)),
+      EditorView.updateListener.of((update) => {
+        if (update.docChanged) {
+          emit('update:original', update.state.doc.toString())
+        }
+      }),
     ]
 
     const modifiedExtensions: Extension[] = [
@@ -156,6 +195,7 @@ async function ensureInitialized(): Promise<void> {
       readonlyCompartment.of(makeReadonlyExt(!!props.readonly)),
       bLangCompartment.of(langExt),
       bThemeCompartment.of(themeExt),
+      bLabelCompartment.of(makeLabelExt(props.modifiedLabel)),
       EditorView.updateListener.of((update) => {
         if (update.docChanged) {
           emit('update:modelValue', update.state.doc.toString())
@@ -193,7 +233,7 @@ async function applyTheme() {
 async function applyLanguage() {
   await ensureInitialized()
   if (!mergeView || !aLangCompartment || !bLangCompartment) return
-  const langExt: Extension = props.customLanguageExtension ?? []
+  const langExt = await loadLanguageExt()
   if (!mergeView) return
   mergeView.a.dispatch({ effects: aLangCompartment.reconfigure(langExt) })
   mergeView.b.dispatch({ effects: bLangCompartment.reconfigure(langExt) })
@@ -205,6 +245,19 @@ async function applyReadonly() {
   mergeView.b.dispatch({
     effects: readonlyCompartment.reconfigure(makeReadonlyExt(!!props.readonly)),
   })
+}
+
+async function applyReadonlyOriginal() {
+  await ensureInitialized()
+  if (!mergeView || !aReadonlyCompartment) return
+  mergeView.a.dispatch({ effects: aReadonlyCompartment.reconfigure(makeReadonlyExt(props.readonlyOriginal)) })
+}
+
+async function applyLabels() {
+  await ensureInitialized()
+  if (!mergeView || !aLabelCompartment || !bLabelCompartment) return
+  mergeView.a.dispatch({ effects: aLabelCompartment.reconfigure(makeLabelExt(props.originalLabel)) })
+  mergeView.b.dispatch({ effects: bLabelCompartment.reconfigure(makeLabelExt(props.modifiedLabel)) })
 }
 
 function applyDocValue(view: 'a' | 'b', newValue: string) {
@@ -233,8 +286,10 @@ onUnmounted(() => {
 })
 
 watch(isDark, () => { applyTheme() })
-watch(() => props.customLanguageExtension, () => { applyLanguage() })
+watch(() => [props.customLanguageExtension, props.language], () => { applyLanguage() })
 watch(() => props.readonly, () => { applyReadonly() })
+watch(() => props.readonlyOriginal, () => { applyReadonlyOriginal() })
+watch(() => [props.originalLabel, props.modifiedLabel], () => { applyLabels() })
 watch(() => props.modelValue, (v) => { applyDocValue('b', v) })
 watch(() => props.original, (v) => { applyDocValue('a', v) })
 </script>
@@ -267,5 +322,15 @@ watch(() => props.original, (v) => { applyDocValue('a', v) })
 .diff-editor :deep(.cm-mergeViewEditor) {
   flex: 1;
   min-width: 0;
+}
+
+.diff-editor--vertical :deep(.cm-mergeViewEditors) {
+  flex-direction: column;
+}
+
+.diff-editor :deep(.diff-editor__label) {
+  padding: var(--t-space-1) var(--t-space-2);
+  font-size: var(--t-font-size-small);
+  color: var(--t-color-text-muted);
 }
 </style>

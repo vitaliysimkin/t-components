@@ -1,5 +1,8 @@
 <template>
-  <div class="code-editor">
+  <div
+    class="code-editor"
+    :class="{ 'code-editor--fill': height === 'fill' }"
+  >
     <label
       v-if="label"
       class="field-label"
@@ -13,13 +16,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch, computed, type CSSProperties } from 'vue'
+import { ref, shallowRef, onMounted, onUnmounted, watch, computed, type CSSProperties } from 'vue'
 import type { Extension } from '@codemirror/state'
 import type { EditorView as EditorViewT, ViewUpdate } from '@codemirror/view'
 import type { EditorState as EditorStateT, Compartment as CompartmentT } from '@codemirror/state'
 import { useTheme } from '../composables/useTheme'
+import { loadLanguage, type CodeLanguage as Language } from './code-language'
 
-type Language = 'json' | 'markdown' | 'text'
 type ExtensionLike = Extension
 
 const props = defineProps<{
@@ -28,6 +31,7 @@ const props = defineProps<{
   language?: Language
   customLanguageExtension?: ExtensionLike
   readonly?: boolean
+  /** CSS height, or `fill` — take the parent's full height (flex) */
   height?: string
   maxHeight?: string
   minHeight?: string
@@ -42,7 +46,7 @@ const emit = defineEmits<{
 const editorRef = ref<HTMLElement | null>(null)
 
 const editorStyle = computed<CSSProperties>(() => ({
-  height: props.height || 'auto',
+  height: props.height === 'fill' ? undefined : props.height || 'auto',
   '--min-height': props.minHeight,
   '--max-height': props.maxHeight
 }))
@@ -71,6 +75,8 @@ let Compartment: typeof CompartmentT | null = null
 let basicSetup: Extension | null = null
 
 let editorView: EditorViewT | null = null
+/** Exposed CodeMirror view (null until loaded) */
+const view = shallowRef<EditorViewT | null>(null)
 let themeCompartment: CompartmentT | null = null
 let gutterCompartment: CompartmentT | null = null
 let languageCompartment: CompartmentT | null = null
@@ -100,20 +106,7 @@ async function loadThemeExtension(): Promise<ExtensionLike> {
 }
 
 async function loadLanguageExtension(lang: Language | undefined): Promise<ExtensionLike> {
-  if (props.customLanguageExtension) return props.customLanguageExtension
-
-  switch (lang) {
-    case 'json': {
-      const mod = await import('@codemirror/lang-json')
-      return mod.json()
-    }
-    case 'markdown': {
-      const mod = await import('@codemirror/lang-markdown')
-      return mod.markdown()
-    }
-    default:
-      return []
-  }
+  return props.customLanguageExtension ?? loadLanguage(lang)
 }
 
 function makeGutterHiddenExtension(hidden: boolean): ExtensionLike {
@@ -165,6 +158,7 @@ async function ensureInitialized(): Promise<void> {
 
     const state = EditorState.create({ doc: props.modelValue || '', extensions })
     editorView = new EditorView({ state, parent: editorRef.value })
+    view.value = editorView
   })()
 
   return initPromise
@@ -218,6 +212,14 @@ function applyDocValue(newValue: string) {
   }
 }
 
+async function scrollToEnd() {
+  await ensureInitialized()
+  if (!editorView || !EditorView) return
+  editorView.dispatch({ effects: EditorView.scrollIntoView(editorView.state.doc.length, { y: 'end' }) })
+}
+
+defineExpose({ view, scrollToEnd })
+
 onMounted(async () => {
   media?.addEventListener('change', onSystemThemeChange)
   await ensureInitialized()
@@ -228,6 +230,7 @@ onUnmounted(() => {
   media?.removeEventListener('change', onSystemThemeChange)
   editorView?.destroy()
   editorView = null
+  view.value = null
 })
 
 watch(() => props.language, (lang) => { applyLanguage(lang) })
@@ -243,6 +246,23 @@ watch(() => props.readonly, () => { applyReadonly() })
 <style scoped>
 .code-editor {
   width: 100%;
+}
+
+.code-editor--fill {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 0;
+}
+
+.code-editor--fill .codemirror-container {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.code-editor--fill .codemirror-container :deep(.cm-editor) {
+  height: 100%;
 }
 
 .field-label {

@@ -11,8 +11,14 @@ const markdownValue = ref(`# Release notes
 
 - **New:** \`TCodeEditor\` examples
 - Fix: gutter toggle
-- Supports \`json\`, \`markdown\`, and plain \`text\`
+- Supports \`json\`, \`markdown\`, \`xml\`, and plain \`text\`
 `)
+
+const xmlValue = ref(`<configuration>
+  <appSettings>
+    <add key="Timeout" value="30" />
+  </appSettings>
+</configuration>`)
 
 const textValue = ref(`Plain text mode — no syntax highlighting,
 just a comfortable multi-line editor with line numbers.`)
@@ -32,6 +38,12 @@ just a comfortable multi-line editor with line numbers.`)
       language="markdown"
       min-height="120px"
       line-wrapping
+    />
+    <TCodeEditor
+      v-model="xmlValue"
+      label="XML"
+      language="xml"
+      min-height="100px"
     />
     <TCodeEditor
       v-model="textValue"

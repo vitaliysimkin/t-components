@@ -24,6 +24,8 @@ npm i vue-router
 
 Підтримувані версії: `vue ^3.5`, `@iconify/vue >=4`, `@vueuse/core >=10`, `vue-router >=4` (optional).
 
+`TCodeEditor` / `TDiffEditor` вантажать CodeMirror динамічно — потрібні лише тим, хто їх використовує (optional peers, `^6`): `codemirror`, `@codemirror/state`, `@codemirror/view`, `@codemirror/theme-one-dark`, `@codemirror/merge` (`TDiffEditor`) і мова, яку обрано: `@codemirror/lang-json` / `lang-markdown` / `lang-xml`.
+
 ---
 
 ## Usage: global plugin

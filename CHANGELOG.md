@@ -18,6 +18,9 @@
 - `TPathCrumbs` — шлях до файлу «крихтами»: теки приглушено через «›», назва файлу жирним; проп `path`, слот після назви.
 - `TFileTree` — дерево файлів із шляхів (`paths: string[]`): теки першими, ланцюжки з однієї теки склеєно, довгі назви обрізано посередині, напрямна біля тек на шляху до обраного файлу. `v-model` — обраний шлях, `v-model:collapsed` — згортання у смугу з випадними списками тек (`TDropdown card`). Підписи — пропи `label`, `rootLabel`, `rootFilesLabel`, `showTreeLabel`, `collapseLabel`, `filesText` (`{count}`). Тип `TPathNode` експортовано.
 - Іконки `ticon:folder`, `ticon:file`, `ticon:side-panel`.
+- `TCodeEditor` — мова `xml` (`@codemirror/lang-xml`, вантажиться динамічно); `height="fill"` — на всю висоту батька (flex); `defineExpose({ view, scrollToEnd })`.
+- `TDiffEditor` — пропи `language` (`json` / `markdown` / `xml` / `text`), `orientation` (`horizontal` / `vertical`), `readonlyOriginal` (за замовчуванням `true`; `false` — оригінал редагується через `v-model:original`), підписи сторін `originalLabel` / `modifiedLabel`.
+- `codemirror` і `@codemirror/*`, які імпортує бібліотека, оголошено як optional `peerDependencies`.
 
 ### Fixed
 - `TTextarea` — атрибути (`id`, `aria-*`, `name`…) тепер потрапляють на внутрішній `<textarea>`, а `class` / `style` — на кореневий елемент; раніше підпис і `id` лягали на обгортку, і поле лишалося без доступного імені.

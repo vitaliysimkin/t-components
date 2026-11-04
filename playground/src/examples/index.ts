@@ -199,6 +199,8 @@ import BasicDiffEditorExample from './diff-editor/BasicDiffEditorExample.vue'
 import BasicDiffEditorExampleCode from './diff-editor/BasicDiffEditorExample.vue?raw'
 import ReadonlyDiffEditorExample from './diff-editor/ReadonlyDiffEditorExample.vue'
 import ReadonlyDiffEditorExampleCode from './diff-editor/ReadonlyDiffEditorExample.vue?raw'
+import VerticalDiffEditorExample from './diff-editor/VerticalDiffEditorExample.vue'
+import VerticalDiffEditorExampleCode from './diff-editor/VerticalDiffEditorExample.vue?raw'
 
 // Sidebar Examples
 import BasicSidebarExample from './sidebars/BasicSidebarExample.vue'
@@ -762,7 +764,7 @@ export const elements: Element[] = [
       {
         component: LanguagesCodeEditorExample,
         code: LanguagesCodeEditorExampleCode,
-        label: 'Languages (JSON / Markdown / Text)'
+        label: 'Languages (JSON / Markdown / XML / Text)'
       },
       {
         component: ReadonlyCodeEditorExample,
@@ -1121,6 +1123,11 @@ export const elements: Element[] = [
         component: ReadonlyDiffEditorExample,
         code: ReadonlyDiffEditorExampleCode,
         label: 'Read-only Diff'
+      },
+      {
+        component: VerticalDiffEditorExample,
+        code: VerticalDiffEditorExampleCode,
+        label: 'Vertical, XML, side labels'
       }
     ]
   }
@@ -1207,6 +1214,7 @@ export {
   BasicFormValidationExample,
   BasicDiffEditorExample,
   ReadonlyDiffEditorExample,
+  VerticalDiffEditorExample,
   BasicSplitPaneExample,
   VariantsSplitPaneExample,
   HorizontalSplitPaneExample,
