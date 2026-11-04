@@ -75,16 +75,19 @@ describe('TModalBox focus', () => {
     const opener = document.createElement('button')
     document.body.appendChild(opener)
     opener.focus()
-    const { unmount } = render(TModalBox, {
-      props: { config: { id: 'f' } },
-      slots: { default: () => [h('button', 'Ok'), h('input', { id: 'field' })] },
-    })
-    await nextTick()
-    await nextTick()
-    expect(document.activeElement?.id).toBe('field')
-    unmount()
-    expect(document.activeElement).toBe(opener)
-    opener.remove()
-    vi.unstubAllGlobals()
+    try {
+      const { unmount } = render(TModalBox, {
+        props: { config: { id: 'f' } },
+        slots: { default: () => [h('button', 'Ok'), h('input', { id: 'field' })] },
+      })
+      await nextTick()
+      await nextTick()
+      expect(document.activeElement?.id).toBe('field')
+      unmount()
+      expect(document.activeElement).toBe(opener)
+    } finally {
+      opener.remove()
+      vi.unstubAllGlobals()
+    }
   })
 })

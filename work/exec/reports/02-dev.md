@@ -9,3 +9,4 @@
 - `npm run test -- useModalManager useDialog` — 21/21.
 - `npm run check:fast` — lint чистий, 23 файли / 213 тестів зелені, build без помилок.
 - Ручний перегляд у `npm run dev` не виконувався (у середовищі немає браузера).
+- Рев'ю 2: `outline: none` на `.modal-box`; очищення тесту фокусу — у `try/finally`. `npm run test -- useModalManager useDialog` 21/21, `npm run check:fast` зелений.

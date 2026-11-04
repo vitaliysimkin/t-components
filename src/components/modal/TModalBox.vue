@@ -282,6 +282,7 @@ const combinedStyle = computed<CSSProperties>(() => {
     position: fixed;
     bottom: 0;
     right: 0;
+    outline: none;
 }
 
 /* Активна модалка має вищий z-index */
