@@ -100,6 +100,14 @@ import '@vitaliysimkin/t-components/icons'
 
 **Невідомі імена.** Якщо передати неіснуюче/незареєстроване ім'я іконки, `<TIcon>` (і всі компоненти на його основі) намалює помітний `ticon:missing` гліф з підказкою (`title`), а не порожнечу — щоб одруківки й незареєстровані імена одразу впадали в око.
 
+## Markdown
+
+`TMarkdown` — окрема частина пакета (у core-бандл не входить, глобально не реєструється). Без залежностей; весь текст спершу екранується, посилання — лише `http(s)://`, `/…`, `#…`. Стилі `.t-markdown` — у загальному `style.css`.
+
+```ts
+import { TMarkdown, renderMarkdown } from '@vitaliysimkin/t-components/markdown'
+```
+
 ---
 
 ## Theme (light / dark / auto)
@@ -159,6 +167,8 @@ document.documentElement.dataset.tAccent = 'blue'
 Навігація / лейаут: `TTabs`, `TSidebar`, `TDropdown`, `TTooltip`, `TInfoTip`, `TSplitPane`.
 
 Логи: `TLogPane`.
+
+Текст: `TMarkdown` (з `@vitaliysimkin/t-components/markdown`).
 
 Оверлеї / сповіщення: `TModalBox`, `TModalBoxHost`, `TInputModalBox`, `TNotifications`.
 

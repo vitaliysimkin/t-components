@@ -1,0 +1,79 @@
+/* TMarkdown (`@vitaliysimkin/t-components/markdown`) */
+.t-markdown {
+  overflow-wrap: anywhere;
+}
+
+.t-markdown a {
+  color: var(--t-color-accent);
+}
+
+.t-markdown > * {
+  margin: 0 0 var(--t-space-2);
+}
+
+.t-markdown > :last-child {
+  margin-bottom: 0;
+}
+
+.t-markdown :is(h3, h4, h5, h6) {
+  font-size: inherit;
+  font-weight: var(--t-font-weight-semibold);
+  margin-top: var(--t-space-3);
+}
+
+.t-markdown :is(ul, ol) {
+  padding-left: var(--t-space-5);
+}
+
+.t-markdown li :is(ul, ol) {
+  margin: var(--t-space-1) 0;
+}
+
+.t-markdown code {
+  background: var(--t-color-surface-2);
+  border-radius: var(--t-radius-mini);
+  padding: 0 var(--t-space-1);
+}
+
+.t-markdown pre {
+  background: var(--t-color-surface-2);
+  border-radius: var(--t-radius-mini);
+  padding: var(--t-space-2);
+  overflow: auto;
+}
+
+.t-markdown pre code {
+  background: none;
+  padding: 0;
+}
+
+.t-markdown blockquote {
+  border-left: 3px solid var(--t-color-border);
+  padding-left: var(--t-space-2);
+  color: var(--t-color-text-muted);
+}
+
+.t-markdown hr {
+  border: 0;
+  border-top: 1px solid var(--t-color-border);
+}
+
+.t-markdown__table {
+  overflow-x: auto;
+}
+
+.t-markdown table {
+  border-collapse: collapse;
+}
+
+.t-markdown :is(th, td) {
+  border: 1px solid var(--t-color-border);
+  padding: var(--t-space-1) var(--t-space-2);
+  text-align: left;
+  vertical-align: top;
+}
+
+.t-markdown th {
+  background: var(--t-color-surface-2);
+  font-weight: var(--t-font-weight-semibold);
+}

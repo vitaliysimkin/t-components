@@ -19,6 +19,12 @@
     "limit": "30 KB"
   },
   {
+    "name": "Markdown (opt-in)",
+    "path": "dist/markdown.js",
+    "ignore": ["vue", "@iconify/vue", "@vueuse/core", "vue-router", "codemirror"],
+    "limit": "2 KB"
+  },
+  {
     "name": "Styles",
     "path": "dist/index.css",
     "limit": "15 KB"

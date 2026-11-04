@@ -10,6 +10,7 @@ export default defineConfig({
   base: process.env.PLAYGROUND_BASE ?? '/',
   resolve: {
     alias: {
+      '@vitaliysimkin/t-components/markdown': resolve(__dirname, '../src/markdown/index.ts'),
       '@vitaliysimkin/t-components': resolve(__dirname, '../src/index.ts'),
       '@': resolve(__dirname, 'src'),
     },

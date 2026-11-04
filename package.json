@@ -23,6 +23,11 @@
       "import": "./dist/icons.js",
       "require": "./dist/icons.cjs"
     },
+    "./markdown": {
+      "types": "./dist/markdown/index.d.ts",
+      "import": "./dist/markdown.js",
+      "require": "./dist/markdown.cjs"
+    },
     "./global": {
       "types": "./dist/globalComponents.d.ts"
     },

@@ -11,9 +11,9 @@ export default defineConfig({
       beforeWriteFile(filePath, content) {
         // Ensure the consumer auto-loads the GlobalComponents augmentation
         // (Volar template typings) when they import from the package entry.
-        // Only the root `dist/index.d.ts` — NOT the `/icons` subpath types
-        // (its directory has no globalComponents.d.ts to reference).
-        if (/[\\/]index\.d\.ts$/.test(filePath) && !/[\\/]icons[\\/]index\.d\.ts$/.test(filePath)) {
+        // Only the root `dist/index.d.ts` — NOT the `/icons` and `/markdown`
+        // subpath types (their directories have no globalComponents.d.ts).
+        if (/[\\/]index\.d\.ts$/.test(filePath) && !/[\\/](icons|markdown)[\\/]index\.d\.ts$/.test(filePath)) {
           return {
             filePath,
             content: `/// <reference path="./globalComponents.d.ts" />\n${content}`,
@@ -27,6 +27,7 @@ export default defineConfig({
       entry: {
         index: resolve(__dirname, 'src/index.ts'),
         icons: resolve(__dirname, 'src/icons/index.ts'),
+        markdown: resolve(__dirname, 'src/markdown/index.ts'),
       },
       formats: ['es', 'cjs'],
       fileName: (format, entryName) => `${entryName}.${format === 'es' ? 'js' : 'cjs'}`,

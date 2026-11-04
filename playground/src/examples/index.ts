@@ -178,6 +178,10 @@ import CopyChipExampleCode from './copy/CopyChipExample.vue?raw'
 import InfoTipExample from './info-tip/InfoTipExample.vue'
 import InfoTipExampleCode from './info-tip/InfoTipExample.vue?raw'
 
+// Markdown Examples
+import MarkdownExample from './markdown/MarkdownExample.vue'
+import MarkdownExampleCode from './markdown/MarkdownExample.vue?raw'
+
 // LogPane Examples
 import LogPaneExample from './log-pane/LogPaneExample.vue'
 import LogPaneExampleCode from './log-pane/LogPaneExample.vue?raw'
@@ -1064,6 +1068,18 @@ export const elements: Element[] = [
     ]
   },
   {
+    label: 'TMarkdown',
+    slug: 'markdown',
+    icon: 'material-symbols-light:article-outline',
+    components: [
+      {
+        component: MarkdownExample,
+        code: MarkdownExampleCode,
+        label: 'Basic Usage'
+      }
+    ]
+  },
+  {
     label: 'useFormValidation',
     slug: 'form-validation',
     icon: 'material-symbols-light:fact-check-outline',
@@ -1182,4 +1198,5 @@ export {
   CopyChipExample,
   InfoTipExample,
   LogPaneExample,
+  MarkdownExample,
 }
