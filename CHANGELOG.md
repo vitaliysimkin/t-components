@@ -6,26 +6,19 @@
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-11-04
+
 ### Added
-- `TDropdown` — проп `card` (за замовчуванням `false`): панель отримує вигляд картки — фон `--t-color-surface`, рамка `--t-color-border`, радіус `--t-radius-medium`, тінь `--t-shadow-3`. Вигляд задано на самій панелі, тож `overflow` не обрізає тінь.
-- `TCopyField` — поле лише для читання з кнопкою «Copy»; після копіювання кнопка ~1,5 с показує `copiedLabel`. Пропи `value`, `copyLabel`, `copiedLabel`; події `copy` / `copy-error` (повідомлення показує застосунок).
-- `TCopyChip` — чіп з текстом (`label` або `value`) та іконкою `ticon:copy`, клік копіює `value`; проп `title`, події `copy` / `copy-error`.
-- Іконки `ticon:copy`, `ticon:check`.
-- `TInfoTip` — значок `ticon:info` з підказкою `TTooltip` при наведенні; фокусований, доступне ім'я — `text`. Пропи `text`, `placement`; слот замінює вміст підказки.
-- `TLogPane` — вікно живого логу: автопрокрутка, пауза при прокрутці вгору й кнопка «до кінця»; колір рядка за `kind` (`err` / `warn` / `info`). Пропи `lines: TLogLine[]` (тип експортовано), `dropped`, `height`, тексти `emptyText`, `droppedText` (`{count}`), `toEndLabel`.
-- `TSelect` — `valueKey` / `labelKey` приймають також функцію `(option) => string`; проп `filterLoaded` фільтрує варіанти з `loadOptions` на клієнті (`filterFn` або підрядок підпису без регістру); відхилений проміс `loadOptions` → подія `load-error` (текст під полем показує застосунок через `error`).
-- `TMarkdown` і `renderMarkdown` — нова точка входу `@vitaliysimkin/t-components/markdown`: показ Markdown без залежностей (абзаци, заголовки, списки, таблиці GFM, код, цитати, `---`, `**жирний**`, `*курсив*`, `~~закреслений~~`, посилання). Текст спершу екранується, посилання — лише `http(s)://`, `/…`, `#…`. Проп `source`; стилі `.t-markdown` — у загальному `style.css`.
-- `TPathCrumbs` — шлях до файлу «крихтами»: теки приглушено через «›», назва файлу жирним; проп `path`, слот після назви.
-- `TFileTree` — дерево файлів із шляхів (`paths: string[]`): теки першими, ланцюжки з однієї теки склеєно, довгі назви обрізано посередині, напрямна біля тек на шляху до обраного файлу. `v-model` — обраний шлях, `v-model:collapsed` — згортання у смугу з випадними списками тек (`TDropdown card`). Підписи — пропи `label`, `rootLabel`, `rootFilesLabel`, `showTreeLabel`, `collapseLabel`, `filesText` (`{count}`). Тип `TPathNode` експортовано.
-- Іконки `ticon:folder`, `ticon:file`, `ticon:side-panel`.
-- `TCodeEditor` — мова `xml` (`@codemirror/lang-xml`, вантажиться динамічно); `height="fill"` — на всю висоту батька (flex); `defineExpose({ view, scrollToEnd })`.
-- `TDiffEditor` — пропи `language` (`json` / `markdown` / `xml` / `text`), `orientation` (`horizontal` / `vertical`), `readonlyOriginal` (за замовчуванням `true`; `false` — оригінал редагується через `v-model:original`), підписи сторін `originalLabel` / `modifiedLabel`.
-- `codemirror` і `@codemirror/*`, які імпортує бібліотека, оголошено як optional `peerDependencies`.
-- `TLogView` — нова точка входу `@vitaliysimkin/t-components/code-editor`: перегляд логу лише для читання з підсвіткою записів log4net / NLog (проп `format`: `auto` / `log4net` / `nlog` / `none`) і пошуком Ctrl+F (регістр, regex, ціле слово, «N of M», «лише рядки зі збігами»). Пропи `text`, `height` (або `fill`), тексти панелі пошуку; тип `TLogFormat` експортовано.
+- Компоненти `TCopyField`, `TCopyChip`, `TInfoTip`, `TLogPane`, `TPathCrumbs`, `TFileTree`; іконки `ticon:copy`, `check`, `folder`, `file`, `side-panel`.
+- Точки входу `./markdown` (`TMarkdown`, `renderMarkdown`) і `./code-editor` (`TLogView` — лог з підсвіткою log4net / NLog і пошуком).
+- `TDropdown` — проп `card`.
+- `TSelect` — ключі-функції `valueKey` / `labelKey`, `filterLoaded`, подія `load-error`.
+- `TCodeEditor` — мова `xml`, `height="fill"`, `scrollToEnd()`. `TDiffEditor` — `language`, `orientation`, `readonlyOriginal`, `originalLabel` / `modifiedLabel`.
+- `codemirror` і `@codemirror/*` — optional `peerDependencies`.
 
 ### Fixed
-- `TTextarea` — атрибути (`id`, `aria-*`, `name`…) тепер потрапляють на внутрішній `<textarea>`, а `class` / `style` — на кореневий елемент; раніше підпис і `id` лягали на обгортку, і поле лишалося без доступного імені.
-- `TModalBox` — після відкриття фокус переходить на перше активне поле вмісту (`input` / `textarea` / `select`), інакше на першу активну кнопку, інакше на саме вікно; після закриття повертається на елемент, що був у фокусі до відкриття.
+- `TTextarea` — атрибути (`id`, `aria-*`…) йдуть на `<textarea>`, `class` / `style` — на корінь.
+- `TModalBox` — фокус на перше поле при відкритті й повернення фокусу після закриття.
 
 ## [1.4.0] - 2026-10-05
 
