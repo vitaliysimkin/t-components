@@ -13,3 +13,4 @@
 - size-limit: Core 5.77 / 180 KB (було 159.5), Full 29.25 / 205 KB (було 190.39), Icons 18.49, Markdown 1.55, Styles 12.75 / 15 KB (було 12.68). Падіння JS — бо size-limit не рахує peer-залежності: раніше `@codemirror/*` (їх не було в `ignore`) входили в замір. Ліміти тепер із великим запасом — переглянути окремо, не в цьому кроці.
 - `dist/index.js` — CodeMirror лише як `import("@codemirror/…")`, `lang-xml` включно.
 - `npm run dev` + Playwright/Chromium, світла й темна: XML-підсвітка в `TCodeEditor`, вертикальне порівняння з підписами «Backup (read-only)» / «Current»; помилок сторінки немає (лише недоступні мережеві іконки iconify).
+- Доробка після review: `.size-limit.json` Core 180 → 7 KB, Full 205 → 36 KB (виміряне + ~20 %); приклад «Read-only Diff» отримав `line-wrapping` і більше не виходить за картку; `check:fast` і `check:size` зелені.

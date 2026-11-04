@@ -23,6 +23,7 @@ const modified = ref(`<Configuration>
       v-model="modified"
       :original="original"
       :readonly="true"
+      line-wrapping
       height="200px"
     />
   </div>
