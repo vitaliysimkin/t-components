@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render } from '@testing-library/vue'
+import { h } from 'vue'
 import TButtonGroup from '../components/TButtonGroup.vue'
 
 const options = [
@@ -43,5 +44,16 @@ describe('TButtonGroup (options mode)', () => {
     })
     expect(getAllByRole('button').map((b) => b.getAttribute('aria-label'))).toEqual(['Alpha', 'Beta'])
     expect(getAllByRole('button').map((b) => b.getAttribute('title'))).toEqual(['Alpha', 'Beta'])
+  })
+})
+
+describe('TButtonGroup in <form>', () => {
+  // Enter in an <input> "clicks" the form's default button: the first button[type=submit] or button without type.
+  // happy-dom has no implicit submission, so check that the group gives the form no default button.
+  it('Enter in an <input> does not press a segment: form has no default button', () => {
+    const { container } = render({
+      setup: () => () => h('form', [h('input', { type: 'text' }), h(TButtonGroup, { modelValue: 'a', options })]),
+    })
+    expect(container.querySelector('form')!.querySelector('button[type="submit"], button:not([type])')).toBeNull()
   })
 })

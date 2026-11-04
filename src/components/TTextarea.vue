@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, useAttrs, type StyleValue } from 'vue'
+
+defineOptions({ inheritAttrs: false })
 
 export type TTextareaSize = 'mini' | 'small' | 'default' | 'medium' | 'large' | 'fit'
 
@@ -26,13 +28,24 @@ defineEmits<{
   'update:modelValue': [value: string]
 }>()
 
+const attrs = useAttrs()
+const fieldAttrs = computed(() => {
+  const { class: _class, style: _style, ...rest } = attrs as Record<string, unknown>
+  return rest
+})
+
 const hasError = computed(() => props.error !== false && props.error !== '' && props.error !== undefined)
 const errorMessage = computed(() => (typeof props.error === 'string' ? props.error : ''))
 </script>
 
 <template>
-  <div class="t-textarea-root">
+  <div
+    class="t-textarea-root"
+    :class="attrs.class"
+    :style="attrs.style as StyleValue"
+  >
     <textarea
+      v-bind="fieldAttrs"
       class="t-textarea"
       :class="`size-${props.size}`"
       :placeholder="placeholder"

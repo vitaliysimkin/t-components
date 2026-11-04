@@ -41,6 +41,8 @@ export interface TDropdownProps {
    * notifications / loading overlays (9998–9999).
    */
   zIndex?: number
+  /** Card look on the panel itself: surface background, border, radius, shadow (not clipped by overflow) */
+  card?: boolean
 }
 
 const props = withDefaults(defineProps<TDropdownProps>(), {
@@ -51,6 +53,7 @@ const props = withDefaults(defineProps<TDropdownProps>(), {
   offset: 4,
   matchTriggerWidth: false,
   zIndex: 5000,
+  card: false,
 })
 
 const emit = defineEmits<{
@@ -339,6 +342,7 @@ defineExpose({
       v-if="isOpen"
       ref="panelRef"
       class="t-dropdown-panel"
+      :class="{ 'is-card': card }"
       v-bind="panelProps"
       :style="panelStyle"
       data-is-open="true"
@@ -357,5 +361,12 @@ defineExpose({
 
 .t-dropdown-panel {
   /* Panel styling will be handled via inline styles and slot content */
+}
+
+.t-dropdown-panel.is-card {
+  background: var(--t-color-surface);
+  border: 1px solid var(--t-color-border);
+  border-radius: var(--t-radius-medium);
+  box-shadow: var(--t-shadow-3);
 }
 </style>
