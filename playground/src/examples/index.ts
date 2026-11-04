@@ -186,6 +186,10 @@ import MarkdownExampleCode from './markdown/MarkdownExample.vue?raw'
 import LogPaneExample from './log-pane/LogPaneExample.vue'
 import LogPaneExampleCode from './log-pane/LogPaneExample.vue?raw'
 
+// LogView Examples
+import LogViewExample from './log-view/LogViewExample.vue'
+import LogViewExampleCode from './log-view/LogViewExample.vue?raw'
+
 // FileTree Examples
 import FileTreeExample from './file-tree/FileTreeExample.vue'
 import FileTreeExampleCode from './file-tree/FileTreeExample.vue?raw'
@@ -1086,6 +1090,18 @@ export const elements: Element[] = [
     ]
   },
   {
+    label: 'TLogView',
+    slug: 'log-view',
+    icon: 'material-symbols-light:manage-search',
+    components: [
+      {
+        component: LogViewExample,
+        code: LogViewExampleCode,
+        label: 'Highlighting and Search'
+      }
+    ]
+  },
+  {
     label: 'TMarkdown',
     slug: 'markdown',
     icon: 'material-symbols-light:article-outline',
@@ -1224,4 +1240,5 @@ export {
   LogPaneExample,
   FileTreeExample,
   MarkdownExample,
+  LogViewExample,
 }

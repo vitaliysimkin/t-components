@@ -25,6 +25,12 @@
     "limit": "2 KB"
   },
   {
+    "name": "Code editor (opt-in)",
+    "path": "dist/code-editor.js",
+    "ignore": ["vue", "@iconify/vue", "@vueuse/core", "vue-router", "codemirror"],
+    "limit": "10 KB"
+  },
+  {
     "name": "Styles",
     "path": "dist/index.css",
     "limit": "15 KB"

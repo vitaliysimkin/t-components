@@ -110,6 +110,14 @@ import '@vitaliysimkin/t-components/icons'
 import { TMarkdown, renderMarkdown } from '@vitaliysimkin/t-components/markdown'
 ```
 
+## Code editor
+
+`TLogView` — окрема частина пакета (у core-бандл не входить, глобально не реєструється): перегляд логу лише для читання на CodeMirror з підсвіткою записів log4net / NLog і пошуком (Ctrl+F: регістр, regex, ціле слово, «лише рядки зі збігами»). Потрібні ті самі optional peers CodeMirror, що й для `TCodeEditor`.
+
+```ts
+import { TLogView } from '@vitaliysimkin/t-components/code-editor'
+```
+
 ---
 
 ## Theme (light / dark / auto)
@@ -168,7 +176,7 @@ document.documentElement.dataset.tAccent = 'blue'
 
 Навігація / лейаут: `TTabs`, `TSidebar`, `TDropdown`, `TTooltip`, `TInfoTip`, `TSplitPane`.
 
-Логи: `TLogPane`.
+Логи: `TLogPane`, `TLogView` (з `@vitaliysimkin/t-components/code-editor`).
 
 Файли: `TPathCrumbs`, `TFileTree`.
 

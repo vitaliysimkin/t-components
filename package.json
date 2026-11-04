@@ -28,6 +28,11 @@
       "import": "./dist/markdown.js",
       "require": "./dist/markdown.cjs"
     },
+    "./code-editor": {
+      "types": "./dist/code-editor/index.d.ts",
+      "import": "./dist/code-editor.js",
+      "require": "./dist/code-editor.cjs"
+    },
     "./global": {
       "types": "./dist/globalComponents.d.ts"
     },

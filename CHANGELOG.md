@@ -21,6 +21,7 @@
 - `TCodeEditor` — мова `xml` (`@codemirror/lang-xml`, вантажиться динамічно); `height="fill"` — на всю висоту батька (flex); `defineExpose({ view, scrollToEnd })`.
 - `TDiffEditor` — пропи `language` (`json` / `markdown` / `xml` / `text`), `orientation` (`horizontal` / `vertical`), `readonlyOriginal` (за замовчуванням `true`; `false` — оригінал редагується через `v-model:original`), підписи сторін `originalLabel` / `modifiedLabel`.
 - `codemirror` і `@codemirror/*`, які імпортує бібліотека, оголошено як optional `peerDependencies`.
+- `TLogView` — нова точка входу `@vitaliysimkin/t-components/code-editor`: перегляд логу лише для читання з підсвіткою записів log4net / NLog (проп `format`: `auto` / `log4net` / `nlog` / `none`) і пошуком Ctrl+F (регістр, regex, ціле слово, «N of M», «лише рядки зі збігами»). Пропи `text`, `height` (або `fill`), тексти панелі пошуку; тип `TLogFormat` експортовано.
 
 ### Fixed
 - `TTextarea` — атрибути (`id`, `aria-*`, `name`…) тепер потрапляють на внутрішній `<textarea>`, а `class` / `style` — на кореневий елемент; раніше підпис і `id` лягали на обгортку, і поле лишалося без доступного імені.
