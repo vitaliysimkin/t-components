@@ -221,8 +221,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue'
-import { useRoute, RouterLink } from 'vue-router'
+import { computed, ref, watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
+import type {} from 'vue-router'
 import Icon from './TIcon.vue'
 
 /** Menu item shape — mirrors TSidebar. */
@@ -264,7 +264,9 @@ const props = withDefaults(defineProps<TBottomNavProps>(), {
 
 const emit = defineEmits<TBottomNavEmits>()
 
-const route = useRoute()
+// vue-router is an optional peer: read `$route` instead of importing it at runtime.
+const instance = getCurrentInstance()
+const route = computed(() => instance!.proxy!.$route)
 
 // Sheet open state — internally controlled, mirrored via v-model:open.
 const open = ref(props.open)
@@ -295,7 +297,7 @@ const leftItems = computed(() => [pinned.value[0], pinned.value[1]])
 const rightItems = computed(() => [pinned.value[2], pinned.value[3]])
 
 const isMenuItemActive = (item: MenuItem) => {
-  const currentPath = route.path
+  const currentPath = route.value.path
   if (item.activeRoutes) {
     return item.activeRoutes.some(
       (r) => currentPath === r || currentPath.startsWith(r + '/')
@@ -335,7 +337,7 @@ const indicatorVisible = computed(() => activeSlotIndex.value >= 0)
 // data-slot-index attribute (see scoped <style>). No JS-side measurement needed.
 
 // Close sheet on route change.
-watch(() => route.fullPath, () => {
+watch(() => route.value.fullPath, () => {
   if (open.value) closeSheet()
 })
 

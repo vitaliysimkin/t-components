@@ -135,8 +135,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, watch, computed, getCurrentInstance } from 'vue'
+import type {} from 'vue-router'
 import Icon from './TIcon.vue'
 
 export interface TSidebarMenuItem {
@@ -199,7 +199,9 @@ const props = withDefaults(defineProps<TSidebarProps>(), {
 
 const emit = defineEmits<TSidebarEmits>()
 
-const route = useRoute()
+// vue-router is an optional peer: read `$route` instead of importing it at runtime.
+const instance = getCurrentInstance()
+const route = computed(() => instance!.proxy!.$route)
 const collapsed = ref(props.collapsed)
 
 const toggleLabel = computed<TSidebarToggleLabel>(() => ({
@@ -226,7 +228,7 @@ const groups = computed<MenuGroup[]>(() => {
 })
 
 const isMenuItemActive = (item: MenuItem) => {
-  const currentPath = route.path
+  const currentPath = route.value.path
 
   if (item.activeRoutes) {
     return item.activeRoutes.some(

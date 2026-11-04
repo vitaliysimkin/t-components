@@ -9,16 +9,16 @@ export default defineConfig({
     dts({
       tsconfigPath: './tsconfig.app.json',
       beforeWriteFile(filePath, content) {
+        // NodeNext needs explicit extensions: './x' → './x.js', './X.vue' → './X.vue.js' (→ X.vue.d.ts).
+        content = content.replace(/((?:from |import\()(['"])\.\.?\/[^'"]*?)(?<!\.js)\2/g, '$1.js$2')
         // Ensure the consumer auto-loads the GlobalComponents augmentation
         // (Volar template typings) when they import from the package entry.
         // Only the root `dist/index.d.ts` — NOT the `/icons`, `/markdown` and
         // `/code-editor` subpath types (their directories have no globalComponents.d.ts).
         if (/[\\/]index\.d\.ts$/.test(filePath) && !/[\\/](icons|markdown|code-editor)[\\/]index\.d\.ts$/.test(filePath)) {
-          return {
-            filePath,
-            content: `/// <reference path="./globalComponents.d.ts" />\n${content}`,
-          }
+          content = `/// <reference path="./globalComponents.d.ts" />\n${content}`
         }
+        return { filePath, content }
       },
     }),
   ],

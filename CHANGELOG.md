@@ -6,6 +6,12 @@
 
 ## [Unreleased]
 
+## [1.5.1]
+
+### Fixed
+- Головний вхід більше не імпортує `vue-router` під час завантаження: `TSidebar` / `TBottomNav` читають `$route`, тож пакет імпортується без `vue-router`.
+- Типи резолвляться під `moduleResolution: NodeNext` (явні розширення `.js` у `.d.ts`) для головного входу, `./markdown`, `./code-editor`, `./icons`.
+
 ## [1.5.0] - 2026-11-04
 
 ### Added
