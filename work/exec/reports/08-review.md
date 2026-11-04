@@ -12,3 +12,8 @@ Verdict: FAIL (one small fix)
 
 ## Required fix
 1. Tighten `.size-limit.json` in this step. Core is 5.77 KB against a 180 KB limit, and Full is 29.25 KB against 205 KB. The old limits were sized when `@codemirror/*` counted toward the measurement. They no longer catch any regression, and the step's own check is "size via the new peer deps". Set Core to about 10 KB and Full to about 40 KB. These are suggestions, not measured values. Leave Icons, Markdown and Styles unchanged. Deferring this, as the dev report does, leaves limits that guard nothing.
+
+## Повторно: PASS (3a1fd41)
+- Required fix виконано: `.size-limit.json` Core 180 → 7 KB (факт 5.77), Full 205 → 36 KB (факт 29.25); Icons, Markdown, Styles не змінено. Значення близькі до запропонованих (~10/~40) і щільніші, запас ~20 %.
+- Зайве: окрім фіксу, коміт додає `line-wrapping` у `ReadonlyDiffEditorExample.vue` (виправляє давню незблокувальну заувагу про вихід за картку) і рядок у `08-dev.md`. Це дрібно, лише playground/звіт, код бібліотеки не чіпано; не блокує.
+- `npm run check:fast` — OK; `npm run check:size` — OK.

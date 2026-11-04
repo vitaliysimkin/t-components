@@ -13,3 +13,7 @@
 - `./code-editor` у `exports` ще немає (з'являється в кроці 9) — імпорт дає `ERR_PACKAGE_PATH_NOT_EXPORTED`, очікувано.
 - Давнє, не з цього кроку: головний вхід статично імпортує `vue-router` (optional peer) — без нього `import` пакета в Node падає `ERR_MODULE_NOT_FOUND`.
 - Давнє: приклад «Read-only Diff» у playground виходить за правий край картки (довгі рядки); так само до 4f1ea28.
+
+## Повторно: PASS (3a1fd41)
+- `npm run check:fast` — exit 0 (збірка ES/CJS успішна, `dist/index.js` 36.54 kB gzip).
+- `npm run check:size` — exit 0: Core 5.77 / 7 KB, Full 29.25 / 36 KB, Icons 18.49 / 30 KB, Markdown 1.55 / 2 KB, Styles 12.75 / 15 KB.
