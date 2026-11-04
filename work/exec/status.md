@@ -6,3 +6,4 @@
 | 3 | PASS (2 кола) | PASS |
 | 4 | PASS | PASS |
 | 5 | PASS | PASS |
+| 6 | PASS | PASS |
