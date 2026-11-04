@@ -186,6 +186,10 @@ import MarkdownExampleCode from './markdown/MarkdownExample.vue?raw'
 import LogPaneExample from './log-pane/LogPaneExample.vue'
 import LogPaneExampleCode from './log-pane/LogPaneExample.vue?raw'
 
+// FileTree Examples
+import FileTreeExample from './file-tree/FileTreeExample.vue'
+import FileTreeExampleCode from './file-tree/FileTreeExample.vue?raw'
+
 // FormValidation Examples
 import BasicFormValidationExample from './form-validation/BasicFormValidationExample.vue'
 import BasicFormValidationExampleCode from './form-validation/BasicFormValidationExample.vue?raw'
@@ -1068,6 +1072,18 @@ export const elements: Element[] = [
     ]
   },
   {
+    label: 'TFileTree',
+    slug: 'file-tree',
+    icon: 'material-symbols-light:folder-outline',
+    components: [
+      {
+        component: FileTreeExample,
+        code: FileTreeExampleCode,
+        label: 'Tree, Rail and Crumbs'
+      }
+    ]
+  },
+  {
     label: 'TMarkdown',
     slug: 'markdown',
     icon: 'material-symbols-light:article-outline',
@@ -1198,5 +1214,6 @@ export {
   CopyChipExample,
   InfoTipExample,
   LogPaneExample,
+  FileTreeExample,
   MarkdownExample,
 }

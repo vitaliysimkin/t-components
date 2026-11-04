@@ -37,6 +37,8 @@ import TCopyField from './TCopyField.vue'
 import TCopyChip from './TCopyChip.vue'
 import TInfoTip from './TInfoTip.vue'
 import TLogPane from './TLogPane.vue'
+import TPathCrumbs from './TPathCrumbs.vue'
+import TFileTree from './TFileTree.vue'
 
 export {
   TIcon,
@@ -77,6 +79,8 @@ export {
   TCopyChip,
   TInfoTip,
   TLogPane,
+  TPathCrumbs,
+  TFileTree,
 }
 
 // Plugin registration source of truth. Types are intentionally erased to
@@ -122,4 +126,6 @@ export const componentRegistry: Record<string, Component> = {
   TCopyChip,
   TInfoTip,
   TLogPane,
+  TPathCrumbs,
+  TFileTree,
 }

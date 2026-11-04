@@ -23,6 +23,9 @@ import { addIcon } from '@iconify/vue'
 //   ticon:arrow-down
 //   ticon:copy
 //   ticon:check
+//   ticon:folder
+//   ticon:file
+//   ticon:side-panel
 //
 // Licensing:
 //   - ticon:* glyphs are Material Symbols (Apache-2.0,
@@ -158,4 +161,28 @@ addIcon('ticon:check', {
   height: 24,
   body:
     '<path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z"/>',
+})
+
+// material-symbols:folder-outline
+addIcon('ticon:folder', {
+  width: 24,
+  height: 24,
+  body:
+    '<path fill="currentColor" d="M4 20q-.825 0-1.412-.587T2 18V6q0-.825.588-1.412T4 4h6l2 2h8q.825 0 1.413.588T22 8v10q0 .825-.587 1.413T20 20zm0-2h16V8h-8.825l-2-2H4zm0 0V6z"/>',
+})
+
+// material-symbols:draft-outline
+addIcon('ticon:file', {
+  width: 24,
+  height: 24,
+  body:
+    '<path fill="currentColor" d="M6 22q-.825 0-1.412-.587T4 20V4q0-.825.588-1.412T6 2h8l6 6v12q0 .825-.587 1.413T18 22zm7-13V4H6v16h12V9zM6 4v5zv16z"/>',
+})
+
+// material-symbols:dock-to-right-outline
+addIcon('ticon:side-panel', {
+  width: 24,
+  height: 24,
+  body:
+    '<path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm3-2V5H5v14zm2 0h9V5h-9zm-2 0H5z"/>',
 })

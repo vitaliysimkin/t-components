@@ -72,6 +72,8 @@ export {
   TCopyChip,
   TInfoTip,
   TLogPane,
+  TPathCrumbs,
+  TFileTree,
 } from './components/registry'
 
 export { TFormFieldContextKey } from './components/TFormField.vue'
@@ -88,6 +90,9 @@ export type { TCopyFieldProps } from './components/TCopyField.vue'
 export type { TCopyChipProps } from './components/TCopyChip.vue'
 export type { TInfoTipProps } from './components/TInfoTip.vue'
 export type { TLogPaneProps, TLogLine } from './components/TLogPane.vue'
+export type { TPathCrumbsProps } from './components/TPathCrumbs.vue'
+export type { TFileTreeProps } from './components/TFileTree.vue'
+export type { TPathNode } from './components/path-tree'
 
 export { useDialog } from './composables/useDialog'
 export type { DialogVariant, DialogBaseOpts, ConfirmOpts, AlertOpts, PromptOpts } from './composables/useDialog'

@@ -168,6 +168,8 @@ document.documentElement.dataset.tAccent = 'blue'
 
 Логи: `TLogPane`.
 
+Файли: `TPathCrumbs`, `TFileTree`.
+
 Текст: `TMarkdown` (з `@vitaliysimkin/t-components/markdown`).
 
 Оверлеї / сповіщення: `TModalBox`, `TModalBoxHost`, `TInputModalBox`, `TNotifications`.

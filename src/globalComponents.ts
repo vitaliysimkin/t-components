@@ -40,6 +40,8 @@ declare module '@vue/runtime-core' {
     TCopyChip: typeof import('./components/TCopyChip.vue')['default']
     TInfoTip: typeof import('./components/TInfoTip.vue')['default']
     TLogPane: typeof import('./components/TLogPane.vue')['default']
+    TPathCrumbs: typeof import('./components/TPathCrumbs.vue')['default']
+    TFileTree: typeof import('./components/TFileTree.vue')['default']
   }
 }
 

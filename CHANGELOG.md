@@ -15,6 +15,9 @@
 - `TLogPane` — вікно живого логу: автопрокрутка, пауза при прокрутці вгору й кнопка «до кінця»; колір рядка за `kind` (`err` / `warn` / `info`). Пропи `lines: TLogLine[]` (тип експортовано), `dropped`, `height`, тексти `emptyText`, `droppedText` (`{count}`), `toEndLabel`.
 - `TSelect` — `valueKey` / `labelKey` приймають також функцію `(option) => string`; проп `filterLoaded` фільтрує варіанти з `loadOptions` на клієнті (`filterFn` або підрядок підпису без регістру); відхилений проміс `loadOptions` → подія `load-error` (текст під полем показує застосунок через `error`).
 - `TMarkdown` і `renderMarkdown` — нова точка входу `@vitaliysimkin/t-components/markdown`: показ Markdown без залежностей (абзаци, заголовки, списки, таблиці GFM, код, цитати, `---`, `**жирний**`, `*курсив*`, `~~закреслений~~`, посилання). Текст спершу екранується, посилання — лише `http(s)://`, `/…`, `#…`. Проп `source`; стилі `.t-markdown` — у загальному `style.css`.
+- `TPathCrumbs` — шлях до файлу «крихтами»: теки приглушено через «›», назва файлу жирним; проп `path`, слот після назви.
+- `TFileTree` — дерево файлів із шляхів (`paths: string[]`): теки першими, ланцюжки з однієї теки склеєно, довгі назви обрізано посередині, напрямна біля тек на шляху до обраного файлу. `v-model` — обраний шлях, `v-model:collapsed` — згортання у смугу з випадними списками тек (`TDropdown card`). Підписи — пропи `label`, `rootLabel`, `rootFilesLabel`, `showTreeLabel`, `collapseLabel`, `filesText` (`{count}`). Тип `TPathNode` експортовано.
+- Іконки `ticon:folder`, `ticon:file`, `ticon:side-panel`.
 
 ### Fixed
 - `TTextarea` — атрибути (`id`, `aria-*`, `name`…) тепер потрапляють на внутрішній `<textarea>`, а `class` / `style` — на кореневий елемент; раніше підпис і `id` лягали на обгортку, і поле лишалося без доступного імені.
