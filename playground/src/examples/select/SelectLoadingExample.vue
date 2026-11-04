@@ -2,7 +2,9 @@
 import { ref } from 'vue'
 import { TSelect } from '@vitaliysimkin/t-components'
 
-const userId = ref<string | number | null>(null)
+type User = { id: number; name: string }
+
+const user = ref<User | null>(null)
 
 const users = [{"id":1,"name":"Atlanta Brompton"},
 {"id":2,"name":"Kristal Gelder"},
@@ -105,25 +107,29 @@ const users = [{"id":1,"name":"Atlanta Brompton"},
 {"id":99,"name":"Eddie Roderigo"},
 {"id":100,"name":"Pansy Ridge"}]
 
-async function searchUsers(_query: string): Promise<Array<{ value: number; label: string }>> {
+const loadError = ref('')
+
+// The server returns all users; `filter-loaded` filters them on the client. Type "error" to see `load-error`.
+async function loadUsers(query: string): Promise<User[]> {
+  loadError.value = ''
   await new Promise(resolve => setTimeout(resolve, 500))
+  if (query === 'error') throw new Error('Server error')
   return users
-    // .filter(u => u.name.toLowerCase().includes(query.toLowerCase()))
-    .map(u => ({ value: u.id, label: u.name }))
 }
 </script>
 
 <template>
   <TSelect
-    v-model="userId"
+    v-model="user"
     searchable
-    :load-options="searchUsers"
+    filter-loaded
+    :load-options="loadUsers"
+    :value-key="(u: User) => String(u.id)"
+    :label-key="(u: User) => u.name"
+    :error="loadError"
     :debounce="250"
-    :min-query-length="2"
     placeholder="Search users..."
     clearable
+    @load-error="loadError = 'Could not load users'"
   />
 </template>
-
-<style scoped>
-</style>

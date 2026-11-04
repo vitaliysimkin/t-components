@@ -21,8 +21,8 @@ export interface TSelectProps<T extends TOption = TOption> {
   placeholder?: string
   clearable?: boolean
   size?: TElementSize
-  valueKey?: string
-  labelKey?: string
+  valueKey?: string | ((option: T) => string)
+  labelKey?: string | ((option: T) => string)
   iconKey?: string
   searchable?: boolean
   loading?: boolean
@@ -30,6 +30,7 @@ export interface TSelectProps<T extends TOption = TOption> {
   loadingText?: string
   filterFn?: (option: T, query: string) => boolean
   loadOptions?: (query: string) => Promise<T[]>
+  filterLoaded?: boolean
   debounce?: number
   valueMode?: 'option' | 'value'
   inputProps?: Record<string, unknown>
@@ -62,6 +63,7 @@ let debounceTimer: ReturnType<typeof setTimeout> | null = null
 const emit = defineEmits<{
   'update:modelValue': [value: T | string | number | null]
   'clear': []
+  'load-error': [error: unknown]
 }>()
 
 function commitAutocompleteValue() {
@@ -80,6 +82,7 @@ function getValue(option: TOption): string | number {
   if (typeof option === 'string' || typeof option === 'number') {
     return option
   }
+  if (typeof props.valueKey === 'function') return props.valueKey(option as T)
   return option[props.valueKey] as string | number
 }
 
@@ -88,10 +91,11 @@ function getLabel(option: TOption): string {
   if (typeof option === 'string' || typeof option === 'number') {
     return option.toString()
   }
+  if (typeof props.labelKey === 'function') return props.labelKey(option as T)
   if (option[props.labelKey] !== undefined) {
     return String(option[props.labelKey])
   }
-  return String(option[props.valueKey])
+  return String(getValue(option))
 }
 
 // Helper to get icon from option
@@ -136,8 +140,8 @@ const displayLabel = computed(() => {
 
 // Filter options based on search query
 const filteredOptions = computed(() => {
-  // In async mode, don't filter - options are already filtered by the server
-  if (isAsyncMode.value) {
+  // In async mode, don't filter - options are already filtered by the server (unless `filterLoaded`)
+  if (isAsyncMode.value && !props.filterLoaded) {
     return currentOptions.value
   }
   
@@ -226,6 +230,7 @@ async function loadAsyncOptions(query: string) {
     // Only clear on error if this is still the latest request
     if (currentSeq === requestSeq.value) {
       internalOptions.value = []
+      emit('load-error', error)
     }
   } finally {
     // Only stop loading if this is still the latest request

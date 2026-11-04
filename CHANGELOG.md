@@ -13,6 +13,7 @@
 - Іконки `ticon:copy`, `ticon:check`.
 - `TInfoTip` — значок `ticon:info` з підказкою `TTooltip` при наведенні; фокусований, доступне ім'я — `text`. Пропи `text`, `placement`; слот замінює вміст підказки.
 - `TLogPane` — вікно живого логу: автопрокрутка, пауза при прокрутці вгору й кнопка «до кінця»; колір рядка за `kind` (`err` / `warn` / `info`). Пропи `lines: TLogLine[]` (тип експортовано), `dropped`, `height`, тексти `emptyText`, `droppedText` (`{count}`), `toEndLabel`.
+- `TSelect` — `valueKey` / `labelKey` приймають також функцію `(option) => string`; проп `filterLoaded` фільтрує варіанти з `loadOptions` на клієнті (`filterFn` або підрядок підпису без регістру); відхилений проміс `loadOptions` → подія `load-error` (текст під полем показує застосунок через `error`).
 
 ### Fixed
 - `TTextarea` — атрибути (`id`, `aria-*`, `name`…) тепер потрапляють на внутрішній `<textarea>`, а `class` / `style` — на кореневий елемент; раніше підпис і `id` лягали на обгортку, і поле лишалося без доступного імені.

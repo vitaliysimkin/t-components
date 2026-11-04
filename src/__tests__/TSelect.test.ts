@@ -1,10 +1,12 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, fireEvent } from '@testing-library/vue'
 import { nextTick, defineComponent, h } from 'vue'
 import TSelect from '../components/TSelect.vue'
 
 // Helper: open the dropdown by clicking on the trigger wrapper. TDropdown uses a
 // click-toggle on the trigger element.
+const tick = () => new Promise(resolve => setTimeout(resolve))
+
 async function openSelect(container: HTMLElement) {
   const trigger = container.querySelector('.t-select__trigger') as HTMLElement
   expect(trigger).not.toBeNull()
@@ -135,5 +137,61 @@ describe('TSelect', () => {
     await fireEvent.click(clear)
     expect(events.some(e => e.type === 'update' && e.value === null)).toBe(true)
     expect(events.some(e => e.type === 'clear')).toBe(true)
+  })
+
+  it('valueKey / labelKey accept functions', async () => {
+    const options = [{ id: 7, name: 'Seven' }]
+    const captured: unknown[] = []
+    const { container } = render(TSelect, {
+      props: {
+        options,
+        modelValue: null,
+        valueMode: 'value',
+        valueKey: (o: { id: number }) => `k${o.id}`,
+        labelKey: (o: { name: string }) => o.name.toUpperCase(),
+        'onUpdate:modelValue': (v: unknown) => captured.push(v),
+      },
+    })
+    await openSelect(container)
+    const items = document.querySelectorAll('.t-select__item')
+    expect(items[0].textContent).toBe('SEVEN')
+    await fireEvent.click(items[0])
+    expect(captured[0]).toBe('k7')
+  })
+
+  it('filterLoaded filters loaded options on the client', async () => {
+    const { container } = render(TSelect, {
+      props: {
+        searchable: true,
+        filterLoaded: true,
+        debounce: 0,
+        loadOptions: async () => [{ value: 1, label: 'Alpha' }, { value: 2, label: 'Beta' }],
+      },
+    })
+    await openSelect(container)
+    await tick()
+    await fireEvent.update(container.querySelector('input') as HTMLInputElement, 'bE')
+    await tick()
+    const items = document.querySelectorAll('.t-select__item')
+    expect([...items].map(i => i.textContent)).toEqual(['Beta'])
+  })
+
+  it('rejected loadOptions emits load-error', async () => {
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const failure = new Error('boom')
+    const errors: unknown[] = []
+    try {
+      const { container } = render(TSelect, {
+        props: {
+          loadOptions: () => Promise.reject(failure),
+          onLoadError: (e: unknown) => errors.push(e),
+        },
+      })
+      await openSelect(container)
+      await tick()
+      expect(errors).toEqual([failure])
+    } finally {
+      consoleError.mockRestore()
+    }
   })
 })
