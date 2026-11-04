@@ -38,6 +38,8 @@ declare module '@vue/runtime-core' {
     TSplitPane: typeof import('./components/TSplitPane.vue')['default']
     TCopyField: typeof import('./components/TCopyField.vue')['default']
     TCopyChip: typeof import('./components/TCopyChip.vue')['default']
+    TInfoTip: typeof import('./components/TInfoTip.vue')['default']
+    TLogPane: typeof import('./components/TLogPane.vue')['default']
   }
 }
 

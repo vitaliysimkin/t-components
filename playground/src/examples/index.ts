@@ -174,6 +174,14 @@ import CopyFieldExampleCode from './copy/CopyFieldExample.vue?raw'
 import CopyChipExample from './copy/CopyChipExample.vue'
 import CopyChipExampleCode from './copy/CopyChipExample.vue?raw'
 
+// InfoTip Examples
+import InfoTipExample from './info-tip/InfoTipExample.vue'
+import InfoTipExampleCode from './info-tip/InfoTipExample.vue?raw'
+
+// LogPane Examples
+import LogPaneExample from './log-pane/LogPaneExample.vue'
+import LogPaneExampleCode from './log-pane/LogPaneExample.vue?raw'
+
 // FormValidation Examples
 import BasicFormValidationExample from './form-validation/BasicFormValidationExample.vue'
 import BasicFormValidationExampleCode from './form-validation/BasicFormValidationExample.vue?raw'
@@ -1032,6 +1040,30 @@ export const elements: Element[] = [
     ]
   },
   {
+    label: 'TInfoTip',
+    slug: 'info-tip',
+    icon: 'material-symbols-light:info-outline',
+    components: [
+      {
+        component: InfoTipExample,
+        code: InfoTipExampleCode,
+        label: 'Basic Usage'
+      }
+    ]
+  },
+  {
+    label: 'TLogPane',
+    slug: 'log-pane',
+    icon: 'material-symbols-light:terminal',
+    components: [
+      {
+        component: LogPaneExample,
+        code: LogPaneExampleCode,
+        label: 'Live Log'
+      }
+    ]
+  },
+  {
     label: 'useFormValidation',
     slug: 'form-validation',
     icon: 'material-symbols-light:fact-check-outline',
@@ -1148,4 +1180,6 @@ export {
   HorizontalSplitPaneExample,
   CopyFieldExample,
   CopyChipExample,
+  InfoTipExample,
+  LogPaneExample,
 }

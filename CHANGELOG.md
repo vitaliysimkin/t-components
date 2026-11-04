@@ -11,6 +11,8 @@
 - `TCopyField` — поле лише для читання з кнопкою «Copy»; після копіювання кнопка ~1,5 с показує `copiedLabel`. Пропи `value`, `copyLabel`, `copiedLabel`; події `copy` / `copy-error` (повідомлення показує застосунок).
 - `TCopyChip` — чіп з текстом (`label` або `value`) та іконкою `ticon:copy`, клік копіює `value`; проп `title`, події `copy` / `copy-error`.
 - Іконки `ticon:copy`, `ticon:check`.
+- `TInfoTip` — значок `ticon:info` з підказкою `TTooltip` при наведенні; фокусований, доступне ім'я — `text`. Пропи `text`, `placement`; слот замінює вміст підказки.
+- `TLogPane` — вікно живого логу: автопрокрутка, пауза при прокрутці вгору й кнопка «до кінця»; колір рядка за `kind` (`err` / `warn` / `info`). Пропи `lines: TLogLine[]` (тип експортовано), `dropped`, `height`, тексти `emptyText`, `droppedText` (`{count}`), `toEndLabel`.
 
 ### Fixed
 - `TTextarea` — атрибути (`id`, `aria-*`, `name`…) тепер потрапляють на внутрішній `<textarea>`, а `class` / `style` — на кореневий елемент; раніше підпис і `id` лягали на обгортку, і поле лишалося без доступного імені.

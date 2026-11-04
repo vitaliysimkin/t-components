@@ -156,7 +156,9 @@ document.documentElement.dataset.tAccent = 'blue'
 
 Форми: `TButton`, `TButtonGroup`, `TInput`, `TTextarea`, `TSelect`, `TSwitch`, `TTag`, `TDateInput`, `TTimeInput`, `TDateTimeInput`, `TTimePicker`, `TDatePicker`, `TCodeEditor`, `TCopyField`, `TCopyChip`.
 
-Навігація / лейаут: `TTabs`, `TSidebar`, `TDropdown`, `TTooltip`, `TSplitPane`.
+Навігація / лейаут: `TTabs`, `TSidebar`, `TDropdown`, `TTooltip`, `TInfoTip`, `TSplitPane`.
+
+Логи: `TLogPane`.
 
 Оверлеї / сповіщення: `TModalBox`, `TModalBoxHost`, `TInputModalBox`, `TNotifications`.
 

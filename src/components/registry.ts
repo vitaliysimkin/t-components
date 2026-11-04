@@ -35,6 +35,8 @@ import TDiffEditor from './TDiffEditor.vue'
 import TSplitPane from './TSplitPane.vue'
 import TCopyField from './TCopyField.vue'
 import TCopyChip from './TCopyChip.vue'
+import TInfoTip from './TInfoTip.vue'
+import TLogPane from './TLogPane.vue'
 
 export {
   TIcon,
@@ -73,6 +75,8 @@ export {
   TSplitPane,
   TCopyField,
   TCopyChip,
+  TInfoTip,
+  TLogPane,
 }
 
 // Plugin registration source of truth. Types are intentionally erased to
@@ -116,4 +120,6 @@ export const componentRegistry: Record<string, Component> = {
   TSplitPane,
   TCopyField,
   TCopyChip,
+  TInfoTip,
+  TLogPane,
 }
