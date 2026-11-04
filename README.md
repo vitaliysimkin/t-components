@@ -154,7 +154,7 @@ document.documentElement.dataset.tAccent = 'blue'
 
 ## Компоненти (короткий перелік)
 
-Форми: `TButton`, `TButtonGroup`, `TInput`, `TTextarea`, `TSelect`, `TSwitch`, `TTag`, `TDateInput`, `TTimeInput`, `TDateTimeInput`, `TTimePicker`, `TDatePicker`, `TCodeEditor`.
+Форми: `TButton`, `TButtonGroup`, `TInput`, `TTextarea`, `TSelect`, `TSwitch`, `TTag`, `TDateInput`, `TTimeInput`, `TDateTimeInput`, `TTimePicker`, `TDatePicker`, `TCodeEditor`, `TCopyField`, `TCopyChip`.
 
 Навігація / лейаут: `TTabs`, `TSidebar`, `TDropdown`, `TTooltip`, `TSplitPane`.
 

@@ -33,6 +33,8 @@ import TCard from './TCard.vue'
 import TCheckbox from './TCheckbox.vue'
 import TDiffEditor from './TDiffEditor.vue'
 import TSplitPane from './TSplitPane.vue'
+import TCopyField from './TCopyField.vue'
+import TCopyChip from './TCopyChip.vue'
 
 export {
   TIcon,
@@ -69,6 +71,8 @@ export {
   TCheckbox,
   TDiffEditor,
   TSplitPane,
+  TCopyField,
+  TCopyChip,
 }
 
 // Plugin registration source of truth. Types are intentionally erased to
@@ -110,4 +114,6 @@ export const componentRegistry: Record<string, Component> = {
   TCheckbox,
   TDiffEditor,
   TSplitPane,
+  TCopyField,
+  TCopyChip,
 }

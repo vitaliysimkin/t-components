@@ -168,6 +168,12 @@ import VariantsSplitPaneExampleCode from './split-pane/VariantsSplitPaneExample.
 import HorizontalSplitPaneExample from './split-pane/HorizontalSplitPaneExample.vue'
 import HorizontalSplitPaneExampleCode from './split-pane/HorizontalSplitPaneExample.vue?raw'
 
+// Copy Examples
+import CopyFieldExample from './copy/CopyFieldExample.vue'
+import CopyFieldExampleCode from './copy/CopyFieldExample.vue?raw'
+import CopyChipExample from './copy/CopyChipExample.vue'
+import CopyChipExampleCode from './copy/CopyChipExample.vue?raw'
+
 // FormValidation Examples
 import BasicFormValidationExample from './form-validation/BasicFormValidationExample.vue'
 import BasicFormValidationExampleCode from './form-validation/BasicFormValidationExample.vue?raw'
@@ -1002,6 +1008,30 @@ export const elements: Element[] = [
     ]
   },
   {
+    label: 'TCopyField',
+    slug: 'copy-field',
+    icon: 'material-symbols-light:content-copy-outline',
+    components: [
+      {
+        component: CopyFieldExample,
+        code: CopyFieldExampleCode,
+        label: 'Basic Usage'
+      }
+    ]
+  },
+  {
+    label: 'TCopyChip',
+    slug: 'copy-chip',
+    icon: 'material-symbols-light:content-copy-outline',
+    components: [
+      {
+        component: CopyChipExample,
+        code: CopyChipExampleCode,
+        label: 'Command and Label'
+      }
+    ]
+  },
+  {
     label: 'useFormValidation',
     slug: 'form-validation',
     icon: 'material-symbols-light:fact-check-outline',
@@ -1116,4 +1146,6 @@ export {
   BasicSplitPaneExample,
   VariantsSplitPaneExample,
   HorizontalSplitPaneExample,
+  CopyFieldExample,
+  CopyChipExample,
 }

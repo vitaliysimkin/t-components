@@ -8,6 +8,9 @@
 
 ### Added
 - `TDropdown` — проп `card` (за замовчуванням `false`): панель отримує вигляд картки — фон `--t-color-surface`, рамка `--t-color-border`, радіус `--t-radius-medium`, тінь `--t-shadow-3`. Вигляд задано на самій панелі, тож `overflow` не обрізає тінь.
+- `TCopyField` — поле лише для читання з кнопкою «Copy»; після копіювання кнопка ~1,5 с показує `copiedLabel`. Пропи `value`, `copyLabel`, `copiedLabel`; події `copy` / `copy-error` (повідомлення показує застосунок).
+- `TCopyChip` — чіп з текстом (`label` або `value`) та іконкою `ticon:copy`, клік копіює `value`; проп `title`, події `copy` / `copy-error`.
+- Іконки `ticon:copy`, `ticon:check`.
 
 ### Fixed
 - `TTextarea` — атрибути (`id`, `aria-*`, `name`…) тепер потрапляють на внутрішній `<textarea>`, а `class` / `style` — на кореневий елемент; раніше підпис і `id` лягали на обгортку, і поле лишалося без доступного імені.

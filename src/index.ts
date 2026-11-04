@@ -68,6 +68,8 @@ export {
   TCheckbox,
   TDiffEditor,
   TSplitPane,
+  TCopyField,
+  TCopyChip,
 } from './components/registry'
 
 export { TFormFieldContextKey } from './components/TFormField.vue'
@@ -80,6 +82,8 @@ export type { TCardProps } from './components/TCard.vue'
 export type { TCheckboxProps } from './components/TCheckbox.vue'
 export type { TDiffEditorProps } from './components/TDiffEditor.vue'
 export type { TSplitPaneProps, TSplitPaneVariant, TSplitPaneOrientation } from './components/TSplitPane.vue'
+export type { TCopyFieldProps } from './components/TCopyField.vue'
+export type { TCopyChipProps } from './components/TCopyChip.vue'
 
 export { useDialog } from './composables/useDialog'
 export type { DialogVariant, DialogBaseOpts, ConfirmOpts, AlertOpts, PromptOpts } from './composables/useDialog'

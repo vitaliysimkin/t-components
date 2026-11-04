@@ -36,6 +36,8 @@ declare module '@vue/runtime-core' {
     TCheckbox: typeof import('./components/TCheckbox.vue')['default']
     TDiffEditor: typeof import('./components/TDiffEditor.vue')['default']
     TSplitPane: typeof import('./components/TSplitPane.vue')['default']
+    TCopyField: typeof import('./components/TCopyField.vue')['default']
+    TCopyChip: typeof import('./components/TCopyChip.vue')['default']
   }
 }
 
