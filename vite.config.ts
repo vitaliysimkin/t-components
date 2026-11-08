@@ -15,7 +15,7 @@ export default defineConfig({
         // (Volar template typings) when they import from the package entry.
         // Only the root `dist/index.d.ts` — NOT the `/icons`, `/markdown` and
         // `/code-editor` subpath types (their directories have no globalComponents.d.ts).
-        if (/[\\/]index\.d\.ts$/.test(filePath) && !/[\\/](icons|markdown|code-editor)[\\/]index\.d\.ts$/.test(filePath)) {
+        if (/[\\/]index\.d\.ts$/.test(filePath) && !/[\\/](icons|markdown|code-editor|motion)[\\/]index\.d\.ts$/.test(filePath)) {
           content = `/// <reference path="./globalComponents.d.ts" />\n${content}`
         }
         return { filePath, content }
@@ -29,6 +29,7 @@ export default defineConfig({
         icons: resolve(__dirname, 'src/icons/index.ts'),
         markdown: resolve(__dirname, 'src/markdown/index.ts'),
         'code-editor': resolve(__dirname, 'src/code-editor/index.ts'),
+        motion: resolve(__dirname, 'src/motion/index.ts'),
       },
       formats: ['es', 'cjs'],
       fileName: (format, entryName) => `${entryName}.${format === 'es' ? 'js' : 'cjs'}`,

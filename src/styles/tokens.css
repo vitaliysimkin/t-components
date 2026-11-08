@@ -59,9 +59,11 @@
   --t-focus-offset: 2px;
 
   /* Motion */
-  --t-duration: 150ms;
-  --t-duration-slow: 280ms;
+  --t-motion-scale: 1;
+  --t-motion-move: 1;
   --t-ease: cubic-bezier(0.2, 0, 0, 1);
+  --t-ease-spring: linear(0, 0.128, 0.393, 0.666, 0.88, 1.016, 1.08, 1.095, 1.08, 1.054,
+    1.029, 1.009, 0.997, 0.992, 0.991, 0.993, 0.995, 0.998, 0.999, 1);
 
   /* Shadows — soft, tinted by --t-shadow-color (set per theme).
      1: resting lift (switch thumb, segmented active)
@@ -72,9 +74,17 @@
   --t-shadow-3: 0 12px 40px color-mix(in srgb, var(--t-shadow-color, #000) 18%, transparent);
 }
 
+/* Derived tokens are re-declared on every scope so a subtree override recomputes them. */
+:root, [data-t-motion] {
+  --t-duration: calc(150ms * var(--t-motion-scale));
+  --t-duration-slow: calc(280ms * var(--t-motion-scale) * var(--t-motion-move));
+}
+
+[data-t-motion="full"]    { --t-motion-scale: 1; --t-motion-move: 1; }
+[data-t-motion="reduced"] { --t-motion-scale: 1; --t-motion-move: 0; }
+[data-t-motion="off"]     { --t-motion-scale: 0; --t-motion-move: 0; }
+
+/* Before JS runs (SSR, first paint): follow the OS. */
 @media (prefers-reduced-motion: reduce) {
-  :root {
-    --t-duration: 0ms;
-    --t-duration-slow: 0ms;
-  }
+  :root:not([data-t-motion]) { --t-motion-move: 0; }
 }

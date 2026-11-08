@@ -33,6 +33,11 @@
       "import": "./dist/code-editor.js",
       "require": "./dist/code-editor.cjs"
     },
+    "./motion": {
+      "types": "./dist/motion/index.d.ts",
+      "import": "./dist/motion.js",
+      "require": "./dist/motion.cjs"
+    },
     "./global": {
       "types": "./dist/globalComponents.d.ts"
     },

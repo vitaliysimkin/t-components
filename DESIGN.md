@@ -109,9 +109,11 @@ color: color-mix(in srgb, var(--t-color-success) 78%, var(--t-color-text));
 
 ## 5. Рух
 
+Архітектура анімацій, рівні та глобальний перемикач — [`MOTION.md`](MOTION.md).
+
 - `--t-duration` 150ms — кольори, фон, рамки.
 - `--t-duration-slow` 280ms + `--t-ease` — зміна розмірів (ширина сайдбара, розгортання).
-- `prefers-reduced-motion` обнуляє обидва токени автоматично.
+- Рівень `reduced` (зокрема `prefers-reduced-motion`) обнуляє `--t-duration-slow`, `--t-duration` лишається для кольору й прозорості; `off` обнуляє обидва. Деталі — у [`MOTION.md`](MOTION.md).
 
 ---
 

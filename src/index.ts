@@ -7,6 +7,8 @@ import { componentRegistry } from './components/registry'
 // Composables
 export { useTheme, currentTheme, applyTheme } from './composables/useTheme'
 export type { Theme } from './composables/useTheme'
+export { setMotion, currentMotion, motionLevel, getMotionLevel } from './composables/useMotion'
+export type { MotionLevel, MotionSetting } from './composables/useMotion'
 export { useNotifications } from './composables/useNotifications'
 export type { Notification, NotificationKind, NotificationOptions } from './composables/useNotifications'
 
