@@ -787,11 +787,23 @@ watch(
   right: 0;
   border-radius: var(--t-radius-default);
   background: var(--t-color-surface);
-  box-shadow: inset 0 0 0 1px var(--t-color-border);
   pointer-events: none;
   transition:
     clip-path var(--t-duration-slow) var(--t-ease),
     transform var(--t-duration-slow) var(--t-ease-spring);
+}
+
+/* Card border: its right side follows the clip edge, so it stays visible in the rail. */
+.t-sidebar__card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: var(--t-sidebar-cut);
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px var(--t-color-border);
+  transition: right var(--t-duration-slow) var(--t-ease);
 }
 
 /* Support for custom menu item colors */
