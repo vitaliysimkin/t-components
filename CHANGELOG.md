@@ -6,6 +6,24 @@
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-11-09
+
+### Added
+- Архітектура анімацій (див. `MOTION.md`): токени `--t-motion-scale`, `--t-motion-move`, `--t-duration`, `--t-duration-slow`, `--t-ease`, `--t-ease-spring`; рівні `full` / `reduced` / `off` / `auto` через атрибут `data-t-motion` (на `<html>` або на контейнері).
+- Глобальний перемикач руху з головного входу: `setMotion`, `currentMotion`, `motionLevel`, `getMotionLevel` (налаштування зберігається в `localStorage` під ключем `t-motion`), типи `MotionLevel`, `MotionSetting`.
+- Точка входу `@vitaliysimkin/t-components/motion` для опційних JS-ефектів (поки порожня).
+- Анімації компонентів: `TButton`, `TButtonGroup`, `TBadge`, `TTag`, `TCheckbox`, `TSwitch`, `TInput`, `TTextarea`, `TSelect`, `TDatePicker`, `TDropdown`, `TTabs`, `TTable`, `TNotifications`, `TModalBox`, `TSidebar`, `TEmpty`, `TFormField`, `TCopyChip`, `TLogPane`, `TPathCrumbs`, `TLogView`. Усі працюють на токенах і підкоряються рівню руху (`reduced` — лише короткий fade, `off` — без анімацій).
+- `TSidebar` — кнопка згортання з іконкою-подвійним шевроном, що з'являється при наведенні на сайдбар або фокусі.
+
+### Changed
+- `TSidebar` — проп `collapseIcon` більше не має значення за замовчуванням (раніше `system-uicons:window-collapse-left`): без нього показується вбудований подвійний шеврон. Хто явно передає `collapseIcon`, не змінюється; хто покладався на дефолт — побачить новий значок.
+- `TSidebar` — кнопка згортання прихована, поки сайдбар не під курсором і не у фокусі (раніше завжди мала `opacity: 0.5`).
+- `TModalBox` — прибрано розмиття фону (`backdrop-filter`) за модалкою: воно спричиняло гальмування анімації відкриття. Фон лишається затемненим без розмиття.
+- Анімація спалаху (flash) виконується через `opacity` оверлея — на композиторі, без перемальовування.
+- Playground — вкладка «Animations» з реальними компонентами, описами, графіками easing і виміряною продуктивністю (`npm run measure:motion`).
+- `TTextarea` — тепер обгортає `textarea` у `div.t-textarea-field`, а клас `size-*` перенесено на цю обгортку.
+- При `prefers-reduced-motion` тривалості більше не дорівнюють 0 — рух обнуляється, лишається короткий fade.
+
 ## [1.5.1]
 
 ### Fixed
