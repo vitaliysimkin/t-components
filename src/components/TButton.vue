@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, shallowRef, watch } from 'vue'
+import { ref, shallowRef, watch, inject, onMounted, getCurrentInstance } from 'vue'
 import Icon from './TIcon.vue'
 
 export type TButtonVariant = 'neutral' | 'accent' | 'danger' | 'success' | 'warning' | 'info'
@@ -23,6 +23,16 @@ const props = withDefaults(
   }
 )
 
+/* Direct child of TButtonGroup: the group draws frame, colors and states, so no mode, ripple or press shrink.
+   Must match the group CSS (`.t-button-group > .t-button`): set synchronously when the group is the instance parent
+   (no attribute flip on mount), then corrected by the DOM parent for wrappers / Transition. */
+const group = inject<object | null>('buttonGroup', null)
+const el = ref<HTMLButtonElement>()
+const grouped = ref(!!group && group === getCurrentInstance()?.parent)
+onMounted(() => {
+  grouped.value = !!group && !!el.value?.parentElement?.classList.contains('t-button-group')
+})
+
 /* Press ripple: one node, re-keyed per press so its animation restarts; removed on animationend. */
 const ripple = shallowRef<{ id: number, style: Record<string, string> }>()
 
@@ -34,7 +44,7 @@ watch(() => props.disabled, (now, was) => {
 
 function onPointerdown(e: PointerEvent) {
   // Text mode keeps its own hover/press motion.
-  if (e.button !== 0 || props.disabled || props.mode === 'text') return
+  if (e.button !== 0 || props.disabled || props.mode === 'text' || grouped.value) return
   const r = (e.currentTarget as HTMLElement).getBoundingClientRect()
   ripple.value = {
     id: e.timeStamp,
@@ -49,9 +59,11 @@ function onPointerdown(e: PointerEvent) {
 
 <template>
   <button
+    ref="el"
     class="t-button"
+    :class="{ 't-button--icon': icon && !label && !$slots.default }"
     :variant="variant"
-    :mode="mode"
+    :mode="grouped ? undefined : mode"
     :size="size"
     :disabled="disabled"
     @pointerdown="onPointerdown"
@@ -102,7 +114,7 @@ function onPointerdown(e: PointerEvent) {
   gap: var(--t-space-2);
 }
 
-.t-button:not([mode="text"]):active:not(:disabled) {
+.t-button[mode]:not([mode="text"]):active:not(:disabled) {
   transform: scale(calc(1 - 0.05 * var(--t-motion-move)));
   transition-duration: var(--t-duration), var(--t-duration), var(--t-duration), calc(var(--t-duration-slow) / 3);
   transition-timing-function: var(--t-ease);
@@ -156,7 +168,7 @@ function onPointerdown(e: PointerEvent) {
 }
 
 /* Hover state layer: 8% currentColor veil, opacity-only; instant at `off` (zero duration). Text mode has its own motion. */
-.t-button:not([mode="text"])::after {
+.t-button[mode]:not([mode="text"])::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -167,7 +179,7 @@ function onPointerdown(e: PointerEvent) {
   pointer-events: none;
 }
 
-.t-button:not([mode="text"]):hover:not(:disabled)::after {
+.t-button[mode]:not([mode="text"]):hover:not(:disabled)::after {
   opacity: 0.08;
 }
 

@@ -1,63 +1,58 @@
 <template>
-  <div>
+  <div
+    v-for="mode in modes"
+    :key="mode"
+  >
     <div class="example-label">
-      Text Toggle: {{ alignment }}
+      mode="{{ mode }}": {{ alignment }} · {{ view }} · {{ theme }} · {{ period }} · [{{ format.join(', ') }}]
     </div>
-    <TButtonGroup
-      v-model="alignment"
-      :options="alignmentOptions"
-      toggle
-    />
-  </div>
-
-  <div>
-    <div class="example-label">
-      Icon Toggle: {{ view }}
+    <div class="example-row">
+      <TButtonGroup
+        v-model="alignment"
+        :mode="mode"
+        :options="alignmentOptions"
+      />
+      <TButtonGroup
+        v-model="view"
+        :mode="mode"
+        :options="viewOptions"
+        label-display="never"
+        mandatory
+      />
+      <TButtonGroup
+        v-model="theme"
+        :mode="mode"
+        :options="themeOptions"
+      />
+      <TButtonGroup
+        v-model="period"
+        :mode="mode"
+        :options="periodOptions"
+        size="small"
+      />
+      <!-- Array v-model: multi select -->
+      <TButtonGroup
+        v-model="format"
+        :mode="mode"
+        :options="formatOptions"
+        label-display="never"
+      />
     </div>
-    <TButtonGroup
-      v-model="view"
-      :options="viewOptions"
-      toggle
-      label-display="never"
-    />
-  </div>
-
-  <div>
-    <div class="example-label">
-      Icon + Label Toggle: {{ theme }}
-    </div>
-    <TButtonGroup
-      v-model="theme"
-      :options="themeOptions"
-      toggle
-      variant="accent"
-    />
-  </div>
-
-  <div>
-    <div class="example-label">
-      Mandatory Toggle: {{ format }}
-    </div>
-    <TButtonGroup
-      v-model="format"
-      :options="formatOptions"
-      label-display="selected"
-      toggle
-      mandatory
-      variant="info"
-    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { TButtonGroup } from '@vitaliysimkin/t-components'
-import type { TButtonGroupOption } from '@vitaliysimkin/t-components'
+import type { TButtonGroupMode, TButtonGroupOption } from '@vitaliysimkin/t-components'
+
+const modes: TButtonGroupMode[] = ['segmented', 'plain']
 
 const alignment = ref<string | number | null>('center')
 const view = ref<string | number | null>('list')
 const theme = ref<string | number | null>('light')
-const format = ref<string | number | null>('bold')
+const period = ref<string | number | null>('week')
+const format = ref<string[]>(['bold', 'underline'])
 
 const alignmentOptions: TButtonGroupOption[] = [
   { value: 'left', label: 'Left' },
@@ -73,7 +68,14 @@ const viewOptions: TButtonGroupOption[] = [
 
 const themeOptions: TButtonGroupOption[] = [
   { value: 'light', label: 'Light', icon: 'system-uicons:sun' },
-  { value: 'dark', label: 'Dark', icon: 'system-uicons:moon' }
+  { value: 'dark', label: 'Dark', icon: 'system-uicons:moon' },
+  { value: 'auto', label: 'Auto', icon: 'system-uicons:display-alt', disabled: true }
+]
+
+const periodOptions: TButtonGroupOption[] = [
+  { value: 'day', label: 'Day' },
+  { value: 'week', label: 'Week' },
+  { value: 'month', label: 'Month' }
 ]
 
 const formatOptions: TButtonGroupOption[] = [
@@ -88,5 +90,12 @@ const formatOptions: TButtonGroupOption[] = [
   font-size: 0.875rem;
   color: var(--t-color-text-secondary);
   margin-bottom: var(--t-space-1);
+}
+
+.example-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--t-space-3);
 }
 </style>

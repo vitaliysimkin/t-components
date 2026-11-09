@@ -125,10 +125,10 @@ const anims: Anim[] = [
     graph: { ease: EASE, ms: S, label: 'position' },
   },
   {
-    id: 'group-pill', comps: 'TButtonGroup', name: 'Sliding pill',
-    what: 'A shared pill slides under the selected option (width set once per change). Property: transform (translateX).',
-    timing: `--t-duration-slow (${S} ms), --t-ease.`,
-    reduced: 'Jumps (no slide).', off: INSTANT,
+    id: 'group-pill', comps: 'TButtonGroup', name: 'Sliding thumb',
+    what: 'mode="segmented": a raised thumb slides along the track under the selected option (width set once per change); pressing the selected option squeezes it to 96%. Multi select: each option fades and springs in its own thumb. Property: transform (translateX / scale), opacity.',
+    timing: `slide, squeeze: --t-duration-slow (${S} ms), --t-ease; multi thumb: opacity --t-duration (${D} ms), scale --t-duration-slow, --t-ease-spring.`,
+    reduced: 'Jumps (no slide, no squeeze); multi thumbs only fade.', off: INSTANT,
     graph: { ease: EASE, ms: S, label: 'position' },
   },
   {
