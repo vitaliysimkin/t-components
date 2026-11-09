@@ -55,6 +55,10 @@ const TRIGGERS = {
   'logpane-edge': { do: 'wheel', sel: '.t-log-pane__lines', win: 250, anim: /^opacity ::before/ },
   'logview-flash': { win: 1100, anim: /t-flash/ },
   'crumbs-rise': { win: 250, anim: /t-path-crumbs-rise/ },
+  'sidebar-expand': { win: 650, anim: /^(clip-path|transform|opacity) .*t-sidebar/ },
+  'sidebar-collapse': { win: 450, anim: /^(clip-path|transform|opacity) .*t-sidebar/ },
+  'sidebar-card': { win: 450, anim: /^transform .*t-sidebar__card/ },
+  'sidebar-peek': { do: 'hover', sel: '.t-sidebar__nav-icon', win: 950, anim: /^(clip-path|transform|opacity) .*t-sidebar/ }, // includes the 300 ms intent delay
 }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))

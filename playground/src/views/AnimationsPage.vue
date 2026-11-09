@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import {
   currentMotion, setMotion, useDialog, useNotifications,
   TButton, TButtonGroup, TDropdown, TSelect, TTabs, TCheckbox, TInput, TTextarea, TFormField,
-  TTable, TBadge, TCopyChip, TCard, TEmpty, TDatePicker, TLogPane, TPathCrumbs, TTag,
+  TTable, TBadge, TCopyChip, TCard, TEmpty, TDatePicker, TLogPane, TPathCrumbs, TTag, TSidebar,
   type MotionSetting, type TTableSort, type TLogLine,
 } from '@vitaliysimkin/t-components'
 import { TLogView } from '@vitaliysimkin/t-components/code-editor'
@@ -285,6 +285,34 @@ const anims: Anim[] = [
     reduced: 'Fade only.', off: INSTANT,
     graph: { ease: EASE, ms: D, frames: [[0, 4], [1, 0]], label: 'translateY px' },
   },
+  {
+    id: 'sidebar-expand', comps: 'TSidebar', name: 'Expand: clip reveal + label stagger',
+    what: 'The panel keeps its expanded width and clip-path reveals it; the border and the edge handle follow with transform (the handle turns › → ‹), the in-flow spacer snaps once at the start. Labels fade in and slide 8px, one row after another; group dividers shrink away (scaleX). Properties: clip-path, transform, opacity.',
+    timing: `reveal, slide: --t-duration-slow (${S} ms), --t-ease; labels: opacity --t-duration (${D} ms), delay (${S * 0.25} ms + 25 ms × row) × --t-motion-move.`,
+    reduced: 'Opens at once; labels only fade (no slide, no stagger).', off: INSTANT,
+    graph: { ease: EASE, ms: S, label: 'reveal' },
+  },
+  {
+    id: 'sidebar-collapse', comps: 'TSidebar', name: 'Collapse: clip hide',
+    what: 'Labels fade out at once while clip-path hides the panel down to the rail (rows become chips) and the border follows with transform; the spacer snaps at the end, so the content moves once. Properties: clip-path, transform, opacity.',
+    timing: `hide: --t-duration-slow (${S} ms), --t-ease; labels: --t-duration (${D} ms); spacer snap delayed by --t-duration-slow.`,
+    reduced: 'Collapses at once; labels fade.', off: INSTANT,
+    graph: { ease: EASE, ms: S, frames: [[0, 1], [1, 0]], label: 'reveal' },
+  },
+  {
+    id: 'sidebar-card', comps: 'TSidebar', name: 'Active card slide',
+    what: 'One shared surface card slides to the newly active row (offset measured once per change). Property: transform (translateY).',
+    timing: `--t-duration-slow (${S} ms), --t-ease-spring.`,
+    reduced: 'Jumps (no slide).', off: INSTANT,
+    graph: { ease: SPRING, ms: S, label: 'position' },
+  },
+  {
+    id: 'sidebar-peek', comps: 'TSidebar (expandMode="peek")', name: 'Hover peek',
+    what: 'After 300 ms of hover (or at once on keyboard focus) the collapsed panel is revealed over the content with a shadow; the content does not move. Labels stagger in as on expand. The pin keeps it open. Properties: clip-path, transform, opacity.',
+    timing: `300 ms intent delay, then --t-duration-slow (${S} ms), --t-ease.`,
+    reduced: 'Opens at once after the delay; labels only fade.', off: 'Instant after the delay.',
+    graph: { ease: EASE, ms: S, delay: 300, label: 'reveal' },
+  },
 ]
 
 /* Measurements (scripts/measure-motion.mjs). */
@@ -367,6 +395,18 @@ function addLogText() {
   const n = logText.value.split('\n').length
   logText.value += `\n2026-11-04 10:00:${String(n).padStart(2, '0')} INFO line ${n}`
 }
+/* v-model:collapsed of the expand row (starts collapsed) and the collapse row (starts expanded). */
+const sbExpandRow = ref(true)
+const sbCollapseRow = ref(false)
+const sbCardIdx = ref(0)
+const sbItems = [
+  { route: '/components/sb-dash', title: 'Dashboard', icon: 'material-symbols-light:dashboard-outline', group: 'Main', activeRoutes: ['/animations'] },
+  { route: '/components/sb-inbox', title: 'Inbox', icon: 'material-symbols-light:inbox-outline', group: 'Main' },
+  { route: '/components/sb-reports', title: 'Reports', icon: 'material-symbols-light:bar-chart', group: 'Workspace' },
+  { route: '/components/sb-settings', title: 'Settings', icon: 'material-symbols-light:settings-outline', group: 'Workspace' },
+]
+/* Card row: the active item (activeRoutes = this page) moves on each click. */
+const sbCardItems = computed(() => sbItems.map((it, i) => ({ ...it, activeRoutes: i === sbCardIdx.value ? ['/animations'] : undefined })))
 const paths = ['src/components/TButton.vue', 'src/components/TInput.vue', 'src/styles/tokens.css']
 const pathIdx = ref(0)
 </script>
@@ -377,7 +417,7 @@ const pathIdx = ref(0)
       <h1 class="page-head__title">
         Animations
       </h1>
-      <span class="page-head__meta">{{ anims.length }} component animations of the motion architecture (MOTION.md); older motion such as TLoadingOverlay, TSwitch, TSidebar, TBottomNav and TCollapseTransition is not covered</span>
+      <span class="page-head__meta">{{ anims.length }} component animations of the motion architecture (MOTION.md); older motion such as TLoadingOverlay, TSwitch, TBottomNav and TCollapseTransition is not covered</span>
       <div class="page-head__motion">
         <span>data-t-motion</span>
         <TButtonGroup
@@ -769,6 +809,71 @@ const pathIdx = ref(0)
               Change path
             </button>
           </template>
+          <template v-else-if="a.id === 'sidebar-expand' || a.id === 'sidebar-collapse'">
+            <div
+              class="sb-demo"
+              @click.capture.prevent
+            >
+              <TSidebar
+                v-if="a.id === 'sidebar-expand'"
+                v-model:collapsed="sbExpandRow"
+                :menu-items="sbItems"
+                header-icon="material-symbols-light:widgets-outline"
+                header-label="Acme"
+                nested
+              />
+              <TSidebar
+                v-else
+                v-model:collapsed="sbCollapseRow"
+                :menu-items="sbItems"
+                header-icon="material-symbols-light:widgets-outline"
+                header-label="Acme"
+                nested
+              />
+            </div>
+            <button
+              class="ctl"
+              data-m
+              @click="a.id === 'sidebar-expand' ? (sbExpandRow = !sbExpandRow) : (sbCollapseRow = !sbCollapseRow)"
+            >
+              Toggle
+            </button>
+          </template>
+          <template v-else-if="a.id === 'sidebar-card'">
+            <div
+              class="sb-demo"
+              @click.capture.prevent
+            >
+              <TSidebar
+                :collapsed="false"
+                :menu-items="sbCardItems"
+                header-icon="material-symbols-light:widgets-outline"
+                header-label="Acme"
+                nested
+              />
+            </div>
+            <button
+              class="ctl"
+              data-m
+              @click="sbCardIdx = (sbCardIdx + 1) % 4"
+            >
+              Next active
+            </button>
+          </template>
+          <template v-else-if="a.id === 'sidebar-peek'">
+            <div
+              class="sb-demo"
+              @click.capture.prevent
+            >
+              <TSidebar
+                :menu-items="sbItems"
+                header-icon="material-symbols-light:widgets-outline"
+                header-label="Acme"
+                expand-mode="peek"
+                nested
+              />
+            </div>
+          </template>
         </div>
 
         <dl class="item__desc">
@@ -946,6 +1051,15 @@ const pathIdx = ref(0)
   cursor: pointer;
 }
 
+.sb-demo {
+  display: flex;
+  width: 260px;
+  height: 280px;
+  overflow: hidden;
+  border: 1px solid var(--t-color-border);
+  border-radius: var(--t-radius-medium);
+}
+.sb-demo :deep(.t-sidebar) { height: 100%; }
 .menu {
   min-width: 160px;
   padding: var(--t-space-1);

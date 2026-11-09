@@ -19,6 +19,7 @@ export type { TElementSize, TFormFieldProps, TOption } from './components/types'
 export type { TSelectProps } from './components/TSelect.vue'
 export type { TButtonVariant, TButtonSize } from './components/TButton.vue'
 export type { TButtonGroupOption, TButtonGroupMode, TButtonGroupValue, TButtonGroupModel } from './components/TButtonGroup.vue'
+export type { TSidebarExpandMode } from './components/TSidebar.vue'
 export type { TTabsVariant, TTabsSize, TTabsAlign, TTabValue, TTabItem } from './components/TTabs.vue'
 export type {
   TDatePickerMode,

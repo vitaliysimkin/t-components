@@ -7,7 +7,9 @@
  * are the public API — the raw palette is not.
  *
  * Rules of thumb (see DESIGN.md):
- *  - bg        page background; sidebars and nav sit on it too
+ *  - bg        page-level background of components (nav panels, split panes, inline pickers)
+ *  - app-bg    the app's main area / body background
+ *  - sidebar-bg TSidebar panel background
  *  - surface   cards, inputs, popovers, table body — anything "on top" of bg
  *  - surface-2 subtle inset areas (code blocks, disabled inputs, table zebra)
  *  - border    the only line color. Use border-strong only for hover/handles
@@ -21,6 +23,8 @@ html.light {
 
   /* Background and surfaces */
   --t-color-bg: var(--t-warm-0);
+  --t-color-app-bg: #ffffff;
+  --t-color-sidebar-bg: #faf9f6;
   --t-color-surface: #ffffff;
   --t-color-surface-2: color-mix(in srgb, var(--t-color-bg) 60%, var(--t-color-border));
 
@@ -105,6 +109,8 @@ html.dark {
 
   /* Background and surfaces */
   --t-color-bg: var(--t-warm-9);
+  --t-color-app-bg: #0f0f0e;
+  --t-color-sidebar-bg: #252422;
   --t-color-surface: var(--t-warm-8);
   --t-color-surface-2: color-mix(in srgb, var(--t-color-bg) 60%, var(--t-color-border));
 

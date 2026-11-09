@@ -22,8 +22,9 @@ const menuItems = [
       :menu-items="menuItems"
       header-icon="system-uicons:document-stack"
       header-label="Demo App"
+      expand-mode="handle"
       nested
-    /> <!-- nested: only for embedded sidebars -->
+    /> <!-- handle (default): hover the sidebar, the round handle on its edge toggles it; nested: only for embedded sidebars -->
   </div>
 </template>
 

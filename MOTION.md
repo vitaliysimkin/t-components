@@ -26,7 +26,7 @@ Goals:
 
 Existing literal transitions are migrated to tokens later, when each component is touched.
 
-The per-component `@media (prefers-reduced-motion: reduce)` blocks with `transition: none !important` in `TSidebar` and `TBottomNav` ignore `setMotion('full')`; they are migrated to tokens later, like the literal transitions.
+The per-component `@media (prefers-reduced-motion: reduce)` block with `transition: none !important` in `TBottomNav` ignores `setMotion('full')`; it is migrated to tokens later, like the literal transitions.
 
 ---
 

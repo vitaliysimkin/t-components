@@ -194,7 +194,7 @@ function cycleTheme() {
   flex: 1;
   min-width: 0;
   overflow: auto;
-  background: var(--t-color-bg);
+  background: var(--t-color-app-bg);
 }
 
 .accent-row {

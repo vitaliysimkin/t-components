@@ -5,7 +5,9 @@ import { watch } from 'vue'
 
 /* Read live values of tokens so the page always reflects the active theme. */
 const colorRoles = [
-  ['--t-color-bg', 'Page background. Sidebars and nav sit on it too.'],
+  ['--t-color-bg', 'Component page background: nav panels, split panes, inline pickers.'],
+  ['--t-color-app-bg', 'Main app area / body background.'],
+  ['--t-color-sidebar-bg', 'TSidebar panel background.'],
   ['--t-color-surface', 'Cards, inputs, popovers, table body.'],
   ['--t-color-surface-2', 'Inset areas: code blocks, disabled inputs, segmented track.'],
   ['--t-color-border', 'The only line color. Hairlines everywhere.'],

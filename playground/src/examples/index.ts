@@ -209,6 +209,7 @@ import VerticalDiffEditorExampleCode from './diff-editor/VerticalDiffEditorExamp
 // Sidebar Examples
 import BasicSidebarExample from './sidebars/BasicSidebarExample.vue'
 import FooterSlotSidebarExample from './sidebars/FooterSlotSidebarExample.vue'
+import PeekSidebarExample from './sidebars/PeekSidebarExample.vue'
 
 // BottomNav Examples
 import BasicBottomNavExample from './bottom-nav/BasicBottomNavExample.vue'
@@ -297,6 +298,7 @@ import PersistentNotificationExampleCode from './notifications/PersistentNotific
 import CustomTimeoutNotificationExampleCode from './notifications/CustomTimeoutNotificationExample.vue?raw'
 import BasicSidebarExampleCode from './sidebars/BasicSidebarExample.vue?raw'
 import FooterSlotSidebarExampleCode from './sidebars/FooterSlotSidebarExample.vue?raw'
+import PeekSidebarExampleCode from './sidebars/PeekSidebarExample.vue?raw'
 import BasicTabsExampleCode from './tabs/BasicTabsExample.vue?raw'
 import IconTabsExampleCode from './tabs/IconTabsExample.vue?raw'
 import VariantTabsExampleCode from './tabs/VariantTabsExample.vue?raw'
@@ -686,6 +688,11 @@ export const elements: Element[] = [
         component: FooterSlotSidebarExample,
         code: FooterSlotSidebarExampleCode,
         label: 'With Footer Slot'
+      },
+      {
+        component: PeekSidebarExample,
+        code: PeekSidebarExampleCode,
+        label: 'Hover Peek + Pin'
       }
     ]
   },
