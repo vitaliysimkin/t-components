@@ -4,8 +4,9 @@
     :class="[
       `t-tag--${variant}`,
       `t-tag--${size}`,
-      { 't-tag--removable': removable }
+      { 't-tag--removable': removable, 't-tag--pop': pop }
     ]"
+    @animationend.self="pop = false"
   >
     <slot>{{ label }}</slot>
     <button 
@@ -21,6 +22,8 @@
 </template>
 
 <script setup lang="ts">
+import { ref, watch } from 'vue'
+
 export interface TTagProps {
   label?: string
   variant?: 'gray' | 'blue' | 'red' | 'green' | 'teal' | 'yellow' | 'orange'
@@ -32,13 +35,17 @@ export interface TTagEmits {
   (e: 'remove'): void
 }
 
-withDefaults(defineProps<TTagProps>(), {
+const props = withDefaults(defineProps<TTagProps>(), {
   variant: 'gray',
   size: 'medium',
   removable: false
 })
 
 defineEmits<TTagEmits>()
+
+// Status change (variant) briefly pops the tag; animationend re-arms it.
+const pop = ref(false)
+watch(() => props.variant, () => { pop.value = true })
 </script>
 
 <style scoped>
@@ -51,6 +58,15 @@ defineEmits<TTagEmits>()
   white-space: nowrap;
   transition: background-color var(--t-duration) ease, color var(--t-duration) ease;
   cursor: default;
+}
+
+/* Pop on variant change. Zero duration at reduced/off: no pop. */
+.t-tag--pop {
+  animation: t-tag-pop var(--t-duration-slow) var(--t-ease-spring);
+}
+
+@keyframes t-tag-pop {
+  40% { transform: scale(calc(1 + 0.12 * var(--t-motion-move))); }
 }
 
 /* Sizes */

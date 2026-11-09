@@ -29,7 +29,15 @@ const parts = computed(() => props.path.split('/').filter(Boolean))
         aria-hidden="true"
       >›</span>
     </template>
-    <b class="t-path-crumbs__name">{{ parts[parts.length - 1] }}</b>
+    <Transition
+      enter-active-class="t-path-crumbs__name--enter"
+      leave-active-class="t-path-crumbs__name--leave"
+    >
+      <b
+        :key="path"
+        class="t-path-crumbs__name"
+      >{{ parts[parts.length - 1] }}</b>
+    </Transition>
     <slot />
   </span>
 </template>
@@ -60,5 +68,19 @@ const parts = computed(() => props.path.split('/').filter(Boolean))
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: var(--t-font-weight-semibold);
+}
+
+/* Name rises and fades in on path change. No movement at reduced, instant at off. */
+.t-path-crumbs__name--enter {
+  animation: t-path-crumbs-rise var(--t-duration) var(--t-ease);
+}
+
+/* The old name is removed at once (no overlap with the new one). */
+.t-path-crumbs__name--leave {
+  display: none;
+}
+
+@keyframes t-path-crumbs-rise {
+  from { opacity: 0; transform: translateY(calc(4px * var(--t-motion-move))); }
 }
 </style>

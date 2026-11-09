@@ -7,7 +7,7 @@ import TButton from '../components/TButton.vue'
 import TCheckbox from '../components/TCheckbox.vue'
 import {
   buildSearchRegExp, filterMatchingLines, findMatches, logViewExtension, setLogFormat, setLogSearch,
-  type LogFormat, type LogSearchState,
+  flashLogLines, type LogFormat, type LogSearchState,
 } from './logView'
 
 export interface TLogViewProps {
@@ -97,6 +97,11 @@ watch([activeRe, shown], async () => {
   await nextTick()
   reveal()
 })
+
+// Appended text (old text is a prefix of the new): flash the new lines once the editor has the doc.
+watch(shown, (next, prev) => {
+  if (prev && next.length > prev.length && next.startsWith(prev)) view()?.dispatch({ effects: flashLogLines.of(prev.length) })
+}, { flush: 'post' })
 
 watch(() => props.format, (f) => view()?.dispatch({ effects: setLogFormat.of(f) }))
 
@@ -291,4 +296,7 @@ const countLabel = computed(() => {
 .t-log-view__editor :deep(.cm-line.lx-cont) { color: var(--t-color-text-muted); box-shadow: inset 2px 0 0 var(--t-color-border-strong); }
 .t-log-view__editor :deep(.lx-hit) { background: var(--t-color-tag-yellow-bg); border-radius: var(--t-radius-mini); }
 .t-log-view__editor :deep(.lx-hit.lx-cur) { background: var(--t-color-warning-plain-bg); outline: 1px solid var(--t-color-warning); }
+
+/* New log lines: accent background fades out (plays once on insert; none at motion off). */
+.t-log-view__editor :deep(.cm-line.lx-new) { animation: t-flash calc(1s * var(--t-motion-scale)) ease-out; }
 </style>

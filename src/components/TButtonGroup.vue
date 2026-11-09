@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { provide, computed } from 'vue'
+import { provide, computed, ref } from 'vue'
+import { useSlidingIndicator } from '../composables/useSlidingIndicator'
 import TButton, { type TButtonVariant, type TButtonSize } from './TButton.vue'
 
 export type TButtonLabelDisplay = 'always' | 'selected' | 'never'
@@ -63,12 +64,34 @@ const getHiddenLabel = (option: TButtonGroupOption) => {
   return getLabel(option) === undefined ? option.label : undefined
 }
 
+// Sliding pill: the selected button's box; only its translateX is animated.
+const rootEl = ref<HTMLElement | null>(null)
+const pill = useSlidingIndicator(
+  rootEl,
+  () => rootEl.value?.querySelector<HTMLElement>('[aria-pressed="true"]'),
+  [() => props.modelValue, () => props.options, () => props.labelDisplay, () => props.size]
+)
+
 // Provide context for child buttons if needed
 provide('buttonGroup', { isToggleMode })
 </script>
 
 <template>
-  <div class="t-button-group">
+  <div
+    ref="rootEl"
+    class="t-button-group"
+  >
+    <span
+      v-if="pill && options"
+      class="t-button-group__pill"
+      aria-hidden="true"
+      :style="{
+        width: `${pill.w}px`,
+        height: `${pill.h}px`,
+        transform: `translateX(${pill.x}px)`,
+        background: `var(--t-color-${variant})`
+      }"
+    />
     <!-- Render buttons from options if provided -->
     <template v-if="options">
       <TButton
@@ -98,9 +121,25 @@ provide('buttonGroup', { isToggleMode })
    BASE STYLES
    ======================================== */
 .t-button-group {
+  position: relative;
   display: inline-flex;
   flex-direction: row;
   isolation: isolate;
+}
+
+.t-button-group__pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: var(--t-radius-default);
+  pointer-events: none;
+  transition: transform var(--t-duration-slow) var(--t-ease);
+}
+
+/* With the pill present, buttons sit above it and the selected one drops its own fill. */
+.t-button-group:has(.t-button-group__pill) :deep(.t-button[aria-pressed='true']) {
+  background: transparent !important;
+  border-color: transparent !important;
 }
 
 /* ========================================

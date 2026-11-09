@@ -55,7 +55,7 @@ describe('useNotifications — push API', () => {
     const { push, items } = useNotifications()
     push('info', 'opts', { timeoutMs: 0, onClick: handler })
     expect(items.value[0].onClick).toBe(handler)
-    expect(items.value[0].timeoutMs).toBeUndefined() // timeoutMs is not stored on Notification
+    expect(items.value[0].timeoutMs).toBe(0)
   })
 })
 

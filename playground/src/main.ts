@@ -7,6 +7,8 @@ import '../../src/styles/index.css'
 import App from './App.vue'
 import ComponentsPage from './views/ComponentsPage.vue'
 import DesignPage from './views/DesignPage.vue'
+import AnimationsPage from './views/AnimationsPage.vue'
+import MotionLabPage from './views/MotionLabPage.vue'
 
 import TComponents from '@vitaliysimkin/t-components'
 import { elements } from './examples/index'
@@ -20,6 +22,8 @@ const router = createRouter({
     { path: '/components', redirect: `/components/${firstSlug}` },
     { path: '/components/:slug', name: 'components', component: ComponentsPage },
     { path: '/design', name: 'design', component: DesignPage },
+    { path: '/animations', name: 'animations', component: AnimationsPage },
+    { path: '/motion-lab', name: 'motion-lab', component: MotionLabPage },
   ],
 })
 

@@ -494,12 +494,26 @@ function handleMouseEnter(index: number) {
 }
 
 .t-select__item {
+  /* Cascade: items drop in one after another (first 5 staggered); shift is 0 at reduced, duration/delay are 0 at off. */
+  animation: t-select-item-in var(--t-duration) var(--t-ease) both;
   cursor: pointer;
   transition: background-color 0.2s ease;
   display: flex;
   align-items: center;
   gap: var(--t-space-2);
 }
+
+@keyframes t-select-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-4px * var(--t-motion-move)));
+  }
+}
+
+.t-select__item:nth-child(2) { animation-delay: calc(20ms * var(--t-motion-scale)); }
+.t-select__item:nth-child(3) { animation-delay: calc(40ms * var(--t-motion-scale)); }
+.t-select__item:nth-child(4) { animation-delay: calc(60ms * var(--t-motion-scale)); }
+.t-select__item:nth-child(n + 5) { animation-delay: calc(80ms * var(--t-motion-scale)); }
 
 .t-select__icon {
   flex-shrink: 0;

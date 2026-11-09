@@ -43,6 +43,11 @@ const hasFooter = computed(() => !!slots.footer)
   overflow: hidden;
 }
 
+/* Navigated to via #id: accent background fades out (none at motion off). */
+.t-card:target {
+  animation: t-flash calc(1.1s * var(--t-motion-scale)) ease-out;
+}
+
 .t-card__header {
   padding: var(--t-space-3) var(--t-space-4);
   border-bottom: 1px solid var(--t-color-border);

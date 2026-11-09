@@ -26,8 +26,11 @@ const props = withDefaults(defineProps<TLogPaneProps>(), {
   toEndLabel: 'Autoscroll paused — to the end',
 })
 
+// Lines present at mount are not flashed.
+const initialIds = new Set(props.lines.map((l) => l.id))
 const el = ref<HTMLElement>()
 const follow = ref(true)
+const scrolled = ref(false)
 
 function scrollToEnd() {
   void nextTick(() => {
@@ -37,7 +40,9 @@ function scrollToEnd() {
 
 function onScroll() {
   const e = el.value
-  if (e) follow.value = e.scrollHeight - e.scrollTop - e.clientHeight < 24
+  if (!e) return
+  follow.value = e.scrollHeight - e.scrollTop - e.clientHeight < 24
+  scrolled.value = e.scrollTop > 0
 }
 
 function toEnd() {
@@ -51,7 +56,10 @@ watch(() => [props.lines.length, props.lines[props.lines.length - 1]?.id], () =>
 </script>
 
 <template>
-  <div class="t-log-pane">
+  <div
+    class="t-log-pane"
+    :class="{ 'is-scrolled': scrolled }"
+  >
     <div
       ref="el"
       class="t-log-pane__lines"
@@ -75,7 +83,7 @@ watch(() => [props.lines.length, props.lines[props.lines.length - 1]?.id], () =>
       <div
         v-for="l in lines"
         :key="l.id"
-        :class="l.kind && `is-${l.kind}`"
+        :class="[l.kind && `is-${l.kind}`, { 'is-new': !initialIds.has(l.id) }]"
       >
         <span
           v-if="l.prefix"
@@ -103,6 +111,23 @@ watch(() => [props.lines.length, props.lines[props.lines.length - 1]?.id], () =>
   min-height: 0;
 }
 
+/* Scroll edge: the top of the content fades out once scrolled (opacity only). */
+.t-log-pane::before {
+  content: '';
+  position: absolute;
+  inset: 1px 1px auto;
+  height: 28px;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(var(--t-color-surface-2), transparent);
+  opacity: 0;
+  transition: opacity var(--t-duration) var(--t-ease);
+}
+
+.t-log-pane.is-scrolled::before {
+  opacity: 1;
+}
+
 .t-log-pane__lines {
   font-family: var(--t-font-mono);
   font-size: var(--t-font-size-mini);
@@ -127,6 +152,11 @@ watch(() => [props.lines.length, props.lines[props.lines.length - 1]?.id], () =>
 .is-info {
   color: var(--t-color-text-muted);
   font-style: italic;
+}
+
+/* New line: accent background fades out (plays once on insert; none at motion off). */
+.is-new {
+  animation: t-flash calc(1s * var(--t-motion-scale)) ease-out;
 }
 
 .t-log-pane__prefix {

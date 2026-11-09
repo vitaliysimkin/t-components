@@ -239,12 +239,22 @@ function calculateAndSetPosition() {
     )
 
     setPosition(calculatedPosition)
+
+    // Open zoom origin in viewport px (the box's layout origin is 0,0 and `scale` applies
+    // after the inline translate): the opener's center, else the panel's own center.
+    const r = opener && opener !== document.body && opener.isConnected ? opener.getBoundingClientRect() : null
+    origin.value = r && (r.width || r.height)
+      ? `${r.left + r.width / 2}px ${r.top + r.height / 2}px`
+      : `${calculatedPosition.x + containerWidth / 2}px ${calculatedPosition.y + containerHeight / 2}px`
   }
 }
+
+const origin = ref('')
 
 // Комбіновані стилі для позиціонування та розміру
 const combinedStyle = computed<CSSProperties>(() => {
   const styles: CSSProperties = {
+    transformOrigin: origin.value,
     // Мінімізовані модалки не мають absolute positioning
     ...(!props.isMinimized && dragStyle.value),
     ...(!props.isMinimized && resizeStyle.value)
@@ -265,6 +275,7 @@ const combinedStyle = computed<CSSProperties>(() => {
   backdrop-filter: blur(3px);
   z-index: 3990;
   pointer-events: auto;
+  animation: t-modal-fade var(--t-duration) var(--t-ease);
 }
 
 .modal-box {
@@ -283,6 +294,19 @@ const combinedStyle = computed<CSSProperties>(() => {
     bottom: 0;
     right: 0;
     outline: none;
+    /* Open: zoom from the opener (transform-origin set in script) + fade. The `scale`
+       property composes with the inline translate3d. Reduced: fade only; off: instant. */
+    animation:
+      t-modal-zoom var(--t-duration-slow) var(--t-ease),
+      t-modal-fade var(--t-duration) var(--t-ease);
+}
+
+@keyframes t-modal-zoom {
+  from { scale: 0.2; }
+}
+
+@keyframes t-modal-fade {
+  from { opacity: 0; }
 }
 
 /* Активна модалка має вищий z-index */

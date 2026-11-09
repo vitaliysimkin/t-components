@@ -6,6 +6,8 @@ export interface Notification {
   id: number
   kind: NotificationKind
   text: string
+  /** Auto-dismiss delay in ms; 0 or less means it stays until dismissed. */
+  timeoutMs?: number
   onClick?: () => void
 }
 
@@ -43,7 +45,7 @@ function push(kind: NotificationKind, text: string, timeoutMsOrOptions?: number 
     onClick = timeoutMsOrOptions.onClick
   }
 
-  items.value.push({ id, kind, text, onClick })
+  items.value.push({ id, kind, text, timeoutMs, onClick })
 
   if (timeoutMs > 0) {
     setTimeout(() => dismiss(id), timeoutMs)

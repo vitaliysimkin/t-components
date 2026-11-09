@@ -56,6 +56,8 @@ export function filterMatchingLines(text: string, re: RegExp): string {
 
 export const setLogFormat = StateEffect.define<LogFormat>()
 export const setLogSearch = StateEffect.define<LogSearchState>()
+/** Flash the lines from this document offset to the end (newly appended text). */
+export const flashLogLines = StateEffect.define<number>()
 
 const HEAD_RE = /^(\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}(?:[.,]\d{1,7})?)/
 const THREAD_RE = /^ +(\[[^\]\n]{0,80}\])/
@@ -63,11 +65,13 @@ const LEVEL_RE = /^ +(TRACE|DEBUG|INFO|WARN|WARNING|ERROR|FATAL)\b/
 const BRACKET_LEVEL_RE = /^\[(TRACE|DEBUG|INFO|WARN|WARNING|ERROR|FATAL)\]$/
 const QUOTED_RE = /'[^'\n]{0,300}'|"[^"\n]{0,300}"/g
 const DETECT_LINES = 200
+const MAX_FLASH_LINES = 200
 
 const mark = (cls: string) => Decoration.mark({ class: cls })
 const D = {
   time: mark('lx-t'), thread: mark('lx-th'), user: mark('lx-u'), logger: mark('lx-lg'), method: mark('lx-m'), str: mark('lx-s'),
   cont: Decoration.line({ class: 'lx-cont' }),
+  fresh: Decoration.line({ class: 'lx-new' }),
   hit: mark('lx-hit'), cur: mark('lx-hit lx-cur'),
 }
 const levelMarks = new Map<string, Decoration>()
@@ -206,6 +210,25 @@ export function logViewExtension(opts: {
     },
   })
 
+  // Any later document change drops the flash; the CSS animation has played by then.
+  const flashField = StateField.define<DecorationSet>({
+    create: () => Decoration.none,
+    update(v, tr) {
+      if (tr.docChanged) v = Decoration.none
+      for (const e of tr.effects) {
+        if (!e.is(flashLogLines)) continue
+        const doc = tr.state.doc
+        const last = doc.lines
+        const first = Math.max(doc.lineAt(Math.min(e.value, doc.length)).number, last - MAX_FLASH_LINES + 1)
+        const b = new RangeSetBuilder<Decoration>()
+        for (let n = first; n <= last; n++) b.add(doc.line(n).from, doc.line(n).from, D.fresh)
+        v = b.finish()
+      }
+      return v
+    },
+    provide: (f) => EditorView.decorations.from(f),
+  })
+
   const syntax = ViewPlugin.fromClass(class {
     decorations: DecorationSet
     detected: boolean
@@ -246,5 +269,5 @@ export function logViewExtension(opts: {
     },
   }))
 
-  return [formatField, searchField, syntax, hits, findKey]
+  return [formatField, searchField, flashField, syntax, hits, findKey]
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, useSlots, watch } from 'vue'
+import { useSlidingIndicator } from '../composables/useSlidingIndicator'
 import Icon from './TIcon.vue'
 
 export type TTabsVariant = 'underline' | 'pills' | 'segmented'
@@ -115,6 +116,16 @@ watch(
   }
 )
 
+// Sliding underline: the active tab's offset/width, applied as transform only.
+const listEl = ref<HTMLElement | null>(null)
+const line = useSlidingIndicator(
+  listEl,
+  () => props.variant === 'underline' && activeValue.value !== undefined
+    ? tabRefs.value[String(activeValue.value)]
+    : null,
+  [activeValue, () => props.variant, () => props.tabs]
+)
+
 const hasPanelSlot = (value: TTabValue) =>
   Boolean(slots[`panel-${String(value)}`])
 </script>
@@ -127,6 +138,7 @@ const hasPanelSlot = (value: TTabValue) =>
     :align="align"
   >
     <div
+      ref="listEl"
       class="t-tabs__list"
       role="tablist"
       :aria-label="ariaLabel"
@@ -168,6 +180,12 @@ const hasPanelSlot = (value: TTabValue) =>
           >{{ tab.badge }}</span>
         </slot>
       </button>
+      <span
+        v-if="line"
+        class="t-tabs__line"
+        aria-hidden="true"
+        :style="{ transform: `translateX(${line.x}px) scaleX(${line.w})` }"
+      />
     </div>
 
     <template
@@ -210,6 +228,7 @@ const hasPanelSlot = (value: TTabValue) =>
 }
 
 .t-tabs__list {
+  position: relative;
   display: flex;
   gap: var(--t-tabs-list-gap, 0);
   min-width: 0;
@@ -315,7 +334,23 @@ const hasPanelSlot = (value: TTabValue) =>
 
 .t-tabs[variant='underline'] .t-tabs__tab.is-active {
   color: var(--t-color-accent);
+}
+
+/* Without the measured line (SSR, before mount) the active tab keeps its own border. */
+.t-tabs[variant='underline'] .t-tabs__list:not(:has(.t-tabs__line)) .t-tabs__tab.is-active {
   border-bottom-color: var(--t-color-accent);
+}
+
+.t-tabs__line {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 1px;
+  height: 2px;
+  background: var(--t-color-accent);
+  transform-origin: left;
+  pointer-events: none;
+  transition: transform var(--t-duration-slow) var(--t-ease);
 }
 
 /* ========================================

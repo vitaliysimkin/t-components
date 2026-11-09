@@ -191,6 +191,18 @@ defineSlots<{
   min-width: 0;
 }
 
+/* Error appears: the control shakes once. */
+.t-form-field.has-error .t-form-field__control {
+  animation: t-form-field-shake calc(1.5 * var(--t-duration-slow)) ease-in-out;
+}
+
+@keyframes t-form-field-shake {
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(2px); }
+}
+
 .t-form-field__hint {
   margin: 0;
   font-size: var(--t-font-size-mini, 0.75rem);

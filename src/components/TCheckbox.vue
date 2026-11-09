@@ -166,7 +166,8 @@ function onChange(event: Event) {
   transition:
     background-color 120ms ease,
     border-color 120ms ease,
-    box-shadow 120ms ease;
+    box-shadow 120ms ease,
+    transform var(--t-duration-slow) var(--t-ease-spring);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -184,6 +185,13 @@ function onChange(event: Event) {
 /* ─── Hover ─────────────────────────────────────────────────────────────────── */
 .t-checkbox:not(.is-disabled) .t-checkbox__input:hover + .t-checkbox__box {
   border-color: var(--t-color-border-strong);
+}
+
+/* Squeeze on press; release springs back (same pattern as TButton). */
+.t-checkbox:not(.is-disabled) .t-checkbox__input:active + .t-checkbox__box {
+  transform: scale(calc(1 - 0.2 * var(--t-motion-move)));
+  transition-duration: var(--t-duration), var(--t-duration), var(--t-duration), calc(var(--t-duration-slow) / 3);
+  transition-timing-function: var(--t-ease);
 }
 
 /* ─── Focus ─────────────────────────────────────────────────────────────────── */
@@ -206,6 +214,12 @@ function onChange(event: Event) {
   border-bottom: 2px solid var(--t-color-surface);
   transform: rotate(-45deg) translateY(-15%);
   box-sizing: border-box;
+  /* The mark rotates into place (dash -> check); no rotation when motion is reduced. */
+  animation: t-checkbox-turn var(--t-duration-slow) var(--t-ease-spring);
+}
+
+@keyframes t-checkbox-turn {
+  from { transform: rotate(calc(-45deg + 45deg * var(--t-motion-move))) translateY(-15%); }
 }
 
 /* ─── Indeterminate ─────────────────────────────────────────────────────────── */

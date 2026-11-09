@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { ref, shallowRef, watch } from 'vue'
 import Icon from './TIcon.vue'
 
 export type TButtonVariant = 'neutral' | 'accent' | 'danger' | 'success' | 'warning' | 'info'
 export type TButtonMode = 'filled' | 'plain' | 'ghost' | 'text'
 export type TButtonSize = 'mini' | 'small' | 'default' | 'medium' | 'large' | 'fit'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     variant?: TButtonVariant
     mode?: TButtonMode
@@ -21,6 +22,29 @@ withDefaults(
     disabled: false
   }
 )
+
+/* Press ripple: one node, re-keyed per press so its animation restarts; removed on animationend. */
+const ripple = shallowRef<{ id: number, style: Record<string, string> }>()
+
+/* Enable shine: a single sweep when the button goes from disabled to enabled; removed on animationend. */
+const shine = ref(false)
+watch(() => props.disabled, (now, was) => {
+  if (was && !now) shine.value = true
+})
+
+function onPointerdown(e: PointerEvent) {
+  // Text mode keeps its own hover/press motion.
+  if (e.button !== 0 || props.disabled || props.mode === 'text') return
+  const r = (e.currentTarget as HTMLElement).getBoundingClientRect()
+  ripple.value = {
+    id: e.timeStamp,
+    style: {
+      '--t-ripple-x': `${e.clientX - r.left}px`,
+      '--t-ripple-y': `${e.clientY - r.top}px`,
+      '--t-ripple-d': `${Math.max(r.width, r.height) * 2}px`
+    }
+  }
+}
 </script>
 
 <template>
@@ -30,7 +54,20 @@ withDefaults(
     :mode="mode"
     :size="size"
     :disabled="disabled"
+    @pointerdown="onPointerdown"
   >
+    <span
+      v-if="ripple"
+      :key="ripple.id"
+      class="t-button__ripple"
+      :style="ripple.style"
+      @animationend="ripple = undefined"
+    />
+    <span
+      v-if="shine"
+      class="t-button__shine"
+      @animationend="shine = false"
+    />
     <Icon
       v-if="icon"
       :icon="icon"
@@ -51,12 +88,87 @@ withDefaults(
   border: 1px solid;
   font-size: var(--t-btn-font-size);
   cursor: pointer;
-  transition: all 0.15s ease;
+  position: relative;
+  /* Release springs back from the sink (see :active). */
+  transition:
+    color var(--t-duration) var(--t-ease),
+    background-color var(--t-duration) var(--t-ease),
+    border-color var(--t-duration) var(--t-ease),
+    transform var(--t-duration-slow) var(--t-ease-spring);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-weight: 500;
   gap: var(--t-space-2);
+}
+
+.t-button:not([mode="text"]):active:not(:disabled) {
+  transform: scale(calc(1 - 0.05 * var(--t-motion-move)));
+  transition-duration: var(--t-duration), var(--t-duration), var(--t-duration), calc(var(--t-duration-slow) / 3);
+  transition-timing-function: var(--t-ease);
+}
+
+/* Saving state: consumer adds `is-loading`; opacity-only pulse, none at `off` (zero duration). */
+.t-button.is-loading {
+  animation: t-pulse calc(1s * var(--t-motion-scale)) ease-in-out infinite;
+}
+
+/* Clip box for the ripple circle / shine band drawn by ::after. */
+.t-button__ripple,
+.t-button__shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.t-button__ripple::after {
+  content: '';
+  position: absolute;
+  left: calc(var(--t-ripple-x) - var(--t-ripple-d) / 2);
+  top: calc(var(--t-ripple-y) - var(--t-ripple-d) / 2);
+  width: var(--t-ripple-d);
+  height: var(--t-ripple-d);
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0;
+  /* Zero duration at reduced/off: no ripple, the node is removed on animationend. */
+  animation: t-button-ripple calc(var(--t-duration-slow) * 1.6) var(--t-ease);
+}
+
+@keyframes t-button-ripple {
+  from { transform: scale(0); opacity: 0.3; }
+}
+
+.t-button__shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, color-mix(in srgb, currentColor 35%, transparent) 50%, transparent 70%);
+  transform: translateX(-120%);
+  /* Zero duration at reduced/off: no shine, the node is removed on animationend. */
+  animation: t-button-shine calc(var(--t-duration-slow) * 2.5) var(--t-ease);
+}
+
+@keyframes t-button-shine {
+  to { transform: translateX(120%); }
+}
+
+/* Hover state layer: 8% currentColor veil, opacity-only; instant at `off` (zero duration). Text mode has its own motion. */
+.t-button:not([mode="text"])::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity var(--t-duration) var(--t-ease);
+  pointer-events: none;
+}
+
+.t-button:not([mode="text"]):hover:not(:disabled)::after {
+  opacity: 0.08;
 }
 
 .t-button:focus-visible {

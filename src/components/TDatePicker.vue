@@ -1,5 +1,8 @@
 <template>
-  <div class="t-date-picker">
+  <div
+    class="t-date-picker"
+    :class="{ 't-date-picker--switched': viewSwitched }"
+  >
     <!-- Header -->
     <div class="t-date-picker__header">
       <button
@@ -245,6 +248,10 @@ const view = ref<TDatePickerView>({
   month: initial.getMonth(),
   year: initial.getFullYear(),
 });
+
+// Animate only after the user switches day/month/year view, not on first render.
+const viewSwitched = ref(false);
+watch(() => view.value.type, () => { viewSwitched.value = true; });
 
 // Sync view to external model change.
 watch(
@@ -688,6 +695,19 @@ const yearGrid = computed(() => {
   gap: var(--t-date-picker-cell-gap);
   /* Match day-view total height: 7 cells + 6 gaps (6 day rows + 1 weekday row). */
   min-height: calc(7 * var(--t-date-picker-cell-size) + 6 * var(--t-date-picker-cell-gap));
+}
+
+/* View switch: the new grid grows from the inside (scale 0.9 -> 1); the scale is 1 at reduced. */
+.t-date-picker--switched .t-date-picker__day-view,
+.t-date-picker--switched .t-date-picker__grid {
+  animation: t-date-picker-zoom var(--t-duration-slow) var(--t-ease);
+}
+
+@keyframes t-date-picker-zoom {
+  from {
+    opacity: 0;
+    transform: scale(calc(1 - 0.1 * var(--t-motion-move)));
+  }
 }
 
 .t-date-picker__grid--months,

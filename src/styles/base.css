@@ -54,3 +54,31 @@ samp {
   outline-offset: var(--t-focus-offset);
   border-radius: var(--t-radius-small);
 }
+
+/* Keyboard focus thickens from 1px. :where() keeps specificity 0 so any component or app animation wins. */
+:where(:focus-visible) {
+  animation: t-focus-thicken var(--t-duration-slow) var(--t-ease);
+}
+
+@keyframes t-focus-thicken {
+  from { outline-width: 1px; }
+}
+
+/* Shared keyframes. Each consumer sets its own duration (multiply by --t-motion-scale for looping/long ones). */
+@keyframes t-flash {
+  from { background-color: color-mix(in srgb, var(--t-color-accent) 28%, transparent); }
+}
+
+@keyframes t-pulse {
+  50% { opacity: 0.35; }
+}
+
+/* Ring pseudo-elements (transform + opacity only): settle in on focus, pulse out on error. */
+@keyframes t-ring-settle {
+  from { opacity: 0; transform: scale(calc(1 + 0.03 * var(--t-motion-move))); }
+}
+
+@keyframes t-ring-pulse {
+  from { opacity: 0.45; transform: scale(1); }
+  to { opacity: 0; transform: scale(calc(1 + 0.03 * var(--t-motion-move))); }
+}

@@ -47,6 +47,23 @@ withDefaults(defineProps<TEmptyProps>(), {
   text-align: center;
 }
 
+.t-empty__icon,
+.t-empty__description {
+  /* Cascade: icon first, then the text; shift is 0 at reduced, duration is 0 at off. */
+  animation: t-empty-rise var(--t-duration-slow) var(--t-ease) both;
+}
+
+.t-empty__description {
+  animation-delay: calc(var(--t-duration-slow) * 0.4);
+}
+
+@keyframes t-empty-rise {
+  from {
+    opacity: 0;
+    transform: translateY(calc(16px * var(--t-motion-move)));
+  }
+}
+
 .t-empty__icon {
   display: flex;
   align-items: center;

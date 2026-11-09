@@ -137,7 +137,7 @@ const inputAttrs = computed(() => {
   border-radius: 999px;
   background: var(--t-switch-off-bg);
   border: 1px solid var(--t-switch-off-border);
-  transition: background-color 140ms ease, border-color 140ms ease;
+  transition: background-color var(--t-duration) ease, border-color 140ms ease;
   box-sizing: border-box;
 }
 
@@ -148,10 +148,10 @@ const inputAttrs = computed(() => {
   width: var(--t-switch-thumb);
   height: var(--t-switch-thumb);
   border-radius: 999px;
-  background: var(--t-color-surface);
+  background: var(--t-switch-thumb-off);
   box-shadow: var(--t-shadow-1);
   transform: translate(0, -50%);
-  transition: transform 160ms ease;
+  transition: transform 160ms ease, background-color 140ms ease;
 }
 
 /* Hover */
@@ -177,6 +177,7 @@ const inputAttrs = computed(() => {
 
 .t-switch__input:checked ~ .t-switch__track .t-switch__thumb {
   transform: translate(var(--t-switch-translate), -50%);
+  background: var(--t-color-surface);
 }
 
 /* Structure: input + track (thumb is inside track visually, but separate element) */
@@ -242,7 +243,9 @@ const inputAttrs = computed(() => {
 /* Derived */
 .t-switch {
   --t-switch-off-bg: var(--t-color-surface-2);
-  --t-switch-off-border: var(--t-color-border);
+  --t-switch-off-border: light-dark(var(--t-color-border), var(--t-color-border-strong));
+  /* Dark surface is too close to the off track; use a muted tone there. */
+  --t-switch-thumb-off: light-dark(var(--t-color-surface), var(--t-color-text-muted));
   --t-switch-on-bg: var(--t-color-accent);
   --t-switch-translate: calc(var(--t-switch-w) - var(--t-switch-thumb) - (var(--t-switch-pad) * 2));
 }

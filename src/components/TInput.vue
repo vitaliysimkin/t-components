@@ -126,7 +126,26 @@ const handleClear = () => {
 
 .t-input-wrapper:focus-within {
   border-color: var(--t-color-accent);
+}
+
+/* Focus ring is a pseudo-element: it settles in by transform + opacity only. */
+.t-input-wrapper::before,
+.t-input-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.t-input-wrapper::after {
   box-shadow: 0 0 0 3px var(--t-color-focus-ring);
+}
+
+.t-input-wrapper:focus-within::after {
+  opacity: 1;
+  animation: t-ring-settle var(--t-duration-slow) var(--t-ease);
 }
 
 .t-input-wrapper:has(.t-input:disabled),
@@ -142,7 +161,16 @@ const handleClear = () => {
 
 .t-input-wrapper[data-error]:focus-within {
   border-color: var(--t-color-danger);
+}
+
+.t-input-wrapper[data-error]:focus-within::after {
   box-shadow: 0 0 0 3px var(--t-color-danger-plain-bg);
+}
+
+/* Error appears: a danger ring spreads out once and fades. */
+.t-input-wrapper[data-error]::before {
+  box-shadow: 0 0 0 3px var(--t-color-danger);
+  animation: t-ring-pulse calc(2 * var(--t-duration-slow)) ease-out;
 }
 
 /* ========================================
@@ -187,6 +215,17 @@ const handleClear = () => {
   cursor: pointer;
   transition: color 0.15s ease;
   font-size: 1.3em;
+  animation: t-input-clear-in var(--t-duration) var(--t-ease);
+}
+
+/* Clear button slides in from the right by 6px (fade only when motion is reduced). */
+@keyframes t-input-clear-in {
+  from { opacity: 0; transform: translateX(calc(6px * var(--t-motion-move))); }
+}
+
+/* Suffix icon fades in. */
+.t-input-icon--suffix {
+  animation: t-input-clear-in var(--t-duration) var(--t-ease);
 }
 
 .t-input-icon--clear:hover {

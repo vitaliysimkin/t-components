@@ -199,6 +199,20 @@ watch(
   { immediate: true }
 )
 
+// --- New-row flash ---
+// Rows that appear after the first non-empty render get `is-new` (plays once on insert).
+let knownKeys = new Set(props.rows.map(getRowKey))
+const newKeys = ref<Set<TTablePrimaryKey>>(new Set())
+watch(
+  () => props.rows.map(getRowKey),
+  (keys) => {
+    // Flash only rows added to an existing set; a full replacement (no overlap) flashes nothing.
+    const overlaps = keys.some((k) => knownKeys.has(k))
+    newKeys.value = overlaps ? new Set(keys.filter((k) => !knownKeys.has(k))) : new Set()
+    knownKeys = new Set(keys)
+  }
+)
+
 const isEmpty = computed(() => !props.loading && props.rows.length === 0)
 </script>
 
@@ -260,6 +274,7 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
                   <span class="t-table__th-label">{{ column.label }}</span>
                   <Icon
                     v-if="column.sortable"
+                    :key="sortIcon(column)"
                     :icon="sortIcon(column)"
                     class="t-table__sort-icon"
                     :class="{ 'is-active': props.sort?.key === column.key }"
@@ -272,7 +287,7 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
         </thead>
         <tbody>
           <template v-if="props.loading">
-            <tr class="t-table__state-row">
+            <tr class="t-table__state-row is-loading">
               <td
                 :colspan="props.columns.length + (props.selectable ? 1 : 0)"
                 class="t-table__state-cell"
@@ -300,7 +315,7 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
               v-for="(row, index) in displayRows"
               :key="getRowKey(row)"
               class="t-table__tr"
-              :class="{ 'is-selected': isRowSelected(row) }"
+              :class="{ 'is-selected': isRowSelected(row), 'is-new': newKeys.has(getRowKey(row)) }"
               @click="onRowClick(row, index)"
             >
               <td
@@ -414,7 +429,13 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
   opacity: 0.5;
   transition: opacity 120ms ease;
 }
-.t-table__sort-icon.is-active { opacity: 1; }
+.t-table__sort-icon.is-active {
+  opacity: 1;
+  animation: t-table-sort-flip var(--t-duration-slow) var(--t-ease);
+}
+@keyframes t-table-sort-flip {
+  from { transform: rotate(calc(-180deg * var(--t-motion-move))); }
+}
 
 .t-table__td {
   height: var(--t-table-row-h);
@@ -435,6 +456,35 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
 
 .t-table__tr.is-selected {
   background: var(--t-color-accent-plain-bg);
+}
+
+/* Selected row: accent bar grows on the left (fades at reduced, instant at off). */
+.t-table__tr .t-table__td:first-child {
+  position: relative;
+}
+
+.t-table__tr .t-table__td:first-child::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15%;
+  bottom: 15%;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--t-color-accent);
+  opacity: 0;
+  transform: scaleY(calc(1 - var(--t-motion-move)));
+  transition: transform var(--t-duration) var(--t-ease), opacity var(--t-duration) var(--t-ease);
+}
+
+.t-table__tr.is-selected .t-table__td:first-child::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+/* New row: accent background fades out (plays once on insert; none at motion off). */
+.t-table__tr.is-new .t-table__td {
+  animation: t-flash calc(1s * var(--t-motion-scale)) ease-out;
 }
 
 .t-table__th--select,
@@ -463,6 +513,8 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
 }
 
 .t-table__state-cell {
+  position: relative;
+  overflow: hidden;
   padding: var(--t-space-5) var(--t-space-3);
   text-align: center;
   color: var(--t-color-text-muted);
@@ -471,5 +523,25 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
 
 .t-table__state-text {
   font-size: var(--t-font-size-default);
+}
+
+/* Loading: the text pulses and a shimmer sweeps the row (shimmer hidden at reduced/off; both stop at off). */
+.t-table__state-row.is-loading .t-table__state-text {
+  animation: t-pulse calc(1.2s * var(--t-motion-scale)) ease-in-out infinite;
+}
+
+.t-table__state-row.is-loading .t-table__state-cell::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: var(--t-motion-move);
+  background: linear-gradient(100deg, transparent 30%, color-mix(in srgb, var(--t-color-text) 10%, transparent) 50%, transparent 70%);
+  animation: t-table-sweep calc(1.1s * var(--t-motion-scale)) ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes t-table-sweep {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
 }
 </style>

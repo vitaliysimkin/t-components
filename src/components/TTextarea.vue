@@ -44,19 +44,23 @@ const errorMessage = computed(() => (typeof props.error === 'string' ? props.err
     :class="attrs.class"
     :style="attrs.style as StyleValue"
   >
-    <textarea
-      v-bind="fieldAttrs"
-      class="t-textarea"
+    <div
+      class="t-textarea-field"
       :class="`size-${props.size}`"
-      :placeholder="placeholder"
-      :value="modelValue"
-      :rows="rows"
-      :disabled="disabled"
-      :readonly="readonly"
-      :data-error="hasError ? '' : null"
-      :aria-invalid="hasError || undefined"
-      @input="$emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)"
-    />
+    >
+      <textarea
+        v-bind="fieldAttrs"
+        class="t-textarea"
+        :placeholder="placeholder"
+        :value="modelValue"
+        :rows="rows"
+        :disabled="disabled"
+        :readonly="readonly"
+        :data-error="hasError ? '' : null"
+        :aria-invalid="hasError || undefined"
+        @input="$emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)"
+      />
+    </div>
     <div
       v-if="errorMessage"
       class="t-textarea__error"
@@ -102,7 +106,26 @@ const errorMessage = computed(() => (typeof props.error === 'string' ? props.err
 .t-textarea:focus-visible {
   outline: none;
   border-color: var(--t-color-accent);
+}
+
+/* Focus ring is a pseudo-element: it settles in by transform + opacity only. */
+.t-textarea-field {
+  position: relative;
+}
+
+.t-textarea-field::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--t-textarea-radius);
   box-shadow: 0 0 0 3px var(--t-color-focus-ring);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.t-textarea-field:has(.t-textarea:focus-visible)::after {
+  opacity: 1;
+  animation: t-ring-settle var(--t-duration-slow) var(--t-ease);
 }
 
 .t-textarea:disabled {
@@ -121,6 +144,9 @@ const errorMessage = computed(() => (typeof props.error === 'string' ? props.err
 
 .t-textarea[data-error]:focus-visible {
   border-color: var(--t-color-danger);
+}
+
+.t-textarea-field:has(.t-textarea[data-error]:focus-visible)::after {
   box-shadow: 0 0 0 3px var(--t-color-danger-plain-bg);
 }
 
@@ -141,31 +167,31 @@ const errorMessage = computed(() => (typeof props.error === 'string' ? props.err
    SIZE VARIANTS
    Map size prop to CSS variables
    ======================================== */
-.t-textarea.size-mini {
+.t-textarea-field.size-mini {
   --t-textarea-height: var(--t-control-h-mini);
   --t-textarea-font-size: var(--t-font-size-mini);
   --t-textarea-radius: var(--t-radius-mini);
 }
 
-.t-textarea.size-small {
+.t-textarea-field.size-small {
   --t-textarea-height: var(--t-control-h-small);
   --t-textarea-font-size: var(--t-font-size-small);
   --t-textarea-radius: var(--t-radius-small);
 }
 
-.t-textarea.size-default {
+.t-textarea-field.size-default {
   --t-textarea-height: var(--t-control-h-default);
   --t-textarea-font-size: var(--t-font-size-default);
   --t-textarea-radius: var(--t-radius-default);
 }
 
-.t-textarea.size-medium {
+.t-textarea-field.size-medium {
   --t-textarea-height: var(--t-control-h-medium);
   --t-textarea-font-size: var(--t-font-size-medium);
   --t-textarea-radius: var(--t-radius-medium);
 }
 
-.t-textarea.size-large {
+.t-textarea-field.size-large {
   --t-textarea-height: var(--t-control-h-large);
   --t-textarea-font-size: var(--t-font-size-large);
   --t-textarea-radius: var(--t-radius-large);

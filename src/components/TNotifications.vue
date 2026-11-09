@@ -14,6 +14,7 @@
           :role="n.onClick ? 'button' : 'status'"
           :tabindex="n.onClick ? 0 : undefined"
           :aria-label="n.onClick ? n.text : undefined"
+          :style="(n.timeoutMs ?? 0) > 0 ? { '--t-notification-ms': n.timeoutMs } : undefined"
           @click="handleClick(n)"
           @keydown.enter.space.prevent="n.onClick && handleClick(n)"
         >
@@ -27,6 +28,11 @@
           >
             ×
           </button>
+          <span
+            v-if="(n.timeoutMs ?? 0) > 0"
+            class="t-notification__timer"
+            aria-hidden="true"
+          />
         </div>
       </TransitionGroup>
     </div>
@@ -88,6 +94,8 @@ function handleClick(n: Notification): void {
   border: 1px solid var(--t-color-border);
   box-shadow: var(--t-shadow-2);
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 
 .t-notification--clickable {
@@ -142,17 +150,38 @@ function handleClick(n: Notification): void {
   opacity: 1;
 }
 
-/* Enter/leave transitions */
+/* Remaining-time bar: thins out over the timeout (no animation at off). */
+.t-notification__timer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: currentColor;
+  opacity: 0.5;
+  transform-origin: left;
+  pointer-events: none;
+  animation: t-notification-timer calc(var(--t-notification-ms) * 1ms * var(--t-motion-scale)) linear forwards;
+}
+
+@keyframes t-notification-timer {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
+/* Enter/leave: slide from beyond the screen edge (fade only at reduced motion) */
+.t-notifications--top-left,
+.t-notifications--bottom-left { --t-notification-dir: -1; }
+
 .t-notification-enter-active,
 .t-notification-leave-active {
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform var(--t-duration-slow) var(--t-ease),
+    opacity var(--t-duration) var(--t-ease);
 }
-.t-notification-enter-from {
-  transform: translateX(20px);
-  opacity: 0;
-}
+.t-notification-enter-from,
 .t-notification-leave-to {
-  transform: translateX(20px);
+  transform: translateX(calc(110% * var(--t-motion-move) * var(--t-notification-dir, 1)));
   opacity: 0;
 }
 </style>

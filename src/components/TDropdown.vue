@@ -361,6 +361,15 @@ defineExpose({
 
 .t-dropdown-panel {
   /* Panel styling will be handled via inline styles and slot content */
+  /* Open: fade + slide down; the shift is 0 at reduced, the duration is 0 at off. */
+  animation: t-dropdown-open var(--t-duration) var(--t-ease);
+}
+
+@keyframes t-dropdown-open {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-6px * var(--t-motion-move)));
+  }
 }
 
 .t-dropdown-panel.is-card {

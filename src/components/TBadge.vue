@@ -11,12 +11,18 @@
       aria-label="badge"
     >
       <template v-if="!dot">{{ displayValue }}</template>
+      <span
+        v-if="ring"
+        :key="ring"
+        class="t-badge__ring"
+        @animationend="ring = 0"
+      />
     </span>
   </span>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 export type TBadgeVariant = 'neutral' | 'accent' | 'danger' | 'success' | 'warning' | 'info'
 
@@ -41,6 +47,10 @@ const displayValue = computed(() => {
   }
   return props.value ?? ''
 })
+
+// A new key replays the ring animation; animationend removes the node.
+const ring = ref(0)
+watch(displayValue, () => { ring.value++ })
 </script>
 
 <style scoped>
@@ -76,6 +86,21 @@ const displayValue = computed(() => {
   box-shadow: 0 0 0 2px var(--t-color-surface, transparent);
 }
 
+/* Ring spreading out on value change. Zero duration at reduced/off: no ring. */
+.t-badge__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid var(--t-badge-color);
+  pointer-events: none;
+  animation: t-badge-ring calc(var(--t-duration-slow) * 2) var(--t-ease) forwards;
+}
+
+@keyframes t-badge-ring {
+  from { transform: scale(1); opacity: 0.7; }
+  to { transform: scale(calc(1 + 1.6 * var(--t-motion-move))); opacity: 0; }
+}
+
 /* Dot mode */
 .t-badge--dot {
   min-width: 8px;
@@ -83,6 +108,16 @@ const displayValue = computed(() => {
   height: 8px;
   padding: 0;
   border-radius: 50%;
+}
+
+/* "New" dot: a ring spreads from it three times (fades in place at reduced). */
+.t-badge--dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--t-badge-color);
+  animation: t-badge-ring calc(1s * var(--t-motion-scale)) var(--t-ease) 3;
 }
 
 /* Variant: danger (default) */
