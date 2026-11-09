@@ -138,12 +138,6 @@ const menuItems = computed(() => {
     icon: 'material-symbols-light:animation',
     activeRoutes: ['/animations'],
     group: 'Guide' as const
-  }, {
-    route: '/motion-lab',
-    title: 'Motion lab',
-    icon: 'material-symbols-light:science-outline',
-    activeRoutes: ['/motion-lab'],
-    group: 'Guide' as const
   }]
   return [...guide, ...items].sort(
     (a, b) => groupOrder.indexOf(a.group) - groupOrder.indexOf(b.group)

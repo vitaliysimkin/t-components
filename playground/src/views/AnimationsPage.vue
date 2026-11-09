@@ -1,485 +1,449 @@
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import {
+  currentMotion, setMotion, useDialog, useNotifications,
+  TButton, TButtonGroup, TDropdown, TSelect, TTabs, TCheckbox, TInput, TTextarea, TFormField,
+  TTable, TBadge, TCopyChip, TCopyField, TCard, TEmpty, TDatePicker, TLogPane, TPathCrumbs, TTag,
+  type MotionSetting, type TTableSort, type TLogLine,
+} from '@vitaliysimkin/t-components'
+import { TLogView } from '@vitaliysimkin/t-components/code-editor'
+
+const motion = computed({
+  get: () => currentMotion.value,
+  set: (v: MotionSetting | null) => v && setMotion(v),
+})
+const motionOptions = ['full', 'reduced', 'off'].map((v) => ({ value: v, label: v }))
+
+/* Button */
+const saving = ref(false)
+const enabled = ref(false)
+
+/* Dropdown / select */
+const selected = ref<string | null>(null)
+const fruits = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry']
+
+/* Dialog / notifications */
+const { confirm } = useDialog()
+const notifications = useNotifications()
+
+/* Tabs / group */
+const tab = ref('one')
+const tabs = [{ value: 'one', label: 'One' }, { value: 'two', label: 'Two' }, { value: 'three', label: 'Three' }]
+const group = ref<string | number | null>('b')
+const groupOptions = [{ value: 'a', label: 'Alpha' }, { value: 'b', label: 'Beta' }, { value: 'c', label: 'Gamma' }]
+
+/* Checkbox / fields */
+const checked = ref(false)
+const text = ref('')
+const note = ref('')
+const invalid = ref(false)
+const valid = computed(() => text.value.length >= 3)
+
+/* Table */
+interface Row { id: number, name: string, qty: number }
+const rows = ref<Row[]>([{ id: 1, name: 'Bolt', qty: 40 }, { id: 2, name: 'Nut', qty: 12 }, { id: 3, name: 'Washer', qty: 75 }])
+const columns = [
+  { key: 'name', label: 'Name', sortable: true },
+  { key: 'qty', label: 'Qty', sortable: true, align: 'right' as const },
+]
+const sort = ref<TTableSort | null>(null)
+const selection = ref<(string | number)[]>([])
+const tableLoading = ref(false)
+let rowId = 3
+function addRow() {
+  rowId++
+  rows.value = [{ id: rowId, name: `Item ${rowId}`, qty: rowId * 7 }, ...rows.value]
+}
+
+/* Badge / tag */
+const count = ref(3)
+const tagVariants = ['gray', 'blue', 'green', 'orange', 'red'] as const
+const tagIdx = ref(0)
+
+/* Date picker */
+const date = ref<Date | null>(new Date())
+
+/* Log */
+const lines = ref<TLogLine[]>(Array.from({ length: 12 }, (_, i) => ({ id: i, text: `line ${i}` })))
+function addLine() {
+  const id = lines.value.length
+  lines.value = [...lines.value, { id, text: `line ${id}`, kind: id % 5 === 0 ? 'err' : 'out' }]
+}
+
+const logText = ref(Array.from({ length: 6 }, (_, i) => `2026-11-04 10:00:0${i} INFO line ${i}`).join('\n'))
+function addLogText() {
+  logText.value += `\n2026-11-04 10:00:${String(logText.value.split('\n').length).padStart(2, '0')} INFO line ${logText.value.split('\n').length}`
+}
+</script>
+
 <template>
-  <div class="anim-page">
-    <h1 class="anim-page__title">
-      Button animations
-    </h1>
+  <div class="page">
+    <header class="page-head">
+      <h1 class="page-head__title">
+        Animations
+      </h1>
+      <span class="page-head__meta">built into the library components</span>
+      <div class="page-head__motion">
+        <span>data-t-motion</span>
+        <TButtonGroup
+          v-model="motion"
+          :options="motionOptions"
+          size="small"
+          mandatory
+        />
+      </div>
+    </header>
 
-    <div class="anim-controls">
-      <div class="anim-controls__item">
-        <span>Mode</span>
-        <TButtonGroup
-          v-model="mode"
-          :options="modes.map(v => ({ value: v, label: v }))"
-          size="small"
-          mandatory
-        />
-      </div>
-      <div class="anim-controls__item">
-        <span>Color</span>
-        <TButtonGroup
-          v-model="variant"
-          :options="variants.map(v => ({ value: v, label: v }))"
-          size="small"
-          mandatory
-        />
-      </div>
-      <div class="anim-controls__item">
-        <span>Size</span>
-        <TButtonGroup
-          v-model="size"
-          :options="sizes.map(v => ({ value: v, label: v }))"
-          size="small"
-          mandatory
-        />
-      </div>
-      <div class="anim-controls__item">
-        <span>Icon</span>
-        <TSwitch v-model="withIcon" />
-      </div>
-    </div>
-
-    <div class="anim-grid">
-      <div
-        v-for="(a, i) in animations"
-        :key="a.key"
-        class="anim-card"
-      >
-        <div class="anim-card__stage">
+    <div class="grid">
+      <section class="demo">
+        <h3>TButton</h3>
+        <div class="row">
           <TButton
-            :variant="variant as TButtonVariant"
-            :mode="mode as TButtonMode"
-            :size="size as TButtonSize"
-            :icon="withIcon ? iconFor(a) : undefined"
-            :label="labelFor(a)"
-            :class="a.base"
-            @click="(e: MouseEvent) => run(a, e)"
-            @pointerdown="(e: PointerEvent) => down(a, e)"
-            @pointerup="(e: PointerEvent) => up(a, e)"
-            @pointerleave="(e: PointerEvent) => up(a, e)"
-            @pointercancel="(e: PointerEvent) => up(a, e)"
+            label="Press ripple"
+            variant="accent"
+          />
+          <TButton
+            label="Hover"
+          />
+          <TButton
+            label="Focus (Tab)"
+            mode="outlined"
           />
         </div>
-        <div class="anim-card__name">
-          {{ i + 1 }}. {{ a.name }}
+        <div class="row">
+          <TButton
+            :class="{ 'is-loading': saving }"
+            :label="saving ? 'Saving…' : 'Save (breathing)'"
+            variant="accent"
+            @click="saving = !saving"
+          />
+          <TButton
+            :disabled="!enabled"
+            label="Shine"
+          />
+          <TCheckbox
+            v-model="enabled"
+            label="enabled"
+          />
         </div>
-        <div class="anim-card__desc">
-          {{ a.desc }}
+      </section>
+
+      <section class="demo">
+        <h3>TDropdown / TSelect</h3>
+        <div class="row">
+          <TDropdown>
+            <template #trigger="{ triggerProps }">
+              <TButton
+                v-bind="triggerProps"
+                label="Dropdown"
+              />
+            </template>
+            <div class="menu">
+              <div
+                v-for="f in fruits"
+                :key="f"
+                class="menu__item"
+              >
+                {{ f }}
+              </div>
+            </div>
+          </TDropdown>
+          <TSelect
+            v-model="selected"
+            :options="fruits"
+            placeholder="Select"
+            clearable
+          />
         </div>
-        <div
-          class="anim-card__perf"
-          :data-level="perf[a.key].level"
+      </section>
+
+      <section class="demo">
+        <h3>Dialog / notifications</h3>
+        <div class="row">
+          <TButton
+            label="Open dialog"
+            @click="confirm({ title: 'Zoom', message: 'Opens from the button.' })"
+          />
+          <TButton
+            label="Notify"
+            @click="notifications.push('success', 'Saved', 4000)"
+          />
+          <TButton
+            label="Error"
+            @click="notifications.push('error', 'Failed', 4000)"
+          />
+        </div>
+      </section>
+
+      <section class="demo">
+        <h3>TTabs / TButtonGroup</h3>
+        <TTabs
+          v-model="tab"
+          :tabs="tabs"
+        />
+        <TButtonGroup
+          v-model="group"
+          :options="groupOptions"
+          mandatory
+        />
+      </section>
+
+      <section class="demo">
+        <h3>TCheckbox</h3>
+        <div class="row">
+          <TCheckbox
+            v-model="checked"
+            label="Springy"
+          />
+          <TCheckbox
+            :model-value="false"
+            indeterminate
+            label="Indeterminate"
+          />
+          <TCheckbox
+            v-model="checked"
+            :indeterminate="!checked"
+            label="Indeterminate to check"
+          />
+        </div>
+      </section>
+
+      <section class="demo">
+        <h3>Inputs / TFormField</h3>
+        <TInput
+          v-model="text"
+          placeholder="Focus ring, clear, 3+ chars"
+          clearable
+          :suffix-icon="valid ? 'material-symbols-light:check' : undefined"
+        />
+        <TInput
+          model-value=""
+          placeholder="Error"
+          :error="invalid"
+        />
+        <TTextarea
+          v-model="note"
+          placeholder="Textarea"
+          :rows="2"
+          :error="invalid"
+        />
+        <TFormField
+          label="Field"
+          :error="invalid ? 'Required' : undefined"
         >
-          <span class="anim-card__perf-badge">perf impact: {{ perf[a.key].level }}</span>
-          {{ perf[a.key].note }}
+          <TSelect
+            :options="fruits"
+            :error="invalid"
+          />
+        </TFormField>
+        <TButton
+          :label="invalid ? 'Clear errors' : 'Show errors'"
+          @click="invalid = !invalid"
+        />
+      </section>
+
+      <section class="demo demo--wide">
+        <h3>TTable</h3>
+        <div class="row">
+          <TButton
+            label="Add row"
+            @click="addRow"
+          />
+          <TButton
+            label="Toggle loading"
+            @click="tableLoading = !tableLoading"
+          />
         </div>
-      </div>
+        <TTable
+          v-model:sort="sort"
+          v-model:selection="selection"
+          :columns="columns"
+          :rows="rows"
+          row-key="id"
+          :loading="tableLoading"
+          client-side-sort
+          selectable
+        />
+      </section>
+
+      <section class="demo">
+        <h3>TBadge / TTag</h3>
+        <div class="row">
+          <TBadge :value="count">
+            <TButton label="Inbox" />
+          </TBadge>
+          <TBadge dot>
+            <TButton label="Dot" />
+          </TBadge>
+          <TButton
+            label="+1"
+            @click="count++"
+          />
+          <TTag
+            :variant="tagVariants[tagIdx]"
+            :label="tagVariants[tagIdx]"
+          />
+          <TButton
+            label="Change tag"
+            @click="tagIdx = (tagIdx + 1) % tagVariants.length"
+          />
+        </div>
+      </section>
+
+      <section class="demo">
+        <h3>TCopyChip / TCopyField</h3>
+        <TCopyChip value="npm i @vitaliysimkin/t-components" />
+        <TCopyField value="https://example.com/share/abc" />
+      </section>
+
+      <section class="demo">
+        <h3>TCard</h3>
+        <TCard
+          header="Hover me"
+        >
+          Hover accent.
+        </TCard>
+        <a href="#anim-target">Go to the card below</a>
+        <TCard
+          id="anim-target"
+          header="Target"
+        >
+          Flashes when navigated to.
+        </TCard>
+      </section>
+
+      <section class="demo">
+        <h3>TEmpty</h3>
+        <TEmpty description="Nothing here yet" />
+      </section>
+
+      <section class="demo">
+        <h3>TDatePicker</h3>
+        <TDatePicker v-model="date" />
+      </section>
+
+      <section class="demo">
+        <h3>TLogPane</h3>
+        <TButton
+          label="Add line"
+          @click="addLine"
+        />
+        <TLogPane
+          :lines="lines"
+          height="160px"
+        />
+      </section>
+
+      <section class="demo">
+        <h3>TLogView</h3>
+        <TButton
+          label="Add line"
+          @click="addLogText"
+        />
+        <TLogView
+          :text="logText"
+          height="160px"
+        />
+      </section>
+
+      <section class="demo">
+        <h3>TPathCrumbs</h3>
+        <TPathCrumbs path="src/components/TButton.vue" />
+      </section>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { reactive, ref } from 'vue'
-import {
-  TButton,
-  TButtonGroup,
-  TSwitch,
-  type TButtonVariant,
-  type TButtonSize
-} from '@vitaliysimkin/t-components'
-
-type TButtonMode = 'filled' | 'plain' | 'ghost' | 'text'
-const modes: TButtonMode[] = ['filled', 'plain', 'ghost', 'text']
-const variants: TButtonVariant[] = ['neutral', 'accent', 'danger', 'success', 'warning', 'info']
-const sizes: TButtonSize[] = ['small', 'default', 'medium', 'large']
-
-const mode = ref<string | number | null>('filled')
-const variant = ref<string | number | null>('accent')
-const size = ref<string | number | null>('medium')
-const withIcon = ref(true)
-
-interface Anim {
-  key: string
-  name: string
-  desc: string
-  icon: string
-  label?: string
-  base?: string
-  cls?: string
-  kind?: 'class' | 'ripple' | 'confetti' | 'success' | 'sink' | 'sink-ripple' | 'press-ripple'
-}
-
-const animations: Anim[] = [
-  { key: 'press', name: 'Press', desc: 'Squash on press, spring back', icon: 'system-uicons:check', cls: 'anim-press' },
-  { key: 'ripple', name: 'Ripple', desc: 'Material ink ripple from click point', icon: 'system-uicons:target', base: 'anim-clip', kind: 'ripple' },
-  { key: 'pop', name: 'Pop', desc: 'Quick overshoot scale', icon: 'system-uicons:heart', cls: 'anim-pop' },
-  { key: 'shake', name: 'Shake', desc: 'Horizontal shake (error / denied)', icon: 'system-uicons:cross', cls: 'anim-shake' },
-  { key: 'pulse', name: 'Pulse ring', desc: 'Expanding outline ring', icon: 'system-uicons:bell', cls: 'anim-pulse' },
-  { key: 'jelly', name: 'Jelly', desc: 'Rubber-band wobble', icon: 'system-uicons:star', cls: 'anim-jelly' },
-  { key: 'shine', name: 'Shine', desc: 'Light sweep across the surface', icon: 'system-uicons:sun', base: 'anim-clip', cls: 'anim-shine' },
-  { key: 'spin', name: 'Icon spin', desc: 'Only the icon rotates', icon: 'system-uicons:refresh', cls: 'anim-spin' },
-  { key: 'confetti', name: 'Confetti', desc: 'Particle burst around the button', icon: 'system-uicons:gift', kind: 'confetti' },
-  { key: 'success', name: 'Loading → success', desc: 'Spinner, then check mark', icon: 'system-uicons:upload', kind: 'success' },
-  { key: 'press-ripple', name: 'Press + ripple', desc: 'Squash + ink ripple from click point', icon: 'system-uicons:check', base: 'anim-clip', kind: 'press-ripple' },
-  { key: 'sink', name: 'Sink, then spring', desc: 'Hold at 95%, release with spring overshoot', icon: 'system-uicons:arrow-right', kind: 'sink' },
-  { key: 'sink-ripple', name: 'Sink, then spring + ripple', desc: 'Ripple from touch point, sink while held, spring on release', label: 'Sink + ripple', icon: 'system-uicons:arrow-right', base: 'anim-clip', kind: 'sink-ripple' }
-]
-
-type PerfLevel = 'low' | 'medium' | 'high'
-const perf: Record<string, { level: PerfLevel, note: string }> = {
-  press: { level: 'low', note: 'transform only, runs on compositor' },
-  ripple: { level: 'low', note: '1 DOM node per click; transform + opacity' },
-  pop: { level: 'low', note: 'transform only' },
-  shake: { level: 'low', note: 'transform only' },
-  pulse: { level: 'medium', note: 'animates box-shadow → repaint every frame' },
-  jelly: { level: 'low', note: 'transform only' },
-  shine: { level: 'low', note: 'pseudo-element transform; overflow clip' },
-  spin: { level: 'low', note: 'transform on inline SVG' },
-  confetti: { level: 'medium', note: '24 DOM nodes per click; layout on insert' },
-  success: { level: 'low', note: 'Vue re-render of icon/label; looped spin while loading' },
-  'press-ripple': { level: 'low', note: 'press + ripple: transform/opacity, 1 node' },
-  sink: { level: 'low', note: 'transform only; 3–4 pointer listeners' },
-  'sink-ripple': { level: 'low', note: 'sink + 1 ripple node per press' }
-}
-
-type SuccessState = 'idle' | 'loading' | 'done'
-const successState = reactive<Record<string, SuccessState>>({})
-
-function iconFor(a: Anim) {
-  if (a.kind === 'success') {
-    const s = successState[a.key] ?? 'idle'
-    if (s === 'loading') return 'system-uicons:loader'
-    if (s === 'done') return 'system-uicons:check'
-  }
-  return a.icon
-}
-
-function labelFor(a: Anim) {
-  if (a.kind === 'success') {
-    const s = successState[a.key] ?? 'idle'
-    if (s === 'loading') return 'Saving…'
-    if (s === 'done') return 'Saved'
-    return 'Save'
-  }
-  return a.label ?? a.name
-}
-
-function replayClass(el: HTMLElement, cls: string) {
-  el.classList.remove(cls)
-  void el.offsetWidth
-  el.classList.add(cls)
-  const done = (ev: AnimationEvent) => {
-    if (ev.target !== el && !el.contains(ev.target as Node)) return
-    el.classList.remove(cls)
-    el.removeEventListener('animationend', done)
-  }
-  el.addEventListener('animationend', done)
-}
-
-function ripple(el: HTMLElement, e: MouseEvent) {
-  const r = el.getBoundingClientRect()
-  const d = Math.max(r.width, r.height) * 2
-  const s = document.createElement('span')
-  s.className = 'anim-ripple'
-  s.style.width = s.style.height = `${d}px`
-  s.style.left = `${(e.clientX || r.left + r.width / 2) - r.left - d / 2}px`
-  s.style.top = `${(e.clientY || r.top + r.height / 2) - r.top - d / 2}px`
-  el.appendChild(s)
-  s.addEventListener('animationend', () => s.remove())
-}
-
-const confettiColors = ['--t-terra-5', '--t-blue-5', '--t-green-5', '--t-violet-5', '--t-amber-5', '--t-rose-5']
-
-function confetti(el: HTMLElement) {
-  const stage = el.parentElement!
-  const r = el.getBoundingClientRect()
-  const sr = stage.getBoundingClientRect()
-  const cx = r.left - sr.left + r.width / 2
-  const cy = r.top - sr.top + r.height / 2
-  for (let i = 0; i < 24; i++) {
-    const p = document.createElement('span')
-    p.className = 'anim-particle'
-    const angle = (Math.PI * 2 * i) / 24 + Math.random() * 0.3
-    const dist = 50 + Math.random() * 40
-    p.style.left = `${cx}px`
-    p.style.top = `${cy}px`
-    p.style.setProperty('--dx', `${Math.cos(angle) * dist}px`)
-    p.style.setProperty('--dy', `${Math.sin(angle) * dist}px`)
-    p.style.setProperty('--rot', `${Math.random() * 540 - 270}deg`)
-    p.style.background = `var(${confettiColors[i % confettiColors.length]})`
-    stage.appendChild(p)
-    p.addEventListener('animationend', () => p.remove())
-  }
-  replayClass(el, 'anim-pop')
-}
-
-function success(a: Anim, el: HTMLElement) {
-  if ((successState[a.key] ?? 'idle') !== 'idle') return
-  successState[a.key] = 'loading'
-  el.classList.add('anim-loading')
-  setTimeout(() => {
-    el.classList.remove('anim-loading')
-    successState[a.key] = 'done'
-    replayClass(el, 'anim-done')
-    setTimeout(() => { successState[a.key] = 'idle' }, 1400)
-  }, 1200)
-}
-
-function isSink(a: Anim) {
-  return a.kind === 'sink' || a.kind === 'sink-ripple'
-}
-
-function down(a: Anim, e: PointerEvent) {
-  if (!isSink(a) || e.button !== 0) return
-  const el = e.currentTarget as HTMLElement
-  el.classList.remove('anim-spring')
-  el.classList.add('anim-sunk')
-  if (a.kind === 'sink-ripple') ripple(el, e)
-}
-
-function up(a: Anim, e: PointerEvent) {
-  if (!isSink(a)) return
-  const el = e.currentTarget as HTMLElement
-  if (!el.classList.contains('anim-sunk')) return
-  el.classList.remove('anim-sunk')
-  replayClass(el, 'anim-spring')
-}
-
-function run(a: Anim, e: MouseEvent) {
-  if (isSink(a)) {
-    // Keyboard activation (Enter/Space) has no pointer events.
-    if (e.detail === 0) replayClass(e.currentTarget as HTMLElement, 'anim-spring')
-    return
-  }
-  const el = e.currentTarget as HTMLElement
-  if (a.kind === 'ripple') return ripple(el, e)
-  if (a.kind === 'press-ripple') {
-    ripple(el, e)
-    return replayClass(el, 'anim-press')
-  }
-  if (a.kind === 'confetti') return confetti(el)
-  if (a.kind === 'success') return success(a, el)
-  if (a.cls) replayClass(el, a.cls)
-}
-</script>
-
 <style scoped>
-.anim-page {
-  padding: var(--t-space-6, 24px);
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--t-space-4);
+  padding: var(--t-space-5) var(--t-space-6) var(--t-space-7);
   max-width: 1100px;
 }
 
-.anim-page__title {
-  margin: 0 0 var(--t-space-4, 16px);
-  font-size: var(--t-font-size-large, 20px);
-  color: var(--t-color-text);
-}
-
-.anim-controls {
+.page-head {
   display: flex;
+  align-items: baseline;
+  gap: var(--t-space-3);
   flex-wrap: wrap;
-  gap: var(--t-space-4, 16px) var(--t-space-6, 24px);
-  padding: var(--t-space-3, 12px) var(--t-space-4, 16px);
-  margin-bottom: var(--t-space-5, 20px);
-  border: 1px solid var(--t-color-border);
-  border-radius: var(--t-radius-medium, 8px);
-  background: var(--t-color-surface);
-  position: sticky;
-  top: 0;
-  z-index: 5;
 }
 
-.anim-controls__item {
+.page-head__title {
+  margin: 0;
+  font-size: var(--t-font-size-h1);
+  font-weight: var(--t-font-weight-semibold);
+  line-height: var(--t-line-height-tight);
+}
+
+.page-head__meta {
+  color: var(--t-color-text-muted);
+  font-size: var(--t-font-size-small);
+}
+
+.page-head__motion {
   display: flex;
   align-items: center;
-  gap: var(--t-space-2, 8px);
+  gap: var(--t-space-2);
+  margin-left: auto;
   font-size: var(--t-font-size-small);
   color: var(--t-color-text-muted);
 }
 
-.anim-grid {
+.grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: var(--t-space-4, 16px);
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--t-space-4);
 }
 
-.anim-card {
+.demo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--t-space-3);
+  padding: var(--t-space-4);
   border: 1px solid var(--t-color-border);
-  border-radius: var(--t-radius-medium, 8px);
+  border-radius: var(--t-radius-large);
   background: var(--t-color-surface);
-  padding: var(--t-space-3, 12px);
 }
 
-.anim-card__stage {
-  position: relative;
-  height: 120px;
+.demo--wide {
+  grid-column: 1 / -1;
+}
+
+.demo h3 {
+  margin: 0;
+  font-size: var(--t-font-size-default);
+  font-weight: var(--t-font-weight-semibold);
+}
+
+.demo > * {
+  max-width: 100%;
+}
+
+.row {
   display: flex;
   align-items: center;
-  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--t-space-3);
 }
 
-.anim-card__name {
-  font-weight: 600;
-  color: var(--t-color-text);
-  font-size: var(--t-font-size-default);
+.menu {
+  min-width: 160px;
+  padding: var(--t-space-1);
+  border: 1px solid var(--t-color-border);
+  border-radius: var(--t-radius-medium);
+  background: var(--t-color-surface);
 }
 
-.anim-card__perf {
-  margin-top: var(--t-space-2, 8px);
-  font-size: var(--t-font-size-mini);
-  color: var(--t-color-text-muted);
+.menu__item {
+  padding: var(--t-space-2) var(--t-space-3);
+  border-radius: var(--t-radius-default);
+  cursor: pointer;
 }
 
-.anim-card__perf-badge {
-  display: inline-block;
-  margin-right: 4px;
-  padding: 0 6px;
-  border-radius: 4px;
-  font-weight: 600;
-  background: color-mix(in srgb, var(--perf-c) 18%, transparent);
-  color: var(--perf-c);
-}
-
-.anim-card__perf[data-level='low'] { --perf-c: var(--t-green-5); }
-.anim-card__perf[data-level='medium'] { --perf-c: var(--t-amber-5); }
-.anim-card__perf[data-level='high'] { --perf-c: var(--t-rose-5); }
-
-.anim-card__desc {
-  font-size: var(--t-font-size-small);
-  color: var(--t-color-text-muted);
-}
-</style>
-
-<!-- Global: classes are toggled / elements injected at runtime. -->
-<style>
-.anim-clip {
-  position: relative;
-  overflow: hidden;
-}
-
-/* 1. Press */
-.anim-press { animation: anim-press 0.35s cubic-bezier(.3, 1.6, .5, 1); }
-@keyframes anim-press {
-  0% { transform: scale(1); }
-  30% { transform: scale(0.9); }
-  100% { transform: scale(1); }
-}
-
-/* 2. Ripple */
-.anim-ripple {
-  position: absolute;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.3;
-  transform: scale(0);
-  pointer-events: none;
-  animation: anim-ripple 0.6s ease-out forwards;
-}
-@keyframes anim-ripple {
-  to { transform: scale(1); opacity: 0; }
-}
-
-/* 3. Pop */
-.anim-pop { animation: anim-pop 0.4s cubic-bezier(.2, 1.8, .4, 1); }
-@keyframes anim-pop {
-  0% { transform: scale(1); }
-  40% { transform: scale(1.15); }
-  100% { transform: scale(1); }
-}
-
-/* 4. Shake */
-.anim-shake { animation: anim-shake 0.45s ease-in-out; }
-@keyframes anim-shake {
-  0%, 100% { transform: translateX(0); }
-  15% { transform: translateX(-8px); }
-  30% { transform: translateX(7px); }
-  45% { transform: translateX(-5px); }
-  60% { transform: translateX(4px); }
-  75% { transform: translateX(-2px); }
-}
-
-/* 5. Pulse ring */
-.anim-pulse { animation: anim-pulse 0.7s ease-out; }
-@keyframes anim-pulse {
-  0% { box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 50%, transparent); }
-  100% { box-shadow: 0 0 0 16px color-mix(in srgb, currentColor 0%, transparent); }
-}
-
-/* 6. Jelly */
-.anim-jelly { animation: anim-jelly 0.7s ease; }
-@keyframes anim-jelly {
-  0% { transform: scale(1, 1); }
-  30% { transform: scale(1.2, 0.8); }
-  45% { transform: scale(0.85, 1.15); }
-  60% { transform: scale(1.08, 0.94); }
-  75% { transform: scale(0.97, 1.03); }
-  100% { transform: scale(1, 1); }
-}
-
-/* 7. Shine */
-.anim-shine::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.55) 50%, transparent 70%);
-  transform: translateX(-120%);
-  animation: anim-shine 0.7s ease-out;
-  pointer-events: none;
-}
-@keyframes anim-shine {
-  to { transform: translateX(120%); }
-}
-
-/* 8. Icon spin */
-.anim-spin svg { animation: anim-spin 0.6s cubic-bezier(.5, 0, .3, 1); }
-@keyframes anim-spin {
-  to { transform: rotate(360deg); }
-}
-
-/* 9. Confetti */
-.anim-particle {
-  position: absolute;
-  width: 6px;
-  height: 10px;
-  border-radius: 1px;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  animation: anim-particle 0.8s cubic-bezier(.1, .7, .3, 1) forwards;
-}
-@keyframes anim-particle {
-  to {
-    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--rot));
-    opacity: 0;
-  }
-}
-
-/* 10. Loading → success */
-.anim-loading { pointer-events: none; }
-.anim-loading svg { animation: anim-spin-loop 0.8s linear infinite; }
-@keyframes anim-spin-loop {
-  to { transform: rotate(360deg); }
-}
-.anim-done { animation: anim-pop 0.4s cubic-bezier(.2, 1.8, .4, 1); }
-.anim-done svg { animation: anim-check 0.4s cubic-bezier(.2, 1.8, .4, 1); }
-@keyframes anim-check {
-  0% { transform: scale(0); }
-  100% { transform: scale(1); }
-}
-
-/* 11–12. Sink, then spring */
-.anim-sunk {
-  transform: scale(0.95);
-  transition: transform 0.12s cubic-bezier(.3, 0, .2, 1) !important;
-}
-.anim-spring { animation: anim-spring 0.55s linear; }
-@keyframes anim-spring {
-  0% { transform: scale(0.95); animation-timing-function: cubic-bezier(.3, 0, .4, 1); }
-  40% { transform: scale(1.025); animation-timing-function: cubic-bezier(.5, 0, .5, 1); }
-  70% { transform: scale(0.994); animation-timing-function: cubic-bezier(.5, 0, .5, 1); }
-  88% { transform: scale(1.003); }
-  100% { transform: scale(1); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [class*='anim-'] { animation-duration: 0.01ms !important; }
+.menu__item:hover {
+  background: var(--t-color-hover);
 }
 </style>
