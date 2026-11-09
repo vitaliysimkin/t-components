@@ -272,7 +272,8 @@ const combinedStyle = computed<CSSProperties>(() => {
   width: 100%;
   height: 100%;
   background-color: var(--t-color-backdrop);
-  backdrop-filter: blur(3px);
+  /* No backdrop-filter: a full-viewport blur is re-rendered on every frame while the
+     panel zooms / the backdrop fades, which drops frames on weak GPUs. */
   z-index: 3990;
   pointer-events: auto;
   animation: t-modal-fade var(--t-duration) var(--t-ease);
