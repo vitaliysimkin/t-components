@@ -296,7 +296,4 @@ const countLabel = computed(() => {
 .t-log-view__editor :deep(.cm-line.lx-cont) { color: var(--t-color-text-muted); box-shadow: inset 2px 0 0 var(--t-color-border-strong); }
 .t-log-view__editor :deep(.lx-hit) { background: var(--t-color-tag-yellow-bg); border-radius: var(--t-radius-mini); }
 .t-log-view__editor :deep(.lx-hit.lx-cur) { background: var(--t-color-warning-plain-bg); outline: 1px solid var(--t-color-warning); }
-
-/* New log lines: accent background fades out (plays once on insert; none at motion off). */
-.t-log-view__editor :deep(.cm-line.lx-new) { animation: t-flash calc(1s * var(--t-motion-scale)) ease-out; }
 </style>

@@ -154,11 +154,6 @@ watch(() => [props.lines.length, props.lines[props.lines.length - 1]?.id], () =>
   font-style: italic;
 }
 
-/* New line: accent background fades out (plays once on insert; none at motion off). */
-.is-new {
-  animation: t-flash calc(1s * var(--t-motion-scale)) ease-out;
-}
-
 .t-log-pane__prefix {
   color: var(--t-color-text-muted);
 }

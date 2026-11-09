@@ -472,24 +472,24 @@
     },
     "table-new-row": {
       "4": {
-        "frames": 66,
-        "dropped": 0,
-        "worstGap": 16.8,
-        "mainMs": 457.6,
-        "compMs": 53.2,
+        "frames": 65,
+        "dropped": 1,
+        "worstGap": 33.3,
+        "mainMs": 171.6,
+        "compMs": 43.7,
         "layout": 1,
-        "paint": 124,
-        "composited": "no (background-color)"
+        "paint": 5,
+        "composited": "yes"
       },
       "6": {
-        "frames": 66,
-        "dropped": 0,
-        "worstGap": 16.8,
-        "mainMs": 601.7,
-        "compMs": 51,
+        "frames": 64,
+        "dropped": 1,
+        "worstGap": 33.4,
+        "mainMs": 233.8,
+        "compMs": 39.2,
         "layout": 1,
-        "paint": 122,
-        "composited": "no (background-color)"
+        "paint": 3,
+        "composited": "yes"
       }
     },
     "table-select": {
@@ -648,24 +648,24 @@
     },
     "card-target": {
       "4": {
-        "frames": 72,
-        "dropped": 0,
-        "worstGap": 16.8,
-        "mainMs": 510.6,
-        "compMs": 52.6,
-        "layout": 0,
-        "paint": 133,
-        "composited": "no (background-color)"
+        "frames": 71,
+        "dropped": 1,
+        "worstGap": 33.3,
+        "mainMs": 144.8,
+        "compMs": 45.5,
+        "layout": 1,
+        "paint": 3,
+        "composited": "yes"
       },
       "6": {
         "frames": 72,
         "dropped": 0,
         "worstGap": 16.8,
-        "mainMs": 555.8,
-        "compMs": 50.8,
-        "layout": 0,
-        "paint": 135,
-        "composited": "no (background-color)"
+        "mainMs": 150.3,
+        "compMs": 40.5,
+        "layout": 1,
+        "paint": 3,
+        "composited": "yes"
       }
     },
     "empty-cascade": {
@@ -717,21 +717,21 @@
         "frames": 66,
         "dropped": 0,
         "worstGap": 16.8,
-        "mainMs": 503.5,
-        "compMs": 56.7,
+        "mainMs": 102.7,
+        "compMs": 28.8,
         "layout": 1,
-        "paint": 190,
-        "composited": "no (background-color)"
+        "paint": 15,
+        "composited": "yes"
       },
       "6": {
         "frames": 66,
         "dropped": 0,
         "worstGap": 16.8,
-        "mainMs": 576.6,
-        "compMs": 53.3,
+        "mainMs": 152.3,
+        "compMs": 35.8,
         "layout": 1,
-        "paint": 190,
-        "composited": "no (background-color)"
+        "paint": 15,
+        "composited": "yes"
       }
     },
     "logpane-edge": {
@@ -758,24 +758,24 @@
     },
     "logview-flash": {
       "4": {
-        "frames": 65,
-        "dropped": 1,
-        "worstGap": 33.4,
-        "mainMs": 414.9,
-        "compMs": 42.5,
-        "layout": 1,
-        "paint": 122,
-        "composited": "no (background-color)"
+        "frames": 66,
+        "dropped": 0,
+        "worstGap": 16.8,
+        "mainMs": 105.1,
+        "compMs": 38.2,
+        "layout": 2,
+        "paint": 7,
+        "composited": "yes"
       },
       "6": {
         "frames": 65,
         "dropped": 1,
         "worstGap": 33.3,
-        "mainMs": 721,
-        "compMs": 50.8,
-        "layout": 1,
-        "paint": 124,
-        "composited": "no (background-color)"
+        "mainMs": 142.2,
+        "compMs": 36.9,
+        "layout": 2,
+        "paint": 7,
+        "composited": "yes"
       }
     },
     "crumbs-rise": {

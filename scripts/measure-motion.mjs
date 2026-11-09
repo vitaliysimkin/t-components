@@ -1,5 +1,5 @@
 // Measures every animation on the playground Animations page in headless google-chrome over CDP.
-// Usage: npm run build:playground && node scripts/measure-motion.mjs [runs=3] [rates=4,6]
+// Usage: npm run build:playground && node scripts/measure-motion.mjs [runs=3] [rates=4,6] [ids=a,b]
 // Writes playground/src/motion-measurements.json (imported by AnimationsPage.vue).
 import { spawn, execFileSync } from 'node:child_process'
 import { createServer } from 'node:http'
@@ -12,6 +12,7 @@ const DIST = join(ROOT, 'playground/dist')
 const OUT = join(ROOT, 'playground/src/motion-measurements.json')
 const RUNS = Number(process.argv[2] ?? 3)
 const RATES = (process.argv[3] ?? '4,6').split(',').map(Number)
+const ONLY = process.argv[4]?.split(',') // optional ids: re-measure only these, merged into the existing JSON
 const VIEWPORT = [1280, 800]
 const FRAME = 1000 / 60
 
@@ -178,8 +179,9 @@ async function measure(id, rate) {
   return { frames: fr.length, dropped, worstGap: round(worstGap), mainMs: round(busy(mainTid)), compMs: round(busy(compTid)), layout: count('Layout'), paint: count('Paint'), composited }
 }
 
-const results = {}
+const results = ONLY ? JSON.parse(readFileSync(OUT, 'utf8')).results : {}
 for (const id of Object.keys(TRIGGERS)) {
+  if (ONLY && !ONLY.includes(id)) continue
   results[id] = {}
   for (const rate of RATES) {
     const runs = []

@@ -64,9 +64,33 @@ samp {
   from { outline-width: 1px; }
 }
 
+/* Accent flash for new rows/lines and :target cards: an overlay whose opacity (composited) fades out.
+   Duration scales with --t-motion-scale, so it is invisible at motion off. */
+.t-card:target,
+.t-table__tr.is-new .t-table__td,
+.t-log-pane__lines .is-new,
+.t-log-view__editor .cm-line.lx-new {
+  position: relative;
+}
+
+.t-card:target::after,
+.t-table__tr.is-new .t-table__td::after,
+.t-log-pane__lines .is-new::after,
+.t-log-view__editor .cm-line.lx-new::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--t-color-accent) 28%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  animation: t-flash calc(1s * var(--t-motion-scale)) ease-out;
+}
+
+.t-card:target::after { animation-duration: calc(1.1s * var(--t-motion-scale)); }
+
 /* Shared keyframes. Each consumer sets its own duration (multiply by --t-motion-scale for looping/long ones). */
 @keyframes t-flash {
-  from { background-color: color-mix(in srgb, var(--t-color-accent) 28%, transparent); }
+  from { opacity: 1; }
 }
 
 @keyframes t-pulse {

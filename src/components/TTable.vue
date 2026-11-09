@@ -482,11 +482,6 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
   transform: scaleY(1);
 }
 
-/* New row: accent background fades out (plays once on insert; none at motion off). */
-.t-table__tr.is-new .t-table__td {
-  animation: t-flash calc(1s * var(--t-motion-scale)) ease-out;
-}
-
 .t-table__th--select,
 .t-table__td--select {
   width: 2.25rem;

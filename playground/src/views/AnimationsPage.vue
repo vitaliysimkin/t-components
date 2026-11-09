@@ -182,9 +182,9 @@ const anims: Anim[] = [
   },
   {
     id: 'table-new-row', comps: 'TTable', name: 'New row flash',
-    what: 'Rows added to an existing set flash: the accent background fades out. Property: background-color (repaints each frame).',
+    what: 'Rows added to an existing set flash: the accent background fades out. Property: opacity of an accent overlay (::after, composited).',
     timing: '1s × --t-motion-scale, ease-out.',
-    reduced: 'Same (color only).', off: 'No flash.',
+    reduced: 'Same (opacity only).', off: 'No flash.',
     graph: { ease: 'ease-out', ms: 1000, frames: [[0, 28], [1, 0]], label: 'accent %' },
   },
   {
@@ -238,9 +238,9 @@ const anims: Anim[] = [
   },
   {
     id: 'card-target', comps: 'TCard', name: ':target flash',
-    what: 'A card navigated to via #id flashes an accent background that fades out. Property: background-color (repaints each frame).',
+    what: 'A card navigated to via #id flashes an accent background that fades out. Property: opacity of an accent overlay (::after, composited).',
     timing: '1.1s × --t-motion-scale, ease-out.',
-    reduced: 'Same (color only).', off: 'No flash.',
+    reduced: 'Same (opacity only).', off: 'No flash.',
     graph: { ease: 'ease-out', ms: 1100, frames: [[0, 28], [1, 0]], label: 'accent %' },
   },
   {
@@ -259,9 +259,9 @@ const anims: Anim[] = [
   },
   {
     id: 'logpane-flash', comps: 'TLogPane', name: 'New line flash',
-    what: 'Lines added after mount flash an accent background that fades out. Property: background-color (repaints each frame).',
+    what: 'Lines added after mount flash an accent background that fades out. Property: opacity of an accent overlay (::after, composited).',
     timing: '1s × --t-motion-scale, ease-out.',
-    reduced: 'Same (color only).', off: 'No flash.',
+    reduced: 'Same (opacity only).', off: 'No flash.',
     graph: { ease: 'ease-out', ms: 1000, frames: [[0, 28], [1, 0]], label: 'accent %' },
   },
   {
@@ -273,9 +273,9 @@ const anims: Anim[] = [
   },
   {
     id: 'logview-flash', comps: 'TLogView', name: 'New line flash',
-    what: 'Appended CodeMirror lines (up to 200) flash an accent background that fades out. Property: background-color (repaints each frame).',
+    what: 'Appended CodeMirror lines (up to 200) flash an accent background that fades out. Property: opacity of an accent overlay (::after, composited).',
     timing: '1s × --t-motion-scale, ease-out.',
-    reduced: 'Same (color only).', off: 'No flash.',
+    reduced: 'Same (opacity only).', off: 'No flash.',
     graph: { ease: 'ease-out', ms: 1000, frames: [[0, 28], [1, 0]], label: 'accent %' },
   },
   {
