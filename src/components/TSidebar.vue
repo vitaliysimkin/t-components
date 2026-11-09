@@ -69,9 +69,23 @@
             @click.stop="toggle"
           >
             <Icon
+              v-if="collapseIcon"
               :icon="collapseIcon"
               class="t-sidebar__collapse-icon"
             />
+            <svg
+              v-else
+              class="t-sidebar__collapse-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m11 17-5-5 5-5M18 17l-5-5 5-5" />
+            </svg>
           </button>
         </div>
       </slot>
@@ -192,7 +206,6 @@ const props = withDefaults(defineProps<TSidebarProps>(), {
   position: 'left',
   persistent: false,
   expandIcon: 'system-uicons:window-collapse-right',
-  collapseIcon: 'system-uicons:window-collapse-left',
   expandOnBodyClick: true,
   nested: false
 })
@@ -452,19 +465,18 @@ watch(
   cursor: pointer;
   border-radius: var(--t-radius-mini, 4px);
   flex-shrink: 0;
-  opacity: 0.5;
-  transition: background-color 160ms ease, color 160ms ease, opacity 160ms ease;
+  opacity: 0;
+  transition: background-color var(--t-duration) var(--t-ease), color var(--t-duration) var(--t-ease), opacity var(--t-duration) var(--t-ease);
 }
 
-.t-sidebar__collapse:hover {
+.t-sidebar:hover .t-sidebar__collapse,
+.t-sidebar__collapse:focus-visible {
+  opacity: 0.7;
+}
+
+.t-sidebar:hover .t-sidebar__collapse:hover {
   background: var(--t-color-hover);
   color: var(--t-color-text);
-  opacity: 1;
-}
-
-.t-sidebar__collapse:focus-visible {
-  outline: 2px solid var(--t-color-focus-ring);
-  outline-offset: 2px;
   opacity: 1;
 }
 
