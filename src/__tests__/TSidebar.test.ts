@@ -187,6 +187,16 @@ describe('TSidebar', () => {
     expect(root.classList.contains('t-sidebar--collapsed')).toBe(true)
   })
 
+  it('animates the active card only after the first route is resolved and drawn', async () => {
+    vi.stubGlobal('requestAnimationFrame', (cb: () => void) => setTimeout(cb, 0))
+    const { root } = await mount({})
+    const card = () => root.querySelector('.t-sidebar__card') as HTMLElement
+    expect(card().classList.contains('t-sidebar__card--settled')).toBe(false)
+    await new Promise((r) => setTimeout(r, 20))
+    expect(card().classList.contains('t-sidebar__card--settled')).toBe(true)
+    vi.unstubAllGlobals()
+  })
+
   it('re-places the active card when the nav resizes', async () => {
     const callbacks: (() => void)[] = []
     vi.stubGlobal('ResizeObserver', class {

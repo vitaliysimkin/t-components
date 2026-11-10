@@ -147,6 +147,7 @@
             <span
               v-if="card"
               class="t-sidebar__card"
+              :class="{ 't-sidebar__card--settled': settled }"
               :style="{ height: `${card.h}px`, transform: `translateY(${card.y}px)` }"
               aria-hidden="true"
             />
@@ -309,14 +310,31 @@ const placeCard = () => {
 }
 // Re-measure when the nav is shown (mounted under display: none) or its rows change height.
 let resizeObserver: ResizeObserver | undefined
+// The card slides only after the first route is resolved and drawn: before that it is placed without a transition
+// (the router starts at "/" and the menu may still change, so the card would slide to the real row on load).
+const settled = ref(false)
+let alive = true
 onMounted(() => {
   placeCard()
+  const router = instance!.proxy!.$router as { isReady?: () => Promise<unknown> } | undefined
+  const frames = (n: number, done: () => void) =>
+    typeof requestAnimationFrame === 'function' && n > 0
+      ? requestAnimationFrame(() => frames(n - 1, done))
+      : done()
+  Promise.resolve(router?.isReady?.()).then(() =>
+    frames(2, () => {
+      if (alive) settled.value = true
+    })
+  )
   if (typeof ResizeObserver !== 'undefined' && nav.value) {
     resizeObserver = new ResizeObserver(() => placeCard())
     resizeObserver.observe(nav.value)
   }
 })
-onBeforeUnmount(() => resizeObserver?.disconnect())
+onBeforeUnmount(() => {
+  alive = false
+  resizeObserver?.disconnect()
+})
 watch([() => route.value.path, () => props.menuItems], placeCard, { flush: 'post' })
 
 /* Peek (expandMode="peek"): the collapsed panel shows over the content without moving it. */
@@ -788,6 +806,9 @@ watch(
   border-radius: var(--t-radius-default);
   background: var(--t-color-surface);
   pointer-events: none;
+}
+
+.t-sidebar__card--settled {
   transition:
     clip-path var(--t-duration-slow) var(--t-ease),
     transform var(--t-duration-slow) var(--t-ease-spring);
