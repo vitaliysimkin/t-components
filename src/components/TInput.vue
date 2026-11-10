@@ -128,7 +128,7 @@ const handleClear = () => {
   border-color: var(--t-color-accent);
 }
 
-/* Focus ring is a pseudo-element: it settles in by transform + opacity only. */
+/* Focus ring is a pseudo-element; it appears without animation. */
 .t-input-wrapper::before,
 .t-input-wrapper::after {
   content: '';
@@ -145,7 +145,6 @@ const handleClear = () => {
 
 .t-input-wrapper:focus-within::after {
   opacity: 1;
-  animation: t-ring-settle var(--t-duration-slow) var(--t-ease);
 }
 
 .t-input-wrapper:has(.t-input:disabled),
