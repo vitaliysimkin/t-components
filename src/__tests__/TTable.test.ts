@@ -104,4 +104,58 @@ describe('TTable', () => {
     expect(emitted![0][0]).toEqual(rows[1])
     expect(emitted![0][1]).toBe(1)
   })
+
+  it('shows no pager without pageSize', () => {
+    const wrapper = mount(TTable, { props: { columns, rows, rowKey: 'id' } })
+    expect(wrapper.find('.t-table__footer').exists()).toBe(false)
+  })
+
+  it('pager shows the range and the page, and moves the offset by pageSize', async () => {
+    const wrapper = mount(TTable, {
+      props: { columns, rows, rowKey: 'id', pageSize: 3, offset: 3, hasMore: true },
+    })
+    expect(wrapper.find('.t-table__range').text()).toBe('4–6')
+    expect(wrapper.find('.t-table__page').text()).toBe('Page 2')
+    const prev = wrapper.find('[data-action="previous"]')
+    const next = wrapper.find('[data-action="next"]')
+    expect(prev.attributes('aria-label')).toBe('Previous')
+    expect(next.attributes('aria-label')).toBe('Next')
+    await next.trigger('click')
+    await prev.trigger('click')
+    expect(wrapper.emitted('update:offset')).toEqual([[6], [0]])
+  })
+
+  it('pager disables Previous on the first page and Next without hasMore', () => {
+    const wrapper = mount(TTable, { props: { columns, rows, rowKey: 'id', pageSize: 3 } })
+    expect(wrapper.find('[data-action="previous"]').attributes('disabled')).toBeDefined()
+    expect(wrapper.find('[data-action="next"]').attributes('disabled')).toBeDefined()
+  })
+
+  it('pager with total: shows "of total" and disables Next on the last page', async () => {
+    const wrapper = mount(TTable, { props: { columns, rows, rowKey: 'id', pageSize: 3, total: 7 } })
+    expect(wrapper.find('.t-table__range').text()).toBe('1–3 of 7')
+    expect(wrapper.find('[data-action="next"]').attributes('disabled')).toBeUndefined()
+    await wrapper.setProps({ offset: 6, rows: rows.slice(0, 1) })
+    expect(wrapper.find('.t-table__range').text()).toBe('7–7 of 7')
+    expect(wrapper.find('[data-action="next"]').attributes('disabled')).toBeDefined()
+  })
+
+  it('pager is disabled while loading', () => {
+    const wrapper = mount(TTable, {
+      props: { columns, rows, rowKey: 'id', pageSize: 3, offset: 3, hasMore: true, loading: true },
+    })
+    expect(wrapper.find('[data-action="previous"]').attributes('disabled')).toBeDefined()
+    expect(wrapper.find('[data-action="next"]').attributes('disabled')).toBeDefined()
+  })
+
+  it('pager: range slot, custom labels', () => {
+    const wrapper = mount(TTable, {
+      props: { columns, rows, rowKey: 'id', pageSize: 3, previousLabel: 'Назад', nextLabel: 'Далі', pageLabel: 'Сторінка' },
+      slots: { range: '<template #range="{ from, to }">{{ from }}–{{ to }} · newest first</template>' },
+    })
+    expect(wrapper.find('.t-table__range').text()).toBe('1–3 · newest first')
+    expect(wrapper.find('.t-table__page').text()).toBe('Сторінка 1')
+    expect(wrapper.find('[data-action="previous"]').attributes('title')).toBe('Назад')
+    expect(wrapper.find('[data-action="next"]').attributes('aria-label')).toBe('Далі')
+  })
 })

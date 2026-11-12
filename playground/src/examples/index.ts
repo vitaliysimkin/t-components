@@ -237,11 +237,13 @@ import SortableTableExample from './table/SortableTableExample.vue'
 import SelectableTableExample from './table/SelectableTableExample.vue'
 import LoadingEmptyTableExample from './table/LoadingEmptyTableExample.vue'
 import CustomCellTableExample from './table/CustomCellTableExample.vue'
+import PagedTableExample from './table/PagedTableExample.vue'
 import BasicTableExampleCode from './table/BasicTableExample.vue?raw'
 import SortableTableExampleCode from './table/SortableTableExample.vue?raw'
 import SelectableTableExampleCode from './table/SelectableTableExample.vue?raw'
 import LoadingEmptyTableExampleCode from './table/LoadingEmptyTableExample.vue?raw'
 import CustomCellTableExampleCode from './table/CustomCellTableExample.vue?raw'
+import PagedTableExampleCode from './table/PagedTableExample.vue?raw'
 
 // Tabs Examples
 import BasicTabsExample from './tabs/BasicTabsExample.vue'
@@ -813,6 +815,11 @@ export const elements: Element[] = [
         component: CustomCellTableExample,
         code: CustomCellTableExampleCode,
         label: 'Custom cells via slots'
+      },
+      {
+        component: PagedTableExample,
+        code: PagedTableExampleCode,
+        label: 'Pager in the footer (offset + hasMore)'
       }
     ]
   },
@@ -1212,6 +1219,7 @@ export {
   SelectableTableExample,
   LoadingEmptyTableExample,
   CustomCellTableExample,
+  PagedTableExample,
   ConfirmDialogExample,
   AlertDialogExample,
   PromptDialogExample,

@@ -26,6 +26,8 @@ import { addIcon } from '@iconify/vue'
 //   ticon:folder
 //   ticon:file
 //   ticon:side-panel
+//   ticon:chevron-left
+//   ticon:chevron-right
 //
 // Licensing:
 //   - ticon:* glyphs are Material Symbols (Apache-2.0,
@@ -185,4 +187,20 @@ addIcon('ticon:side-panel', {
   height: 24,
   body:
     '<path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm3-2V5H5v14zm2 0h9V5h-9zm-2 0H5z"/>',
+})
+
+// material-symbols:chevron-left
+addIcon('ticon:chevron-left', {
+  width: 24,
+  height: 24,
+  body:
+    '<path fill="currentColor" d="m14 18l-6-6l6-6l1.4 1.4l-4.6 4.6l4.6 4.6z"/>',
+})
+
+// material-symbols:chevron-right
+addIcon('ticon:chevron-right', {
+  width: 24,
+  height: 24,
+  body:
+    '<path fill="currentColor" d="M12.6 12L8 7.4L9.4 6l6 6l-6 6L8 16.6z"/>',
 })

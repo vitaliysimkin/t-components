@@ -1,6 +1,7 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
 import { computed, ref, watch } from 'vue'
 import Icon from './TIcon.vue'
+import Button from './TButton.vue'
 import type { TElementSize } from './types'
 
 export type TTableSortDirection = 'asc' | 'desc'
@@ -37,6 +38,17 @@ const props = withDefaults(
     selection?: TTablePrimaryKey[]
     size?: TElementSize
     clientSideSort?: boolean
+    /** Rows per page. Set it to show the pager in the table footer. */
+    pageSize?: number
+    /** Index of the first row of the page (`v-model:offset`). */
+    offset?: number
+    /** Total row count, when known; it disables Next on the last page. */
+    total?: number
+    /** Without `total`: whether a next page exists. */
+    hasMore?: boolean
+    previousLabel?: string
+    nextLabel?: string
+    pageLabel?: string
   }>(),
   {
     loading: false,
@@ -45,6 +57,13 @@ const props = withDefaults(
     selection: () => [],
     size: 'default',
     clientSideSort: false,
+    pageSize: undefined,
+    offset: 0,
+    total: undefined,
+    hasMore: false,
+    previousLabel: 'Previous',
+    nextLabel: 'Next',
+    pageLabel: 'Page',
   }
 )
 
@@ -52,6 +71,7 @@ const emit = defineEmits<{
   (e: 'update:sort', value: TTableSort | null): void
   (e: 'update:selection', value: TTablePrimaryKey[]): void
   (e: 'row-click', row: T, index: number): void
+  (e: 'update:offset', value: number): void
 }>()
 
 defineSlots<{
@@ -59,6 +79,8 @@ defineSlots<{
   loading?: () => unknown
   [slot: `cell-${string}`]: ((scope: { row: T; value: unknown; index: number }) => unknown) | undefined
   [header: `header-${string}`]: ((scope: { column: TTableColumn<T> }) => unknown) | undefined
+  /** Left side of the pager footer; default: `from–to` (and `of total` when known). */
+  range?: (scope: { from: number; to: number; total: number | undefined; page: number }) => unknown
 }>()
 
 // --- Selection internal state (Set for cheap toggle + watch sync) ---
@@ -214,6 +236,26 @@ watch(
 )
 
 const isEmpty = computed(() => !props.loading && props.rows.length === 0)
+
+// --- Pager (offset pages; `total` or `hasMore` tells whether a next page exists) ---
+const hasPager = computed(() => props.pageSize !== undefined && props.pageSize > 0)
+const page = computed(() => (hasPager.value ? Math.floor(props.offset / props.pageSize!) + 1 : 1))
+const rangeFrom = computed(() => props.offset + 1)
+const rangeTo = computed(() => props.offset + props.rows.length)
+const canPrevious = computed(() => !props.loading && props.offset > 0)
+const canNext = computed(() => {
+  if (props.loading) return false
+  if (props.total !== undefined) return props.offset + props.pageSize! < props.total
+  return props.hasMore
+})
+
+function goPrevious() {
+  if (canPrevious.value) emit('update:offset', Math.max(0, props.offset - props.pageSize!))
+}
+
+function goNext() {
+  if (canNext.value) emit('update:offset', props.offset + props.pageSize!)
+}
 </script>
 
 <template>
@@ -350,6 +392,53 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
           </template>
         </tbody>
       </table>
+    </div>
+    <div
+      v-if="hasPager"
+      class="t-table__footer"
+    >
+      <span class="t-table__range">
+        <slot
+          v-if="props.rows.length > 0"
+          name="range"
+          :from="rangeFrom"
+          :to="rangeTo"
+          :total="props.total"
+          :page="page"
+        >
+          <b>{{ rangeFrom }}–{{ rangeTo }}</b><template v-if="props.total !== undefined"> of {{ props.total }}</template>
+        </slot>
+      </span>
+      <nav
+        class="t-table__pager"
+        aria-label="Pages"
+      >
+        <Button
+          type="button"
+          mode="ghost"
+          size="small"
+          icon="ticon:chevron-left"
+          class="t-table__pager-btn"
+          data-action="previous"
+          :disabled="!canPrevious"
+          :aria-label="props.previousLabel"
+          :title="props.previousLabel"
+          @click="goPrevious"
+        />
+        <span class="t-table__page">{{ props.pageLabel }} {{ page }}</span>
+        <Button
+          type="button"
+          mode="ghost"
+          size="small"
+          icon="ticon:chevron-right"
+          class="t-table__pager-btn"
+          data-action="next"
+          :disabled="!canNext"
+          :aria-label="props.nextLabel"
+          :title="props.nextLabel"
+          @click="goNext"
+        />
+      </nav>
     </div>
   </div>
 </template>
@@ -533,6 +622,38 @@ const isEmpty = computed(() => !props.loading && props.rows.length === 0)
   background: linear-gradient(100deg, transparent 30%, color-mix(in srgb, var(--t-color-text) 10%, transparent) 50%, transparent 70%);
   animation: t-table-sweep calc(1.1s * var(--t-motion-scale)) ease-in-out infinite;
   pointer-events: none;
+}
+
+/* Pager footer: range on the left, ‹ Page N › on the right, inside the table frame. */
+.t-table__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--t-space-3);
+  min-height: var(--t-control-h-default);
+  padding: var(--t-space-1) var(--t-space-3);
+  border-top: 1px solid var(--t-color-border);
+  color: var(--t-color-text-muted);
+  font-size: var(--t-font-size-small);
+  box-sizing: border-box;
+}
+
+.t-table__range b {
+  color: var(--t-color-text);
+  font-weight: var(--t-font-weight-medium);
+}
+
+.t-table__pager {
+  display: flex;
+  align-items: center;
+  gap: var(--t-space-1);
+}
+
+.t-table__page {
+  min-width: var(--t-control-h-small);
+  text-align: center;
+  color: var(--t-color-text);
+  font-variant-numeric: tabular-nums;
 }
 
 @keyframes t-table-sweep {
