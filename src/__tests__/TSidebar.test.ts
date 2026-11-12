@@ -237,4 +237,23 @@ describe('TSidebar', () => {
     await nextTick()
     expect(container.querySelector('.f')?.textContent).toBe('false')
   })
+  it('nav-end slot renders right after the menu, inside the scrolling content', async () => {
+    const router = createRouter({ history: createMemoryHistory(), routes: menuItems.map((m) => ({ path: m.route, component: Stub })) })
+    router.push('/dash')
+    await router.isReady()
+    const { container } = render(TSidebar, {
+      props: { menuItems, collapsed: true },
+      slots: { 'nav-end': '<template #nav-end="{ collapsed }"><i class="e">{{ collapsed }}</i></template>' },
+      global: { plugins: [router] },
+    })
+    const end = container.querySelector('.t-sidebar__nav-end') as HTMLElement
+    expect(end.parentElement?.classList.contains('t-sidebar__content')).toBe(true)
+    expect(end.previousElementSibling?.classList.contains('t-sidebar__nav')).toBe(true)
+    expect(end.querySelector('.e')?.textContent).toBe('true')
+  })
+
+  it('no nav-end slot, no wrapper', async () => {
+    const { root } = await mount({})
+    expect(root.querySelector('.t-sidebar__nav-end')).toBeNull()
+  })
 })

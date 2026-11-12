@@ -152,6 +152,17 @@
               aria-hidden="true"
             />
           </nav>
+
+          <!-- Right after the last menu item, scrolls with the menu. -->
+          <div
+            v-if="$slots['nav-end']"
+            class="t-sidebar__nav-end"
+          >
+            <slot
+              name="nav-end"
+              :collapsed="shut"
+            />
+          </div>
         </div>
 
         <div
@@ -877,6 +888,12 @@ watch(
   transform: translateX(calc(-8px * var(--t-motion-move)));
   pointer-events: none;
   transition-delay: 0s;
+}
+
+/* After the menu (slot-only): the visible width of the rows. */
+.t-sidebar__nav-end {
+  width: calc(var(--t-sidebar-w) - var(--t-sidebar-content-padding) * 2 - var(--t-sidebar-border-w));
+  margin-top: 2px;
 }
 
 /* Footer (slot-only) */
