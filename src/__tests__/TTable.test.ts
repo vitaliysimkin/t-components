@@ -158,4 +158,40 @@ describe('TTable', () => {
     expect(wrapper.find('[data-action="previous"]').attributes('title')).toBe('Назад')
     expect(wrapper.find('[data-action="next"]').attributes('aria-label')).toBe('Далі')
   })
+
+  it('adds is-sticky-header only with stickyHeader', async () => {
+    const wrapper = mount(TTable, {
+      props: { columns, rows, rowKey: 'id' },
+    })
+    expect(wrapper.classes()).not.toContain('is-sticky-header')
+    await wrapper.setProps({ stickyHeader: true })
+    expect(wrapper.classes()).toContain('is-sticky-header')
+  })
+
+  it('expanded: a full-width details row under each expanded row', async () => {
+    const wrapper = mount(TTable, {
+      props: { columns, rows, rowKey: 'id', expanded: [2] },
+      slots: { expanded: '<template #expanded="{ row }"><p class="details">{{ row.name }} details</p></template>' },
+    })
+    const trs = wrapper.findAll('tbody tr')
+    expect(trs).toHaveLength(4)
+    expect(trs[1].classes()).toContain('is-expanded')
+    expect(trs[1].attributes('aria-expanded')).toBe('true')
+    expect(trs[0].attributes('aria-expanded')).toBe('false')
+    expect(trs[2].classes()).toContain('t-table__details-row')
+    const cell = trs[2].find('td')
+    expect(cell.attributes('colspan')).toBe('3')
+    expect(cell.text()).toBe('Alan details')
+    await wrapper.setProps({ expanded: [] })
+    expect(wrapper.findAll('tbody tr')).toHaveLength(3)
+    expect(wrapper.find('.details').exists()).toBe(false)
+  })
+
+  it('expanded without the slot renders no details row', () => {
+    const wrapper = mount(TTable, {
+      props: { columns, rows, rowKey: 'id', expanded: [1] },
+    })
+    expect(wrapper.findAll('tbody tr')).toHaveLength(3)
+    expect(wrapper.find('tbody tr').attributes('aria-expanded')).toBeUndefined()
+  })
 })

@@ -238,12 +238,14 @@ import SelectableTableExample from './table/SelectableTableExample.vue'
 import LoadingEmptyTableExample from './table/LoadingEmptyTableExample.vue'
 import CustomCellTableExample from './table/CustomCellTableExample.vue'
 import PagedTableExample from './table/PagedTableExample.vue'
+import StickyExpandTableExample from './table/StickyExpandTableExample.vue'
 import BasicTableExampleCode from './table/BasicTableExample.vue?raw'
 import SortableTableExampleCode from './table/SortableTableExample.vue?raw'
 import SelectableTableExampleCode from './table/SelectableTableExample.vue?raw'
 import LoadingEmptyTableExampleCode from './table/LoadingEmptyTableExample.vue?raw'
 import CustomCellTableExampleCode from './table/CustomCellTableExample.vue?raw'
 import PagedTableExampleCode from './table/PagedTableExample.vue?raw'
+import StickyExpandTableExampleCode from './table/StickyExpandTableExample.vue?raw'
 
 // Tabs Examples
 import BasicTabsExample from './tabs/BasicTabsExample.vue'
@@ -820,6 +822,11 @@ export const elements: Element[] = [
         component: PagedTableExample,
         code: PagedTableExampleCode,
         label: 'Pager in the footer (offset + hasMore)'
+      },
+      {
+        component: StickyExpandTableExample,
+        code: StickyExpandTableExampleCode,
+        label: 'Sticky header, expandable rows'
       }
     ]
   },
@@ -1220,6 +1227,7 @@ export {
   LoadingEmptyTableExample,
   CustomCellTableExample,
   PagedTableExample,
+  StickyExpandTableExample,
   ConfirmDialogExample,
   AlertDialogExample,
   PromptDialogExample,

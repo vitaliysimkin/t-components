@@ -49,6 +49,14 @@ const props = withDefaults(
     previousLabel?: string
     nextLabel?: string
     pageLabel?: string
+    /**
+     * Keeps the header row (and the pager footer) visible while the rows scroll. The table scrolls with
+     * the nearest scrolling ancestor (for example the body of a page layout) instead of in its own box,
+     * and grows to the width of its columns.
+     */
+    stickyHeader?: boolean
+    /** Keys of the rows whose `expanded` slot is shown in a full-width row under them. */
+    expanded?: TTablePrimaryKey[]
   }>(),
   {
     loading: false,
@@ -64,6 +72,8 @@ const props = withDefaults(
     previousLabel: 'Previous',
     nextLabel: 'Next',
     pageLabel: 'Page',
+    stickyHeader: false,
+    expanded: () => [],
   }
 )
 
@@ -81,6 +91,8 @@ defineSlots<{
   [header: `header-${string}`]: ((scope: { column: TTableColumn<T> }) => unknown) | undefined
   /** Left side of the pager footer; default: `from–to` (and `of total` when known). */
   range?: (scope: { from: number; to: number; total: number | undefined; page: number }) => unknown
+  /** Details of a row listed in `expanded`, in a full-width row under it. */
+  expanded?: (scope: { row: T; index: number }) => unknown
 }>()
 
 // --- Selection internal state (Set for cheap toggle + watch sync) ---
@@ -235,6 +247,10 @@ watch(
   }
 )
 
+// --- Expanded rows ---
+const expandedSet = computed(() => new Set(props.expanded))
+const isExpanded = (row: T) => expandedSet.value.has(getRowKey(row))
+
 const isEmpty = computed(() => !props.loading && props.rows.length === 0)
 
 // --- Pager (offset pages; `total` or `hasMore` tells whether a next page exists) ---
@@ -261,7 +277,7 @@ function goNext() {
 <template>
   <div
     class="t-table"
-    :class="[`size-${props.size}`]"
+    :class="[`size-${props.size}`, { 'is-sticky-header': props.stickyHeader }]"
   >
     <div class="t-table__scroll">
       <table
@@ -353,42 +369,65 @@ function goNext() {
             </tr>
           </template>
           <template v-else>
-            <tr
+            <template
               v-for="(row, index) in displayRows"
               :key="getRowKey(row)"
-              class="t-table__tr"
-              :class="{ 'is-selected': isRowSelected(row), 'is-new': newKeys.has(getRowKey(row)) }"
-              @click="onRowClick(row, index)"
             >
-              <td
-                v-if="props.selectable"
-                class="t-table__td t-table__td--select"
-                @click.stop
+              <tr
+                class="t-table__tr"
+                :class="{
+                  'is-selected': isRowSelected(row),
+                  'is-new': newKeys.has(getRowKey(row)),
+                  'is-expanded': isExpanded(row)
+                }"
+                :aria-expanded="$slots.expanded ? isExpanded(row) : undefined"
+                @click="onRowClick(row, index)"
               >
-                <input
-                  type="checkbox"
-                  class="t-table__checkbox"
-                  :checked="isRowSelected(row)"
-                  :aria-label="`Select row ${index + 1}`"
-                  @change="toggleRow(row, ($event.target as HTMLInputElement).checked)"
+                <td
+                  v-if="props.selectable"
+                  class="t-table__td t-table__td--select"
+                  @click.stop
                 >
-              </td>
-              <td
-                v-for="column in props.columns"
-                :key="column.key"
-                class="t-table__td"
-                :class="[`align-${column.align || 'left'}`]"
+                  <input
+                    type="checkbox"
+                    class="t-table__checkbox"
+                    :checked="isRowSelected(row)"
+                    :aria-label="`Select row ${index + 1}`"
+                    @change="toggleRow(row, ($event.target as HTMLInputElement).checked)"
+                  >
+                </td>
+                <td
+                  v-for="column in props.columns"
+                  :key="column.key"
+                  class="t-table__td"
+                  :class="[`align-${column.align || 'left'}`]"
+                >
+                  <slot
+                    :name="`cell-${column.key}`"
+                    :row="row"
+                    :value="getCellValue(row, column)"
+                    :index="index"
+                  >
+                    {{ getCellValue(row, column) ?? '' }}
+                  </slot>
+                </td>
+              </tr>
+              <tr
+                v-if="$slots.expanded && isExpanded(row)"
+                class="t-table__details-row"
               >
-                <slot
-                  :name="`cell-${column.key}`"
-                  :row="row"
-                  :value="getCellValue(row, column)"
-                  :index="index"
+                <td
+                  :colspan="props.columns.length + (props.selectable ? 1 : 0)"
+                  class="t-table__details-cell"
                 >
-                  {{ getCellValue(row, column) ?? '' }}
-                </slot>
-              </td>
-            </tr>
+                  <slot
+                    name="expanded"
+                    :row="row"
+                    :index="index"
+                  />
+                </td>
+              </tr>
+            </template>
           </template>
         </tbody>
       </table>
@@ -464,6 +503,36 @@ function goNext() {
 .t-table__scroll {
   width: 100%;
   overflow-x: auto;
+}
+
+/* Sticky header: no scroll box inside the table, so the header and the pager stick to the scrolling ancestor. */
+.t-table.is-sticky-header {
+  overflow: clip;
+  width: max-content;
+  min-width: 100%;
+  box-sizing: border-box;
+}
+
+.t-table.is-sticky-header .t-table__scroll {
+  overflow: visible;
+}
+
+.t-table.is-sticky-header .t-table__th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--t-color-surface);
+}
+
+.t-table.is-sticky-header .t-table__th.is-sortable:hover {
+  background: linear-gradient(var(--t-color-hover), var(--t-color-hover)), var(--t-color-surface);
+}
+
+.t-table.is-sticky-header .t-table__footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  background: var(--t-color-surface);
 }
 
 .t-table__el {
@@ -569,6 +638,21 @@ function goNext() {
 .t-table__tr.is-selected .t-table__td:first-child::before {
   opacity: 1;
   transform: scaleY(1);
+}
+
+/* Expanded row: the details under it, on the second surface, one border below both. */
+.t-table__tr.is-expanded .t-table__td {
+  border-bottom: none;
+}
+
+.t-table__details-cell {
+  padding: var(--t-space-2) var(--t-space-3) var(--t-space-3);
+  background: var(--t-color-surface-2);
+  border-bottom: 1px solid var(--t-color-border);
+}
+
+.t-table__details-row:last-child .t-table__details-cell {
+  border-bottom: none;
 }
 
 .t-table__th--select,
