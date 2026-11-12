@@ -6,6 +6,16 @@
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-11-12
+
+### Added
+- `TTable` — пейджер у нижній панелі таблиці (у рамці таблиці): зліва діапазон `from–to` (з `of total`, якщо задано `total`), справа іконки ‹ › і «Page N». Пропи `pageSize` (показує пейджер), `offset` (`v-model:offset`, подія `update:offset` зсуває на `pageSize`), `total` (Next вимкнено на останній сторінці) або `hasMore` (без `total`: чи є наступна сторінка), підписи `previousLabel` / `nextLabel` / `pageLabel` (за замовчуванням `Previous` / `Next` / `Page`). Слот `range` (`{ from, to, total, page }`) замінює текст діапазону. Поки `loading`, кнопки вимкнено.
+- Іконки `ticon:chevron-left`, `ticon:chevron-right`.
+- Playground — приклад `TTable` «Pager in the footer (offset + hasMore)».
+
+### Fixed
+- `TInput` (і `TCopyField`, `TSelect`, `TDateInput`, `TTimeInput`, `TDateTimeInput` на його основі) — при дробовому масштабі сторінки (напр. 110%) більше не обрізаються нижні виносні елементи тексту (символ `_` зникав): поле вводу має висоту свого рядка і вирівняне по центру обгортки замість `height: 100%`; натискання на вільне місце обгортки фокусує поле.
+
 ## [1.8.0] - 2026-11-12
 
 ### Added
