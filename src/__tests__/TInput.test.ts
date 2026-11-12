@@ -59,4 +59,22 @@ describe('TInput', () => {
     await fireEvent.mouseDown(prefix)
     expect(document.activeElement).toBe(input)
   })
+
+  it('mousedown on the free space of the wrapper focuses the input', async () => {
+    const { container } = render(TInput, { props: { modelValue: 'a_b' } })
+    const wrapper = container.querySelector('.t-input-wrapper') as HTMLElement
+    const input = container.querySelector('input.t-input') as HTMLInputElement
+    const event = new MouseEvent('mousedown', { bubbles: true, cancelable: true })
+    wrapper.dispatchEvent(event)
+    expect(event.defaultPrevented).toBe(true)
+    expect(document.activeElement).toBe(input)
+  })
+
+  it('mousedown on the input itself keeps the default behaviour', async () => {
+    const { container } = render(TInput, { props: { modelValue: 'a_b' } })
+    const input = container.querySelector('input.t-input') as HTMLInputElement
+    const event = new MouseEvent('mousedown', { bubbles: true, cancelable: true })
+    input.dispatchEvent(event)
+    expect(event.defaultPrevented).toBe(false)
+  })
 })

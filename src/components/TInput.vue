@@ -33,6 +33,13 @@ const inputRef = ref<HTMLInputElement | null>(null)
 const hasError = computed(() => props.error !== false && props.error !== '' && props.error !== undefined)
 const errorMessage = computed(() => (typeof props.error === 'string' ? props.error : ''))
 
+// The input is only as tall as its line, so a press on the wrapper's free space focuses it.
+const focusFromWrapper = (event: MouseEvent) => {
+  if (event.target !== event.currentTarget) return
+  event.preventDefault()
+  inputRef.value?.focus()
+}
+
 const handleClear = () => {
   emit('update:modelValue', '')
   emit('clear')
@@ -48,6 +55,7 @@ const handleClear = () => {
       :data-error="hasError ? '' : null"
       :data-disabled="disabled ? '' : null"
       :data-readonly="readonly ? '' : null"
+      @mousedown="focusFromWrapper"
     >
       <Icon
         v-if="prefixIcon"
@@ -110,10 +118,11 @@ const handleClear = () => {
 .t-input-wrapper {
   position: relative;
   display: inline-flex;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   min-width: 0;
   height: var(--t-input-height);
+  cursor: text;
   border-radius: var(--t-input-radius);
   border: 1px solid var(--t-color-border);
   background-color: var(--t-color-surface);
@@ -180,7 +189,9 @@ const handleClear = () => {
   width: 100%;
   min-width: 0;
   padding: 0;
-  height: 100%;
+  /* Auto height (not 100%): a stretched input centres its text at a fractional offset
+     under browser zoom (e.g. 110%) and clips the descenders, such as "_". */
+  height: auto;
   border: none;
   background: transparent;
   font-size: var(--t-input-font-size);
