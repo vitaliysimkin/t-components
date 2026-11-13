@@ -202,6 +202,7 @@ describe('TTable', () => {
     expect(grips).toHaveLength(3)
     expect(grips[0].attributes('role')).toBe('separator')
     expect(grips[0].attributes('aria-label')).toBe('Resize column')
+    expect(grips.map((g) => g.classes().includes('is-edge'))).toEqual([false, false, true])
   })
 
   it('resizable: widths set the col widths and a fixed layout', () => {

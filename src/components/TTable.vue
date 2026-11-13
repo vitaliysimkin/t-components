@@ -472,7 +472,7 @@ function onResizeFit(column: TTableColumn<T>) {
               >
             </th>
             <th
-              v-for="column in props.columns"
+              v-for="(column, columnIndex) in props.columns"
               :key="column.key"
               role="columnheader"
               scope="col"
@@ -504,7 +504,7 @@ function onResizeFit(column: TTableColumn<T>) {
               <span
                 v-if="props.resizable"
                 class="t-table__resizer"
-                :class="{ 'is-active': resizingKey === column.key }"
+                :class="{ 'is-active': resizingKey === column.key, 'is-edge': columnIndex === props.columns.length - 1 }"
                 role="separator"
                 aria-orientation="vertical"
                 :aria-label="props.resizeLabel"
@@ -715,6 +715,12 @@ function onResizeFit(column: TTableColumn<T>) {
   touch-action: none;
   background: linear-gradient(var(--t-color-border-strong), var(--t-color-border-strong)) center / 2px 50% no-repeat;
   border-radius: var(--t-radius-pill);
+}
+
+/* The grip of the last column lies on the right edge of the table, next to the scrollbar of the scrolling ancestor, where its
+   line reads as a second scrollbar: it shows only on hover, focus and drag. */
+.t-table__resizer.is-edge {
+  background: none;
 }
 
 .t-table__resizer:hover,
