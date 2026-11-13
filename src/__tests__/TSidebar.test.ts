@@ -256,4 +256,24 @@ describe('TSidebar', () => {
     const { root } = await mount({})
     expect(root.querySelector('.t-sidebar__nav-end')).toBeNull()
   })
+
+  it('nav-start slot renders right before the menu, inside the scrolling content', async () => {
+    const router = createRouter({ history: createMemoryHistory(), routes: menuItems.map((m) => ({ path: m.route, component: Stub })) })
+    router.push('/dash')
+    await router.isReady()
+    const { container } = render(TSidebar, {
+      props: { menuItems, collapsed: true },
+      slots: { 'nav-start': '<template #nav-start="{ collapsed }"><i class="s">{{ collapsed }}</i></template>' },
+      global: { plugins: [router] },
+    })
+    const start = container.querySelector('.t-sidebar__nav-start') as HTMLElement
+    expect(start.parentElement?.classList.contains('t-sidebar__content')).toBe(true)
+    expect(start.nextElementSibling?.classList.contains('t-sidebar__nav')).toBe(true)
+    expect(start.querySelector('.s')?.textContent).toBe('true')
+  })
+
+  it('no nav-start slot, no wrapper', async () => {
+    const { root } = await mount({})
+    expect(root.querySelector('.t-sidebar__nav-start')).toBeNull()
+  })
 })

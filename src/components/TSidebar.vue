@@ -106,6 +106,17 @@
         </div>
 
         <div class="t-sidebar__content">
+          <!-- Right before the first menu item, scrolls with the menu. -->
+          <div
+            v-if="$slots['nav-start']"
+            class="t-sidebar__nav-start"
+          >
+            <slot
+              name="nav-start"
+              :collapsed="shut"
+            />
+          </div>
+
           <nav
             ref="nav"
             class="t-sidebar__nav"
@@ -891,6 +902,11 @@ watch(
 }
 
 /* After the menu (slot-only): the visible width of the rows. */
+.t-sidebar__nav-start {
+  width: calc(var(--t-sidebar-w) - var(--t-sidebar-content-padding) * 2 - var(--t-sidebar-border-w));
+  margin-bottom: 2px;
+}
+
 .t-sidebar__nav-end {
   width: calc(var(--t-sidebar-w) - var(--t-sidebar-content-padding) * 2 - var(--t-sidebar-border-w));
   margin-top: 2px;
