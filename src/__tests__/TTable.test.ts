@@ -194,4 +194,68 @@ describe('TTable', () => {
     expect(wrapper.findAll('tbody tr')).toHaveLength(3)
     expect(wrapper.find('tbody tr').attributes('aria-expanded')).toBeUndefined()
   })
+  it('resizable: a grip per header only with resizable', async () => {
+    const wrapper = mount(TTable, { props: { columns, rows, rowKey: 'id' } })
+    expect(wrapper.find('.t-table__resizer').exists()).toBe(false)
+    await wrapper.setProps({ resizable: true })
+    const grips = wrapper.findAll('.t-table__resizer')
+    expect(grips).toHaveLength(3)
+    expect(grips[0].attributes('role')).toBe('separator')
+    expect(grips[0].attributes('aria-label')).toBe('Resize column')
+  })
+
+  it('resizable: widths set the col widths and a fixed layout', () => {
+    const wrapper = mount(TTable, {
+      props: { columns, rows, rowKey: 'id', resizable: true, widths: { id: 80, name: 200, age: 90 } },
+    })
+    const cols = wrapper.findAll('col')
+    expect(cols[1].attributes('style')).toContain('width: 200px')
+    expect(wrapper.classes()).toContain('is-fixed-layout')
+    expect(wrapper.find('table').attributes('style')).toContain('width: 370px')
+  })
+
+  it('resizable: arrow keys on the grip change the width and emit update:widths', async () => {
+    const wrapper = mount(TTable, {
+      props: {
+        columns: columns.map((c) => ({ ...c, minWidth: 40 })),
+        rows,
+        rowKey: 'id',
+        resizable: true,
+        widths: { id: 80, name: 200, age: 90 },
+      },
+    })
+    const grip = wrapper.findAll('.t-table__resizer')[1]
+    await grip.trigger('keydown', { key: 'ArrowRight' })
+    expect(wrapper.emitted('update:widths')![0][0]).toEqual({ id: 80, name: 210, age: 90 })
+    await grip.trigger('keydown', { key: 'ArrowLeft', shiftKey: true })
+    expect(wrapper.emitted('update:widths')![1][0]).toEqual({ id: 80, name: 160, age: 90 })
+  })
+
+  it('resizable: dragging the grip resizes, keeps the minimum and does not sort', async () => {
+    const wrapper = mount(TTable, {
+      attachTo: document.body,
+      props: {
+        columns: columns.map((c) => ({ ...c, minWidth: 60 })),
+        rows,
+        rowKey: 'id',
+        resizable: true,
+        widths: { id: 80, name: 200, age: 90 },
+      },
+    })
+    const grip = wrapper.findAll('.t-table__resizer')[0]
+    await grip.trigger('pointerdown', { clientX: 100, button: 0 })
+    expect(wrapper.find('thead th').classes()).toContain('is-resize-edge')
+    expect(wrapper.find('tbody td').classes()).toContain('is-resize-edge')
+    window.dispatchEvent(new MouseEvent('pointermove', { clientX: 150 }))
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findAll('col')[0].attributes('style')).toContain('width: 130px')
+    window.dispatchEvent(new MouseEvent('pointermove', { clientX: 0 }))
+    window.dispatchEvent(new MouseEvent('pointerup', { clientX: 0 }))
+    await wrapper.vm.$nextTick()
+    expect(wrapper.emitted('update:widths')![0][0]).toEqual({ id: 60, name: 200, age: 90 })
+    expect(wrapper.find('thead th').classes()).not.toContain('is-resize-edge')
+    await grip.trigger('click')
+    expect(wrapper.emitted('update:sort')).toBeUndefined()
+    wrapper.unmount()
+  })
 })

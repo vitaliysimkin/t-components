@@ -239,6 +239,7 @@ import LoadingEmptyTableExample from './table/LoadingEmptyTableExample.vue'
 import CustomCellTableExample from './table/CustomCellTableExample.vue'
 import PagedTableExample from './table/PagedTableExample.vue'
 import StickyExpandTableExample from './table/StickyExpandTableExample.vue'
+import ResizableTableExample from './table/ResizableTableExample.vue'
 import BasicTableExampleCode from './table/BasicTableExample.vue?raw'
 import SortableTableExampleCode from './table/SortableTableExample.vue?raw'
 import SelectableTableExampleCode from './table/SelectableTableExample.vue?raw'
@@ -246,6 +247,7 @@ import LoadingEmptyTableExampleCode from './table/LoadingEmptyTableExample.vue?r
 import CustomCellTableExampleCode from './table/CustomCellTableExample.vue?raw'
 import PagedTableExampleCode from './table/PagedTableExample.vue?raw'
 import StickyExpandTableExampleCode from './table/StickyExpandTableExample.vue?raw'
+import ResizableTableExampleCode from './table/ResizableTableExample.vue?raw'
 
 // Tabs Examples
 import BasicTabsExample from './tabs/BasicTabsExample.vue'
@@ -827,6 +829,11 @@ export const elements: Element[] = [
         component: StickyExpandTableExample,
         code: StickyExpandTableExampleCode,
         label: 'Sticky header, expandable rows'
+      },
+      {
+        component: ResizableTableExample,
+        code: ResizableTableExampleCode,
+        label: 'Resizable columns'
       }
     ]
   },
@@ -1228,6 +1235,7 @@ export {
   CustomCellTableExample,
   PagedTableExample,
   StickyExpandTableExample,
+  ResizableTableExample,
   ConfirmDialogExample,
   AlertDialogExample,
   PromptDialogExample,

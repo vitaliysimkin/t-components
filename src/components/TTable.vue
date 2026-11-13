@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends Record<string, unknown>">
-import { computed, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import Icon from './TIcon.vue'
 import Button from './TButton.vue'
 import type { TElementSize } from './types'
@@ -17,6 +17,8 @@ export interface TTableColumn<Row = Record<string, unknown>> {
   width?: string
   sortable?: boolean
   align?: 'left' | 'center' | 'right'
+  /** Smallest width in px when the table is `resizable`; default: the width of the header. */
+  minWidth?: number
   /**
    * Optional accessor — returns the value used for client-side sort and as the
    * default rendered text. Defaults to `row[column.key]`.
@@ -57,6 +59,14 @@ const props = withDefaults(
     stickyHeader?: boolean
     /** Keys of the rows whose `expanded` slot is shown in a full-width row under them. */
     expanded?: TTablePrimaryKey[]
+    /**
+     * Columns can be resized: drag the grip at the end of a header, double-click it to fit the content,
+     * or use the arrow keys on it. The widths go out through `update:widths`.
+     */
+    resizable?: boolean
+    /** Column widths in px by column key (`v-model:widths`); they win over `column.width`. */
+    widths?: Record<string, number>
+    resizeLabel?: string
   }>(),
   {
     loading: false,
@@ -74,6 +84,9 @@ const props = withDefaults(
     pageLabel: 'Page',
     stickyHeader: false,
     expanded: () => [],
+    resizable: false,
+    widths: undefined,
+    resizeLabel: 'Resize column',
   }
 )
 
@@ -82,6 +95,7 @@ const emit = defineEmits<{
   (e: 'update:selection', value: TTablePrimaryKey[]): void
   (e: 'row-click', row: T, index: number): void
   (e: 'update:offset', value: number): void
+  (e: 'update:widths', value: Record<string, number>): void
 }>()
 
 defineSlots<{
@@ -127,7 +141,7 @@ function getCellValue(row: T, column: TTableColumn<T>): unknown {
 
 // --- Sorting ---
 function onHeaderClick(column: TTableColumn<T>) {
-  if (!column.sortable) return
+  if (!column.sortable || resizedJustNow) return
   const current = props.sort
   let next: TTableSort | null
   if (!current || current.key !== column.key) {
@@ -272,17 +286,162 @@ function goPrevious() {
 function goNext() {
   if (canNext.value) emit('update:offset', props.offset + props.pageSize!)
 }
+
+// --- Column resize ---
+const tableEl = ref<HTMLTableElement | null>(null)
+const widthState = ref<Record<string, number>>({ ...props.widths })
+watch(
+  () => props.widths,
+  (next) => { widthState.value = { ...next } },
+  { deep: true }
+)
+/** Key of the column being dragged: its cells show the accent edge through the whole table. */
+const resizingKey = ref<string | null>(null)
+let resizedJustNow = false
+
+/** Fixed layout once every column has a width in px; otherwise the browser lays out as before. */
+const fixedLayout = computed(
+  () => props.resizable && props.columns.length > 0 && props.columns.every((c) => (widthState.value[c.key] ?? 0) > 0)
+)
+const tableStyle = computed(() => {
+  if (!fixedLayout.value) return undefined
+  const sum = props.columns.reduce((n, c) => n + (widthState.value[c.key] ?? 0), 0)
+  return { width: props.selectable ? `calc(${sum}px + 2.25rem)` : `${sum}px` }
+})
+
+function colStyle(column: TTableColumn<T>) {
+  const px = props.resizable ? widthState.value[column.key] : undefined
+  if (px) return { width: `${px}px` }
+  return column.width ? { width: column.width } : undefined
+}
+
+function headerCells(): HTMLElement[] {
+  return Array.from(tableEl.value?.querySelectorAll<HTMLElement>(':scope > thead > tr > th[data-column]') ?? [])
+}
+
+function headerCell(key: string): HTMLElement | undefined {
+  return headerCells().find((th) => th.dataset.column === key)
+}
+
+/** Current width of a column; at the first resize every column keeps the width it has on screen. */
+function freezeWidths() {
+  if (fixedLayout.value) return
+  const next = { ...widthState.value }
+  for (const th of headerCells()) {
+    const key = th.dataset.column!
+    if (!((next[key] ?? 0) > 0)) next[key] = Math.round(th.getBoundingClientRect().width)
+  }
+  widthState.value = next
+}
+
+/** The header must fit: padding + label + sort icon + grip. */
+function minWidthOf(column: TTableColumn<T>): number {
+  if (column.minWidth !== undefined) return column.minWidth
+  const th = headerCell(column.key)
+  if (!th) return 48
+  const cs = getComputedStyle(th)
+  const content = th.querySelector<HTMLElement>('.t-table__th-content')
+  const inner = content ? content.scrollWidth : 0
+  return Math.max(48, Math.ceil(inner + parseFloat(cs.paddingLeft || '0') + parseFloat(cs.paddingRight || '0')))
+}
+
+function setWidth(column: TTableColumn<T>, px: number) {
+  widthState.value = { ...widthState.value, [column.key]: Math.max(minWidthOf(column), Math.round(px)) }
+}
+
+function emitWidths() {
+  emit('update:widths', { ...widthState.value })
+}
+
+let stopDrag: (() => void) | null = null
+
+function onResizeStart(column: TTableColumn<T>, e: PointerEvent) {
+  if (e.button !== undefined && e.button !== 0) return
+  e.preventDefault()
+  freezeWidths()
+  const startX = e.clientX
+  const startW = widthState.value[column.key] ?? 0
+  resizingKey.value = column.key
+  const move = (ev: PointerEvent) => setWidth(column, startW + ev.clientX - startX)
+  const up = () => {
+    stopDrag?.()
+    resizingKey.value = null
+    // The click that ends the drag on the header must not sort.
+    resizedJustNow = true
+    setTimeout(() => { resizedJustNow = false })
+    emitWidths()
+  }
+  window.addEventListener('pointermove', move)
+  window.addEventListener('pointerup', up)
+  window.addEventListener('pointercancel', up)
+  stopDrag = () => {
+    window.removeEventListener('pointermove', move)
+    window.removeEventListener('pointerup', up)
+    window.removeEventListener('pointercancel', up)
+    stopDrag = null
+  }
+}
+
+onBeforeUnmount(() => stopDrag?.())
+
+function onResizeKey(column: TTableColumn<T>, e: KeyboardEvent) {
+  const step = e.shiftKey ? 50 : 10
+  const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0
+  if (!dir) return
+  e.preventDefault()
+  freezeWidths()
+  setWidth(column, (widthState.value[column.key] ?? 0) + dir * step)
+  emitWidths()
+}
+
+/** Double-click: the width of the widest cell of the column, at most the width of the table box. */
+function onResizeFit(column: TTableColumn<T>) {
+  const table = tableEl.value
+  const th = headerCell(column.key)
+  if (!table || !th) return
+  freezeWidths()
+  const col = Array.from(table.querySelectorAll<HTMLElement>(':scope > colgroup > col[data-column]'))
+    .find((c) => c.dataset.column === column.key)
+  const saved = {
+    layout: table.style.tableLayout,
+    width: table.style.width,
+    minWidth: table.style.minWidth,
+    col: col?.style.width ?? '',
+  }
+  table.style.tableLayout = 'auto'
+  table.style.width = 'max-content'
+  table.style.minWidth = '0'
+  if (col) col.style.width = ''
+  const natural = th.getBoundingClientRect().width
+  table.style.tableLayout = saved.layout
+  table.style.width = saved.width
+  table.style.minWidth = saved.minWidth
+  if (col) col.style.width = saved.col
+  const box = table.parentElement?.clientWidth ?? 0
+  setWidth(column, box > 0 ? Math.min(natural, box) : natural)
+  emitWidths()
+}
 </script>
 
 <template>
   <div
     class="t-table"
-    :class="[`size-${props.size}`, { 'is-sticky-header': props.stickyHeader }]"
+    :class="[
+      `size-${props.size}`,
+      {
+        'is-sticky-header': props.stickyHeader,
+        'is-resizable': props.resizable,
+        'is-fixed-layout': fixedLayout,
+        'is-resizing': resizingKey !== null
+      }
+    ]"
   >
     <div class="t-table__scroll">
       <table
+        ref="tableEl"
         class="t-table__el"
         role="table"
+        :style="tableStyle"
       >
         <colgroup>
           <col
@@ -292,7 +451,8 @@ function goNext() {
           <col
             v-for="column in props.columns"
             :key="column.key"
-            :style="column.width ? { width: column.width } : undefined"
+            :data-column="column.key"
+            :style="colStyle(column)"
           >
         </colgroup>
         <thead>
@@ -319,8 +479,9 @@ function goNext() {
               class="t-table__th"
               :class="[
                 `align-${column.align || 'left'}`,
-                { 'is-sortable': column.sortable }
+                { 'is-sortable': column.sortable, 'is-resize-edge': resizingKey === column.key }
               ]"
+              :data-column="column.key"
               :aria-sort="ariaSort(column)"
               @click="onHeaderClick(column)"
             >
@@ -340,6 +501,20 @@ function goNext() {
                   />
                 </span>
               </slot>
+              <span
+                v-if="props.resizable"
+                class="t-table__resizer"
+                :class="{ 'is-active': resizingKey === column.key }"
+                role="separator"
+                aria-orientation="vertical"
+                :aria-label="props.resizeLabel"
+                :aria-valuenow="widthState[column.key]"
+                tabindex="0"
+                @pointerdown="onResizeStart(column, $event)"
+                @dblclick.stop="onResizeFit(column)"
+                @keydown="onResizeKey(column, $event)"
+                @click.stop
+              />
             </th>
           </tr>
         </thead>
@@ -400,7 +575,7 @@ function goNext() {
                   v-for="column in props.columns"
                   :key="column.key"
                   class="t-table__td"
-                  :class="[`align-${column.align || 'left'}`]"
+                  :class="[`align-${column.align || 'left'}`, { 'is-resize-edge': resizingKey === column.key }]"
                 >
                   <slot
                     :name="`cell-${column.key}`"
@@ -503,6 +678,59 @@ function goNext() {
 .t-table__scroll {
   width: 100%;
   overflow-x: auto;
+}
+
+/* Resizable columns: a grip at the end of each header; while dragging, an accent edge runs through the column. */
+.t-table.is-resizable .t-table__th {
+  position: relative;
+  padding-right: calc(var(--t-space-3) + 9px);
+}
+
+.t-table.is-sticky-header.is-resizable .t-table__th {
+  position: sticky;
+}
+
+.t-table.is-fixed-layout .t-table__el {
+  table-layout: fixed;
+  min-width: 100%;
+}
+
+.t-table.is-fixed-layout .t-table__td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.t-table.is-resizing {
+  cursor: col-resize;
+  user-select: none;
+}
+
+.t-table__resizer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 9px;
+  cursor: col-resize;
+  touch-action: none;
+  background: linear-gradient(var(--t-color-border-strong), var(--t-color-border-strong)) center / 2px 50% no-repeat;
+  border-radius: var(--t-radius-pill);
+}
+
+.t-table__resizer:hover,
+.t-table__resizer:focus-visible,
+.t-table__resizer.is-active {
+  background: linear-gradient(var(--t-color-accent), var(--t-color-accent)) center / 2px 100% no-repeat;
+  outline: none;
+}
+
+.t-table__th.is-resize-edge,
+.t-table__td.is-resize-edge {
+  box-shadow: inset -2px 0 0 var(--t-color-accent);
+}
+
+.t-table__th.is-resize-edge .t-table__resizer.is-active {
+  background: none;
 }
 
 /* Sticky header: no scroll box inside the table, so the header and the pager stick to the scrolling ancestor. */
